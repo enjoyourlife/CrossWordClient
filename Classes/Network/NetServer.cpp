@@ -86,6 +86,9 @@ void NetServer::requestGate()
     pc_client_destroy(client);
 }
 
+/*
+ 在回调函数中可以做一些ui操作 比如说隐藏等待框
+ */
 void NetServer::requestGateCallback(pc_request_t *req, int status, json_t *resp)
 {
     CCLog("NetServer::requestGateCallback~~~");
