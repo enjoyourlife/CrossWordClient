@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
+#include "Network/NetServer.h"
 
 USING_NS_CC;
+
 
 CCScene* HelloWorld::scene()
 {
@@ -73,12 +75,16 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(pSprite, 0);
     
+    
+    
     return true;
 }
 
 
+
 void HelloWorld::menuCloseCallback(CCObject* pSender)
 {
+    /*
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 	CCMessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
 #else
@@ -87,4 +93,22 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     exit(0);
 #endif
 #endif
+     */
+    const char *route = "chat.chatHandler.send";
+    json_t *msg = json_object();
+    json_t *content = json_string("Good!");
+    json_t *channelName = json_string("channelname");
+    json_t *userName = json_string("username");
+    json_t *target = json_string("*");
+    json_object_set(msg, "content", content);
+    json_object_set(msg, "rid", channelName);
+    json_object_set(msg, "from", userName);
+    json_object_set(msg, "target", target);
+    // 使用的时候记得删除不用的变量
+    json_decref(content);
+    json_decref(channelName);
+    json_decref(userName);
+    json_decref(target);
+    NetServer::sharedNetServer()->sendMsg(route, msg);
+    
 }

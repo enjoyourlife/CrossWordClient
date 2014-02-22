@@ -1,0 +1,8 @@
+1.在pomelo_gyp中增加gyp程序的安装位置。
+2.已经运行了
+./pomelo_gyp -DTO=ios
+./build_ios
+和
+./pomelo_gyp -DTO=ios
+./build_iossim
+为真机和模拟器编译了。

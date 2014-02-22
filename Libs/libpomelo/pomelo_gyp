@@ -1,0 +1,1 @@
+/Users/cy/Desktop/programs/gyp-read-only/gyp --depth=. pomelo.gyp -Dlibrary=static_library -DTO=pc $@
