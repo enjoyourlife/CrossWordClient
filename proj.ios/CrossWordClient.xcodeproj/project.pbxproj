@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
+		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
+		01BAD45518B8D69B00131D9E /* CGCCBReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */; };
+		01BAD45918B8DDC100131D9E /* MainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45718B8DDC100131D9E /* MainLayer.cpp */; };
 		15A3D8FF1682F7D5002FB0C5 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */; };
 		15A3D9001682F7D5002FB0C5 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88D1682F7D5002FB0C5 /* b2CollideCircle.cpp */; };
 		15A3D9011682F7D5002FB0C5 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88E1682F7D5002FB0C5 /* b2CollideEdge.cpp */; };
@@ -261,8 +265,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012AA3D918B98BBD00A4910E /* CCB-1024X768 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-1024X768"; sourceTree = "<group>"; };
+		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
+		01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGCCBReader.cpp; sourceTree = "<group>"; };
+		01BAD45418B8D69B00131D9E /* CGCCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGCCBReader.h; sourceTree = "<group>"; };
+		01BAD45718B8DDC100131D9E /* MainLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainLayer.cpp; sourceTree = "<group>"; };
+		01BAD45818B8DDC100131D9E /* MainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLayer.h; sourceTree = "<group>"; };
 		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
@@ -769,6 +779,26 @@
 			path = ../Classes/Network;
 			sourceTree = "<group>";
 		};
+		01BAD45218B8D57D00131D9E /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */,
+				01BAD45418B8D69B00131D9E /* CGCCBReader.h */,
+			);
+			name = CommonUI;
+			path = ../Classes/CommonUI;
+			sourceTree = "<group>";
+		};
+		01BAD45618B8DD9600131D9E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				01BAD45718B8DDC100131D9E /* MainLayer.cpp */,
+				01BAD45818B8DDC100131D9E /* MainLayer.h */,
+			);
+			name = Scenes;
+			path = ../Classes/Scenes;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* ios */ = {
 			isa = PBXGroup;
 			children = (
@@ -1261,6 +1291,8 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				01BAD45618B8DD9600131D9E /* Scenes */,
+				01BAD45218B8D57D00131D9E /* CommonUI */,
 				014AEC7318B6526800FFAB62 /* Network */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
@@ -1720,6 +1752,8 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				012AA3D918B98BBD00A4910E /* CCB-1024X768 */,
+				012AA3DA18B98BBD00A4910E /* Images */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
 				1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */,
@@ -1815,6 +1849,8 @@
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
+				012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */,
+				012AA3DC18B98BBD00A4910E /* Images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2035,6 +2071,8 @@
 				379BB9D317F03F3700829B88 /* GUIReader.cpp in Sources */,
 				379BB9D417F03F3700829B88 /* SceneReader.cpp in Sources */,
 				014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */,
+				01BAD45518B8D69B00131D9E /* CGCCBReader.cpp in Sources */,
+				01BAD45918B8DDC100131D9E /* MainLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

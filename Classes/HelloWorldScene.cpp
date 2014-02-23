@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Network/NetServer.h"
+#include "Scenes/MainLayer.h"
 
 USING_NS_CC;
 
@@ -77,6 +78,17 @@ bool HelloWorld::init()
     
     
     
+    CCSize winsize = CCDirector::sharedDirector()->getWinSize();
+	float scale = winsize.width/winsize.height;
+    
+    CCLog("width is %f and height is %f and scale is %f", winsize.width, winsize.height, scale);
+    char text[100];
+    sprintf(text, "width is %f and height is %f and scale is %f", winsize.width, winsize.height, scale);
+    pLabel->setString(text);
+    
+    
+    
+    
     return true;
 }
 
@@ -94,6 +106,8 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 #endif
 #endif
      */
+    
+    /*
     const char *route = "chat.chatHandler.send";
     json_t *msg = json_object();
     json_t *content = json_string("Good!");
@@ -110,5 +124,9 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     json_decref(userName);
     json_decref(target);
     NetServer::sharedNetServer()->sendMsg(route, msg);
+     */
+    
+    MainLayer *mainLayer = MainLayer::create();
+    this->addChild(mainLayer, 199);
     
 }
