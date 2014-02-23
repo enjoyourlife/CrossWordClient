@@ -101,6 +101,11 @@ private:
      */
     virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);
     
+private:
+    
+    void onStart(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    
+    cocos2d::CCSprite* m_myCard;
 };
 
 #endif /* defined(__CrossWordClient__MainLayer__) */

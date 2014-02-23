@@ -15,13 +15,13 @@ using namespace std;
 
 MainLayer::MainLayer()
 {
-//    m_bgLayer = NULL;
+    m_myCard = NULL;
     
 }
 
 MainLayer::~ MainLayer()
 {
-//    CC_SAFE_RELEASE_NULL(m_bgLayer);
+    CC_SAFE_RELEASE_NULL(m_myCard);
     
     
 }
@@ -88,7 +88,7 @@ SEL_MenuHandler MainLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarget, co
 
 SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
-    //    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onSubLevel", MainLayer::onSubLevel);
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", MainLayer::onStart);
     
     return NULL;
 }
@@ -96,7 +96,7 @@ SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget
 
 bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
-//    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "bgLayer", CCLayer*, m_bgLayer);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "myCard", CCSprite*, m_myCard);
     return false;
 }
 
@@ -110,18 +110,23 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
     return true;
 }
 
-void MainLayer::ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
+void MainLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
     
 }
 
-void MainLayer::ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
+void MainLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
         
     
 }
 
-void MainLayer::ccTouchCancelled(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
+void MainLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 {
+}
+
+void MainLayer::onStart(CCObject* pObject, CCControlEvent event)
+{
+    m_myCard->setVisible(false);
 }
 
