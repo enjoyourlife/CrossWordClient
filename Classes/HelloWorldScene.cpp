@@ -127,6 +127,6 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
      */
     
     MainLayer *mainLayer = MainLayer::create();
-    this->addChild(mainLayer, 199);
+    this->addChild(mainLayer);
     
 }

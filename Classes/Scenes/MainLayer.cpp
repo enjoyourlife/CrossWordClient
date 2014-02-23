@@ -8,6 +8,7 @@
 
 #include "MainLayer.h"
 #include "../CommonUI/CGCCBReader.h"
+#include "../Network/NetServer.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -127,6 +128,31 @@ void MainLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 
 void MainLayer::onStart(CCObject* pObject, CCControlEvent event)
 {
-    m_myCard->setVisible(false);
+    if (m_myCard->isVisible())
+    {
+        m_myCard->setVisible(false);
+    }
+    else
+    {
+        m_myCard->setVisible(true);
+    }
+    
+    
+    const char *route = "chat.chatHandler.send";
+    json_t *msg = json_object();
+    json_t *content = json_string("Good!");
+    json_t *channelName = json_string("channelname");
+    json_t *userName = json_string("username");
+    json_t *target = json_string("*");
+    json_object_set(msg, "content", content);
+    json_object_set(msg, "rid", channelName);
+    json_object_set(msg, "from", userName);
+    json_object_set(msg, "target", target);
+    // 使用的时候记得删除不用的变量
+    json_decref(content);
+    json_decref(channelName);
+    json_decref(userName);
+    json_decref(target);
+    NetServer::sharedNetServer()->sendMsg(route, msg);
 }
 
