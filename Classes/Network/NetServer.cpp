@@ -138,8 +138,8 @@ void NetServer::requestGateCallback(pc_request_t *req, int status, json_t *resp)
         
         const char *route = "connector.entryHandler.enter";
         json_t *msg = json_object();
-        json_t *str = json_string("username");
-        json_t *channel_str = json_string("channelname");
+        json_t *str = json_string("name");
+        json_t *channel_str = json_string("pwd");
         json_object_set(msg, "username", str);
         json_object_set(msg, "rid", channel_str);
         // decref for json object

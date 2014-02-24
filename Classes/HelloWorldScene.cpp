@@ -111,8 +111,8 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     const char *route = "chat.chatHandler.send";
     json_t *msg = json_object();
     json_t *content = json_string("Good!");
-    json_t *channelName = json_string("channelname");
-    json_t *userName = json_string("username");
+    json_t *channelName = json_string("pwd");
+    json_t *userName = json_string("name");
     json_t *target = json_string("*");
     json_object_set(msg, "content", content);
     json_object_set(msg, "rid", channelName);
