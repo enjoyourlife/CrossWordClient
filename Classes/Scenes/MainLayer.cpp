@@ -138,6 +138,7 @@ void MainLayer::onStart(CCObject* pObject, CCControlEvent event)
     }
     
     
+    /*
     const char *route = "chat.chatHandler.send";
     json_t *msg = json_object();
     json_t *content = json_string("Good!");
@@ -154,5 +155,6 @@ void MainLayer::onStart(CCObject* pObject, CCControlEvent event)
     json_decref(userName);
     json_decref(target);
     NetServer::sharedNetServer()->sendMsg(route, msg);
+     */
 }
 

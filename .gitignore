@@ -1,4 +1,10 @@
 *.o
 *.o.d
-*.a
+
+*.apk
+
+proj.android/bin/resources.ap_
+
 *.so
+
+

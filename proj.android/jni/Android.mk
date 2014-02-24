@@ -11,7 +11,15 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/Network/NetServer.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
+                   ../../Classes/Scenes/LoadingLayer.cpp \
+                   ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
+                   ../../Classes/Logic/OnlineGameController.cpp \
+                   ../../Classes/Logic/SingleGameController.cpp \
+                   ../../Classes/Events/EventManager.cpp \
+                   ../../Classes/Events/EventObserver.cpp \
+                   ../../Classes/Events/Events.cpp \
+                   ../../Classes/Events/GameEvents.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
