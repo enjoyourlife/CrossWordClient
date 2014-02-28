@@ -12,8 +12,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Network/NetServer.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
+                   ../../Classes/Scenes/SingleSubRoom.cpp \
                    ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
+                   ../../Classes/CommonUI/CGControlButton.cpp \
                    ../../Classes/Logic/OnlineGameController.cpp \
                    ../../Classes/Logic/SingleGameController.cpp \
                    ../../Classes/Events/EventManager.cpp \

@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "LoadingLayer.h"
 #include "MainLayer.h"
+#include "SingleSubRoom.h"
 #include "../HelloWorldScene.h"
 
 using namespace cocos2d;
@@ -60,6 +61,10 @@ CCScene* SceneManager::createScene(SceneType type)
             
         case SceneTypeLoading:
             scene = LoadingLayer::scene();
+            break;
+            
+        case SceneTypeSingleSubRoom:
+            scene = SingleSubRoom::scene();
             break;
             
             

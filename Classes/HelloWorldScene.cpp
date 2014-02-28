@@ -1,6 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Network/NetServer.h"
-#include "Scenes/MainLayer.h"
+#include "Scenes/SceneManager.h"
 
 USING_NS_CC;
 
@@ -126,7 +126,11 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     NetServer::sharedNetServer()->sendMsg(route, msg);
      */
     
+    /*
     MainLayer *mainLayer = MainLayer::create();
     this->addChild(mainLayer);
+     */
+    
+    SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleSubRoom);
     
 }

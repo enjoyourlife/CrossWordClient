@@ -17,6 +17,7 @@ typedef enum
     SceneTypeNone,
     SceneTypeLoading,
     SceneTypeMainLayer,
+    SceneTypeSingleSubRoom,
     
     SceneTypeMainMenu,
     SceneTypeGamePlay

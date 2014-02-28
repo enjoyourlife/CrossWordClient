@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */; };
 		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
 		01BAD45518B8D69B00131D9E /* CGCCBReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */; };
 		01BAD45918B8DDC100131D9E /* MainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45718B8DDC100131D9E /* MainLayer.cpp */; };
+		01BBBE5618BF7D27007A3631 /* CGControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */; };
 		01D1306218BB5EF000BCCE03 /* EventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305A18BB5EF000BCCE03 /* EventManager.cpp */; };
 		01D1306318BB5EF000BCCE03 /* EventObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305C18BB5EF000BCCE03 /* EventObserver.cpp */; };
 		01D1306418BB5EF000BCCE03 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305E18BB5EF000BCCE03 /* Events.cpp */; };
@@ -273,6 +275,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SingleSubRoom.cpp; sourceTree = "<group>"; };
+		010397F718BE2BCA00453BB1 /* SingleSubRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSubRoom.h; sourceTree = "<group>"; };
 		012AA3D918B98BBD00A4910E /* CCB-1024X768 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-1024X768"; sourceTree = "<group>"; };
 		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 		01BAD45418B8D69B00131D9E /* CGCCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGCCBReader.h; sourceTree = "<group>"; };
 		01BAD45718B8DDC100131D9E /* MainLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainLayer.cpp; sourceTree = "<group>"; };
 		01BAD45818B8DDC100131D9E /* MainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLayer.h; sourceTree = "<group>"; };
+		01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGControlButton.cpp; sourceTree = "<group>"; };
+		01BBBE5518BF7D27007A3631 /* CGControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGControlButton.h; sourceTree = "<group>"; };
 		01D1305A18BB5EF000BCCE03 /* EventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventManager.cpp; sourceTree = "<group>"; };
 		01D1305B18BB5EF000BCCE03 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
 		01D1305C18BB5EF000BCCE03 /* EventObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventObserver.cpp; sourceTree = "<group>"; };
@@ -809,6 +815,8 @@
 			children = (
 				01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */,
 				01BAD45418B8D69B00131D9E /* CGCCBReader.h */,
+				01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */,
+				01BBBE5518BF7D27007A3631 /* CGControlButton.h */,
 			);
 			name = CommonUI;
 			path = ../Classes/CommonUI;
@@ -823,6 +831,8 @@
 				01D1306E18BB920600BCCE03 /* SceneManager.h */,
 				01BAD45718B8DDC100131D9E /* MainLayer.cpp */,
 				01BAD45818B8DDC100131D9E /* MainLayer.h */,
+				010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */,
+				010397F718BE2BCA00453BB1 /* SingleSubRoom.h */,
 			);
 			name = Scenes;
 			path = ../Classes/Scenes;
@@ -2150,6 +2160,8 @@
 				01D1306C18BB5F1000BCCE03 /* SingleGameController.cpp in Sources */,
 				01D1306F18BB920600BCCE03 /* SceneManager.cpp in Sources */,
 				01D1307218BB924700BCCE03 /* LoadingLayer.cpp in Sources */,
+				010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */,
+				01BBBE5618BF7D27007A3631 /* CGControlButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
