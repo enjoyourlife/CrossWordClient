@@ -9,6 +9,8 @@
 #include "SceneManager.h"
 #include "LoadingLayer.h"
 #include "MainLayer.h"
+#include "Hall.h"
+#include "SingleRoom.h"
 #include "SingleSubRoom.h"
 #include "../HelloWorldScene.h"
 
@@ -63,10 +65,17 @@ CCScene* SceneManager::createScene(SceneType type)
             scene = LoadingLayer::scene();
             break;
             
+        case SceneTypeSingleRoom:
+            scene = SingleRoom::scene();
+            break;
+            
         case SceneTypeSingleSubRoom:
             scene = SingleSubRoom::scene();
             break;
             
+        case SceneTypeHall:
+            scene = Hall::scene();
+            break;
             
         default:
             break;

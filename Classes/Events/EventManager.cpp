@@ -8,6 +8,7 @@
 
 #include "EventManager.h"
 #include <algorithm>
+#include "../Data/DataManager.h"
 #include "../Logic/OnlineGameController.h"
 #include "../Logic/SingleGameController.h"
 
@@ -48,8 +49,8 @@ bool EventManager::init()
 
 GameController* EventManager::getGameController()
 {
-	GameType gameType = GameTypeSinglePlayer;//DataManager::sharedDataManager()->getGameType();
-	if (gameType == GameTypeSinglePlayer)
+	GameType gameType = DataManager::sharedDataManager()->getGameType();
+	if (gameType == GameTypeSingle)
 	{
 		return m_singleController;
 	}

@@ -21,6 +21,8 @@ CGCCBReader::CGCCBReader(CCNodeLoaderLibrary * pCCNodeLoaderLibrary) : CCBReader
 	
 	m_standardSize.width = DEFAULT_STANDARD_WIDTH;
 	m_standardSize.height = DEFAULT_STANDARD_HEIGHT;
+    
+    m_ccbScale = 1.0f;
 }
 
 CGCCBReader::~ CGCCBReader()
@@ -97,18 +99,27 @@ std::string CGCCBReader::getCCBFile()
 	if (fabsf(1.333 - tureScale) < 0.00001 )
 	{
 		filepath = CCString::create("CCB-1024X768");
+        m_ccbScale = 1.0f;
 	}
 	else if (fabsf(1.5 - tureScale) < 0.00001)
 	{
 		filepath = CCString::create("CCB-960X640");
+        m_ccbScale = 0.83f;
 	}
 	else if (fabsf(1.667 - tureScale) < 0.00001)
 	{
 		filepath = CCString::create("CCB-800X480");
+        m_ccbScale = 0.62f;
 	}
 	else if (fabsf(1.778 - tureScale) < 0.00001)
 	{
 		filepath = CCString::create("CCB-1280X720");
+        m_ccbScale = 0.94f;
 	}
 	return filepath->getCString();
+}
+
+float CGCCBReader::getCCBScale()
+{
+    return m_ccbScale;
 }

@@ -21,15 +21,22 @@
  */
 typedef enum
 {
-    GameTypeSinglePlayer,       // 单机
-    GameTypeOnline,             // 联网
-    GameTypeMatch,              // 比赛
+    GameTypeSingle,       // 单机
+    GameTypeCompetitive,             // 竞技
+    GameTypeCooperation,              // 合作
 }
 GameType;
 
 typedef enum
 {
     EventTypeLogin,         // 登录
+    EventTypeEnterHall, //进入大厅 
+    EventTypeEnterSingleGame, //进入单机房间
+    EventTypeEnterCompetitiveGame,
+    EventTypeEnterCooperationGame,
+    EventTypeEnterSingleSubGame, //进入单机子关
+    
+    
     EventTypeEnterGame,
     EventTypeRoll,//掷骰子
     EventTypeWin,//检测是否有赢家

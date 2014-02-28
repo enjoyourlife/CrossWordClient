@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */; };
+		011259AC18C04624002F5063 /* Hall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AA18C04624002F5063 /* Hall.cpp */; };
+		011259B018C04C37002F5063 /* DataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AE18C04C37002F5063 /* DataManager.cpp */; };
+		011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259B118C051B0002F5063 /* SingleRoom.cpp */; };
 		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
@@ -277,6 +280,12 @@
 /* Begin PBXFileReference section */
 		010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SingleSubRoom.cpp; sourceTree = "<group>"; };
 		010397F718BE2BCA00453BB1 /* SingleSubRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSubRoom.h; sourceTree = "<group>"; };
+		011259AA18C04624002F5063 /* Hall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hall.cpp; sourceTree = "<group>"; };
+		011259AB18C04624002F5063 /* Hall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hall.h; sourceTree = "<group>"; };
+		011259AE18C04C37002F5063 /* DataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataManager.cpp; sourceTree = "<group>"; };
+		011259AF18C04C37002F5063 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		011259B118C051B0002F5063 /* SingleRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SingleRoom.cpp; sourceTree = "<group>"; };
+		011259B218C051B1002F5063 /* SingleRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRoom.h; sourceTree = "<group>"; };
 		012AA3D918B98BBD00A4910E /* CCB-1024X768 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-1024X768"; sourceTree = "<group>"; };
 		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
@@ -833,6 +842,10 @@
 				01BAD45818B8DDC100131D9E /* MainLayer.h */,
 				010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */,
 				010397F718BE2BCA00453BB1 /* SingleSubRoom.h */,
+				011259AA18C04624002F5063 /* Hall.cpp */,
+				011259AB18C04624002F5063 /* Hall.h */,
+				011259B118C051B0002F5063 /* SingleRoom.cpp */,
+				011259B218C051B1002F5063 /* SingleRoom.h */,
 			);
 			name = Scenes;
 			path = ../Classes/Scenes;
@@ -870,6 +883,8 @@
 		01D1305918BB5ED600BCCE03 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				011259AE18C04C37002F5063 /* DataManager.cpp */,
+				011259AF18C04C37002F5063 /* DataManager.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -2162,6 +2177,9 @@
 				01D1307218BB924700BCCE03 /* LoadingLayer.cpp in Sources */,
 				010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */,
 				01BBBE5618BF7D27007A3631 /* CGControlButton.cpp in Sources */,
+				011259AC18C04624002F5063 /* Hall.cpp in Sources */,
+				011259B018C04C37002F5063 /* DataManager.cpp in Sources */,
+				011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

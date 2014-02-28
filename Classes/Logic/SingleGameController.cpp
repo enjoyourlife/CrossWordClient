@@ -9,6 +9,7 @@
 #include "SingleGameController.h"
 #include "../Events/EventManager.h"
 #include "../Events/GameEvents.h"
+#include "../Scenes/SceneManager.h"
 
 
 SingleGameController::SingleGameController()
@@ -46,6 +47,29 @@ void SingleGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeEnterHall:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            //界面转换
+            SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
+            break;
+        }
+            
+        case EventTypeEnterSingleGame:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            //界面转换
+            SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleRoom);
+            break;
+        }
+        
+        case EventTypeEnterSingleSubGame:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            //界面转换
+            SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleSubRoom);
+            break;
+        }
         
             
         default:

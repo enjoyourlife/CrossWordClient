@@ -9,6 +9,7 @@
 #include "SingleSubRoom.h"
 #include "../CommonUI/CGCCBReader.h"
 #include "../CommonUI/CGControlButton.h"
+#include "../Data/DataManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -18,10 +19,27 @@ SingleSubRoom::SingleSubRoom()
 {
     m_scrollViewBg = NULL;
     m_ballLayer = NULL;
-    m_pageCount = 6;//暂时设置为5
     m_curPage = 0;
     m_bgBeginY = 0.0f;
     m_bgEndY = 0.0f;
+    
+    int subLevel = DataManager::sharedDataManager()->getSingleSubLevel();
+    switch (subLevel)
+    {
+        case 0:
+            m_pageCount = 5;//暂时设置为5
+            break;
+        case 1:
+            m_pageCount = 8;
+            break;
+        case 2:
+            m_pageCount = 9;
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 SingleSubRoom::~ SingleSubRoom()
@@ -66,13 +84,17 @@ bool SingleSubRoom::init()
     CCNode* node = reader.readCCBFile("single_sub_room.ccbi", this);
     addChild(node);
     
+    m_ccbScale = reader.getCCBScale();
+    
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
-
+    
     initScrollView();
     initBallLayer();
     setCurPageBall(0);
+    
+    
     
     return true;
 }
@@ -127,10 +149,10 @@ void SingleSubRoom::registerWithTouchDispatcher(void)
 bool SingleSubRoom::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
     //滑动如果不在scrollviewbg区域 则忽略  还需细微完善
-    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
-    {
-        return true;
-    }
+//    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
+//    {
+//        return true;
+//    }
     
     m_touchPoint = pTouch->getLocation();
     m_offset = m_scrollView->getContentOffset();//即container的起始位置
@@ -139,10 +161,10 @@ bool SingleSubRoom::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 
 void SingleSubRoom::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
-    {
-        return;
-    }
+//    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
+//    {
+//        return;
+//    }
     
     CCPoint movePoint = pTouch->getLocation();
     float dis = movePoint.x - m_touchPoint.x;
@@ -154,10 +176,10 @@ void SingleSubRoom::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 
 void SingleSubRoom::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
-    {
-        return;
-    }
+//    if (pTouch->getLocation().y < m_bgBeginY || pTouch->getLocation().y > m_bgEndY)
+//    {
+//        return;
+//    }
     
     CCPoint endPoint = pTouch->getLocation();
     float dis = endPoint.x - m_touchPoint.x;
@@ -231,6 +253,7 @@ CCLayerColor* SingleSubRoom::getContainerLayer()
         CCSpriteFrame* pokerFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("poker_back.png");
         
         button->setDisplayFrame(pokerFrame);
+        button->setScale(m_ccbScale);
         button->setPosition(ccpAdd(ccp(bgWidth * 0.5f, bgHeight * 0.5f), ccp(bgWidth * i, 0)));
         container->addChild(button);
         
@@ -288,6 +311,7 @@ void SingleSubRoom::initBallLayer()
         float ballLayerHeight = m_ballLayer->getContentSize().height;
         float ballLayerWidth = m_ballLayer->getContentSize().width;
         float dotInterval = ballLayerWidth * 0.08f;//两点间间隙
+        
         CCLog("dotInterval is %f", dotInterval);
         
         float beginPosX = 0.0f;
@@ -310,6 +334,7 @@ void SingleSubRoom::initBallLayer()
         {
             CCSprite *dot = CCSprite::createWithSpriteFrame(grayDotFrame);
             dot->setPosition(ccp(beginPosX + i * dotInterval, posY));
+            dot->setScale(m_ccbScale);
             m_ballLayer->addChild(dot);
             m_ballVector.push_back(dot);
         }
@@ -343,6 +368,7 @@ void SingleSubRoom::setCurPageBall(int curPage)
 
 void SingleSubRoom::onBack(CCObject* pObject, CCControlEvent event)
 {
-    
+    Event *e = new Event(EventTypeEnterSingleGame);
+    EventManager::sharedEventManager()->addEvent(e);
 }
 

@@ -140,6 +140,8 @@ private:
     cocos2d::CCLayer *m_ballLayer;
     //指示球
     std::vector<cocos2d::CCSprite*> m_ballVector;
+    
+    float m_ccbScale;
 };
 
 #endif /* defined(__CrossWordClient__SingleSubRoom__) */

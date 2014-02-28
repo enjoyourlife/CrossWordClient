@@ -10,8 +10,11 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/Network/NetServer.cpp \
+                   ../../Classes/Data/DataManager.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
+                   ../../Classes/Scenes/Hall.cpp \
+                   ../../Classes/Scenes/SingleRoom.cpp \
                    ../../Classes/Scenes/SingleSubRoom.cpp \
                    ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
