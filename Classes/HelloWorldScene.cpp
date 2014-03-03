@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
 #include "Network/NetServer.h"
 #include "Scenes/SceneManager.h"
+#include "CommonUI/CGToast.h"
+#include "Common/Utilities.h"
 
 USING_NS_CC;
 
@@ -131,6 +133,19 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     this->addChild(mainLayer);
      */
     
-    SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleSubRoom);
+//    SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleSubRoom);
     
+    
+    CGToast *toast = CGToast::create();
+    toast->addTarget(this, menu_selector(HelloWorld::onToast));
+    toast->playAction();
+    this->addChild(toast);
+    
+//    Utilities::getJsonFromFile("strings.json");
+    
+}
+
+void HelloWorld::onToast(CCObject* obj)
+{
+    CCLog("just toast!");
 }

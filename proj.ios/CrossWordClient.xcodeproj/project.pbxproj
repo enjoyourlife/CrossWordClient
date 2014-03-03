@@ -14,6 +14,11 @@
 		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
+		01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EB718C32F8900649A17 /* CGToast.cpp */; };
+		01B10EBB18C34AC600649A17 /* Text in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBA18C34AC600649A17 /* Text */; };
+		01B10EBD18C34AFD00649A17 /* strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBC18C34AFD00649A17 /* strings.json */; };
+		01B10EC118C34C8300649A17 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EBF18C34C8300649A17 /* Utilities.cpp */; };
+		01B10EC418C3842800649A17 /* Localize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EC218C3842800649A17 /* Localize.cpp */; };
 		01BAD45518B8D69B00131D9E /* CGCCBReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */; };
 		01BAD45918B8DDC100131D9E /* MainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45718B8DDC100131D9E /* MainLayer.cpp */; };
 		01BBBE5618BF7D27007A3631 /* CGControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */; };
@@ -290,6 +295,14 @@
 		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
+		01B10EB718C32F8900649A17 /* CGToast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGToast.cpp; sourceTree = "<group>"; };
+		01B10EB818C32F8900649A17 /* CGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGToast.h; sourceTree = "<group>"; };
+		01B10EBA18C34AC600649A17 /* Text */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Text; sourceTree = "<group>"; };
+		01B10EBC18C34AFD00649A17 /* strings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = strings.json; path = ../Resources/Text/strings.json; sourceTree = "<group>"; };
+		01B10EBF18C34C8300649A17 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
+		01B10EC018C34C8300649A17 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		01B10EC218C3842800649A17 /* Localize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localize.cpp; sourceTree = "<group>"; };
+		01B10EC318C3842800649A17 /* Localize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localize.h; sourceTree = "<group>"; };
 		01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGCCBReader.cpp; sourceTree = "<group>"; };
 		01BAD45418B8D69B00131D9E /* CGCCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGCCBReader.h; sourceTree = "<group>"; };
 		01BAD45718B8DDC100131D9E /* MainLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainLayer.cpp; sourceTree = "<group>"; };
@@ -819,6 +832,18 @@
 			path = ../Classes/Network;
 			sourceTree = "<group>";
 		};
+		01B10EBE18C34BDF00649A17 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				01B10EBF18C34C8300649A17 /* Utilities.cpp */,
+				01B10EC018C34C8300649A17 /* Utilities.h */,
+				01B10EC218C3842800649A17 /* Localize.cpp */,
+				01B10EC318C3842800649A17 /* Localize.h */,
+			);
+			name = Common;
+			path = ../Classes/Common;
+			sourceTree = "<group>";
+		};
 		01BAD45218B8D57D00131D9E /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -826,6 +851,8 @@
 				01BAD45418B8D69B00131D9E /* CGCCBReader.h */,
 				01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */,
 				01BBBE5518BF7D27007A3631 /* CGControlButton.h */,
+				01B10EB718C32F8900649A17 /* CGToast.cpp */,
+				01B10EB818C32F8900649A17 /* CGToast.h */,
 			);
 			name = CommonUI;
 			path = ../Classes/CommonUI;
@@ -1382,6 +1409,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				01B10EBE18C34BDF00649A17 /* Common */,
 				01D1305918BB5ED600BCCE03 /* Data */,
 				01D1305818BB5EA500BCCE03 /* Logic */,
 				01D1305718BB5E9A00BCCE03 /* Events */,
@@ -1501,6 +1529,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				01B10EBC18C34AFD00649A17 /* strings.json */,
 				15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */,
 				15A3D8871682F7D5002FB0C5 /* Box2D */,
 				15A3D93A1682F7F9002FB0C5 /* chipmunk */,
@@ -1846,6 +1875,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01B10EBA18C34AC600649A17 /* Text */,
 				012AA3D918B98BBD00A4910E /* CCB-1024X768 */,
 				012AA3DA18B98BBD00A4910E /* Images */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
@@ -1945,6 +1975,8 @@
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
 				012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */,
 				012AA3DC18B98BBD00A4910E /* Images in Resources */,
+				01B10EBB18C34AC600649A17 /* Text in Resources */,
+				01B10EBD18C34AFD00649A17 /* strings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2180,6 +2212,9 @@
 				011259AC18C04624002F5063 /* Hall.cpp in Sources */,
 				011259B018C04C37002F5063 /* DataManager.cpp in Sources */,
 				011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */,
+				01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */,
+				01B10EC118C34C8300649A17 /* Utilities.cpp in Sources */,
+				01B10EC418C3842800649A17 /* Localize.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
