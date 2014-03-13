@@ -16,12 +16,19 @@
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
 		01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EB718C32F8900649A17 /* CGToast.cpp */; };
 		01B10EBB18C34AC600649A17 /* Text in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBA18C34AC600649A17 /* Text */; };
-		01B10EBD18C34AFD00649A17 /* strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBC18C34AFD00649A17 /* strings.json */; };
 		01B10EC118C34C8300649A17 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EBF18C34C8300649A17 /* Utilities.cpp */; };
 		01B10EC418C3842800649A17 /* Localize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EC218C3842800649A17 /* Localize.cpp */; };
+		01BA774118C57A1100A40B37 /* CGWaiting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BA773F18C57A1100A40B37 /* CGWaiting.cpp */; };
 		01BAD45518B8D69B00131D9E /* CGCCBReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */; };
 		01BAD45918B8DDC100131D9E /* MainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BAD45718B8DDC100131D9E /* MainLayer.cpp */; };
 		01BBBE5618BF7D27007A3631 /* CGControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */; };
+		01BCF49718C9D740006336CD /* CompetitiveRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BCF49518C9D740006336CD /* CompetitiveRoom.cpp */; };
+		01C0746918C60612002DBF91 /* Login.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C0746718C60612002DBF91 /* Login.cpp */; };
+		01C0746C18C60EA3002DBF91 /* SaveDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C0746A18C60EA3002DBF91 /* SaveDataManager.cpp */; };
+		01C0747018C61CF0002DBF91 /* SystemIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01C0746E18C61CF0002DBF91 /* SystemIOS.mm */; };
+		01C0798118C626E0002DBF91 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C0748118C626DC002DBF91 /* Reachability.m */; };
+		01C07D9D18C62876002DBF91 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C07D9C18C62876002DBF91 /* SystemConfiguration.framework */; };
+		01C2720618C7E8870050FD6D /* NetServerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C2720418C7E8870050FD6D /* NetServerEx.cpp */; };
 		01D1306218BB5EF000BCCE03 /* EventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305A18BB5EF000BCCE03 /* EventManager.cpp */; };
 		01D1306318BB5EF000BCCE03 /* EventObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305C18BB5EF000BCCE03 /* EventObserver.cpp */; };
 		01D1306418BB5EF000BCCE03 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1305E18BB5EF000BCCE03 /* Events.cpp */; };
@@ -298,17 +305,31 @@
 		01B10EB718C32F8900649A17 /* CGToast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGToast.cpp; sourceTree = "<group>"; };
 		01B10EB818C32F8900649A17 /* CGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGToast.h; sourceTree = "<group>"; };
 		01B10EBA18C34AC600649A17 /* Text */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Text; sourceTree = "<group>"; };
-		01B10EBC18C34AFD00649A17 /* strings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = strings.json; path = ../Resources/Text/strings.json; sourceTree = "<group>"; };
 		01B10EBF18C34C8300649A17 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		01B10EC018C34C8300649A17 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		01B10EC218C3842800649A17 /* Localize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localize.cpp; sourceTree = "<group>"; };
 		01B10EC318C3842800649A17 /* Localize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localize.h; sourceTree = "<group>"; };
+		01BA773F18C57A1100A40B37 /* CGWaiting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGWaiting.cpp; sourceTree = "<group>"; };
+		01BA774018C57A1100A40B37 /* CGWaiting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGWaiting.h; sourceTree = "<group>"; };
 		01BAD45318B8D69B00131D9E /* CGCCBReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGCCBReader.cpp; sourceTree = "<group>"; };
 		01BAD45418B8D69B00131D9E /* CGCCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGCCBReader.h; sourceTree = "<group>"; };
 		01BAD45718B8DDC100131D9E /* MainLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainLayer.cpp; sourceTree = "<group>"; };
 		01BAD45818B8DDC100131D9E /* MainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLayer.h; sourceTree = "<group>"; };
 		01BBBE5418BF7D27007A3631 /* CGControlButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGControlButton.cpp; sourceTree = "<group>"; };
 		01BBBE5518BF7D27007A3631 /* CGControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGControlButton.h; sourceTree = "<group>"; };
+		01BCF49518C9D740006336CD /* CompetitiveRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompetitiveRoom.cpp; sourceTree = "<group>"; };
+		01BCF49618C9D740006336CD /* CompetitiveRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompetitiveRoom.h; sourceTree = "<group>"; };
+		01C0746718C60612002DBF91 /* Login.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Login.cpp; sourceTree = "<group>"; };
+		01C0746818C60612002DBF91 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		01C0746A18C60EA3002DBF91 /* SaveDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveDataManager.cpp; sourceTree = "<group>"; };
+		01C0746B18C60EA3002DBF91 /* SaveDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveDataManager.h; sourceTree = "<group>"; };
+		01C0746E18C61CF0002DBF91 /* SystemIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SystemIOS.mm; sourceTree = "<group>"; };
+		01C0746F18C61CF0002DBF91 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
+		01C0748018C626DC002DBF91 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		01C0748118C626DC002DBF91 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		01C07D9C18C62876002DBF91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		01C2720418C7E8870050FD6D /* NetServerEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServerEx.cpp; sourceTree = "<group>"; };
+		01C2720518C7E8870050FD6D /* NetServerEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServerEx.h; sourceTree = "<group>"; };
 		01D1305A18BB5EF000BCCE03 /* EventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventManager.cpp; sourceTree = "<group>"; };
 		01D1305B18BB5EF000BCCE03 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
 		01D1305C18BB5EF000BCCE03 /* EventObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventObserver.cpp; sourceTree = "<group>"; };
@@ -803,6 +824,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C07D9D18C62876002DBF91 /* SystemConfiguration.framework in Frameworks */,
 				15A3DA6A1682F886002FB0C5 /* libcocos2dx.a in Frameworks */,
 				1ACB3244164770DE00914215 /* libcurl.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -827,6 +849,8 @@
 			children = (
 				014AEC7418B6552200FFAB62 /* NetServer.cpp */,
 				014AEC7518B6552200FFAB62 /* NetServer.h */,
+				01C2720418C7E8870050FD6D /* NetServerEx.cpp */,
+				01C2720518C7E8870050FD6D /* NetServerEx.h */,
 			);
 			name = Network;
 			path = ../Classes/Network;
@@ -853,6 +877,8 @@
 				01BBBE5518BF7D27007A3631 /* CGControlButton.h */,
 				01B10EB718C32F8900649A17 /* CGToast.cpp */,
 				01B10EB818C32F8900649A17 /* CGToast.h */,
+				01BA773F18C57A1100A40B37 /* CGWaiting.cpp */,
+				01BA774018C57A1100A40B37 /* CGWaiting.h */,
 			);
 			name = CommonUI;
 			path = ../Classes/CommonUI;
@@ -873,9 +899,49 @@
 				011259AB18C04624002F5063 /* Hall.h */,
 				011259B118C051B0002F5063 /* SingleRoom.cpp */,
 				011259B218C051B1002F5063 /* SingleRoom.h */,
+				01C0746718C60612002DBF91 /* Login.cpp */,
+				01C0746818C60612002DBF91 /* Login.h */,
+				01BCF49518C9D740006336CD /* CompetitiveRoom.cpp */,
+				01BCF49618C9D740006336CD /* CompetitiveRoom.h */,
 			);
 			name = Scenes;
 			path = ../Classes/Scenes;
+			sourceTree = "<group>";
+		};
+		01C0746D18C61CD2002DBF91 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				01C0746E18C61CF0002DBF91 /* SystemIOS.mm */,
+				01C0746F18C61CF0002DBF91 /* System.h */,
+			);
+			name = Platform;
+			path = ../Classes/Platform;
+			sourceTree = "<group>";
+		};
+		01C0747C18C626DC002DBF91 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				01C0747E18C626DC002DBF91 /* ios */,
+			);
+			name = Libs;
+			path = ../Libs;
+			sourceTree = "<group>";
+		};
+		01C0747E18C626DC002DBF91 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				01C0747F18C626DC002DBF91 /* Reachability */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		01C0747F18C626DC002DBF91 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				01C0748018C626DC002DBF91 /* Reachability.h */,
+				01C0748118C626DC002DBF91 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		01D1305718BB5E9A00BCCE03 /* Events */ = {
@@ -912,6 +978,8 @@
 			children = (
 				011259AE18C04C37002F5063 /* DataManager.cpp */,
 				011259AF18C04C37002F5063 /* DataManager.h */,
+				01C0746A18C60EA3002DBF91 /* SaveDataManager.cpp */,
+				01C0746B18C60EA3002DBF91 /* SaveDataManager.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -1409,6 +1477,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				01C0746D18C61CD2002DBF91 /* Platform */,
 				01B10EBE18C34BDF00649A17 /* Common */,
 				01D1305918BB5ED600BCCE03 /* Data */,
 				01D1305818BB5EA500BCCE03 /* Logic */,
@@ -1529,8 +1598,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				01B10EBC18C34AFD00649A17 /* strings.json */,
 				15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */,
+				01C0747C18C626DC002DBF91 /* Libs */,
 				15A3D8871682F7D5002FB0C5 /* Box2D */,
 				15A3D93A1682F7F9002FB0C5 /* chipmunk */,
 				15AA9C4015B7EC450033D6C2 /* Classes */,
@@ -1548,6 +1617,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01C07D9C18C62876002DBF91 /* SystemConfiguration.framework */,
 				1ACB3243164770DE00914215 /* libcurl.a */,
 				BF170DB212928DE900B8313A /* libxml2.dylib */,
 				BF170DB412928DE900B8313A /* libz.dylib */,
@@ -1976,7 +2046,6 @@
 				012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */,
 				012AA3DC18B98BBD00A4910E /* Images in Resources */,
 				01B10EBB18C34AC600649A17 /* Text in Resources */,
-				01B10EBD18C34AFD00649A17 /* strings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2215,6 +2284,13 @@
 				01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */,
 				01B10EC118C34C8300649A17 /* Utilities.cpp in Sources */,
 				01B10EC418C3842800649A17 /* Localize.cpp in Sources */,
+				01BA774118C57A1100A40B37 /* CGWaiting.cpp in Sources */,
+				01C0746918C60612002DBF91 /* Login.cpp in Sources */,
+				01C0746C18C60EA3002DBF91 /* SaveDataManager.cpp in Sources */,
+				01C0747018C61CF0002DBF91 /* SystemIOS.mm in Sources */,
+				01C0798118C626E0002DBF91 /* Reachability.m in Sources */,
+				01C2720618C7E8870050FD6D /* NetServerEx.cpp in Sources */,
+				01BCF49718C9D740006336CD /* CompetitiveRoom.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2273,6 +2349,15 @@
 					"\"$(SRCROOT)/../Libs/libpomelo/build/Default-iphonesimulator\"",
 					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/Default-iphonesimulator\"",
 					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/Default-iphonesimulator\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/pomelo.build/Default-iphoneos/libpomelo.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/pomelo.build/Default-iphoneos/libpomelo.build/Objects-normal/armv7s\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/jansson.build/Default-iphoneos/jansson.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/jansson.build/Default-iphoneos/jansson.build/Objects-normal/armv7s\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/uv.build/Default-iphoneos/libuv.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/uv.build/Default-iphoneos/libuv.build/Objects-normal/armv7s\"",
 				);
 				OTHER_CFLAGS = "-O2";
 				OTHER_LDFLAGS = (
@@ -2332,6 +2417,15 @@
 					"\"$(SRCROOT)/../Libs/libpomelo/build/Default-iphonesimulator\"",
 					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/Default-iphonesimulator\"",
 					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/Default-iphonesimulator\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/pomelo.build/Default-iphoneos/libpomelo.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/build/pomelo.build/Default-iphoneos/libpomelo.build/Objects-normal/armv7s\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/jansson.build/Default-iphoneos/jansson.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/jansson/build/jansson.build/Default-iphoneos/jansson.build/Objects-normal/armv7s\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/Default-iphoneos\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/uv.build/Default-iphoneos/libuv.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/../Libs/libpomelo/deps/uv/build/uv.build/Default-iphoneos/libuv.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ljansson",

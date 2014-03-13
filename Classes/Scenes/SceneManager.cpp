@@ -12,6 +12,7 @@
 #include "Hall.h"
 #include "SingleRoom.h"
 #include "SingleSubRoom.h"
+#include "CompetitiveRoom.h"
 #include "../HelloWorldScene.h"
 
 using namespace cocos2d;
@@ -49,7 +50,8 @@ void SceneManager::changeScene(SceneType type)
 	m_lastScene = m_currentScene;
 	m_currentScene = type;
     
-	CCDirector::sharedDirector()->replaceScene(createScene(type));
+    m_nowScene = createScene(type);
+	CCDirector::sharedDirector()->replaceScene(m_nowScene);
 }
 
 CCScene* SceneManager::createScene(SceneType type)
@@ -77,8 +79,17 @@ CCScene* SceneManager::createScene(SceneType type)
             scene = Hall::scene();
             break;
             
+        case SceneTypeCompetitiveRoom:
+            scene = CompetitiveRoom::scene();
+            break;
+            
         default:
             break;
 	}
 	return scene;
+}
+
+CCScene* SceneManager::getCurrentScene()
+{
+    return m_nowScene;
 }

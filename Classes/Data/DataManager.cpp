@@ -27,6 +27,7 @@ DataManager::~DataManager()
 void DataManager::init()
 {
     m_singleSubLevel = 0;
+    m_isLogin = false;
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -78,4 +79,14 @@ int DataManager::getSingleSubLevel()
 void DataManager::setSingleSubLevel(int singleSubLevel)
 {
     m_singleSubLevel = singleSubLevel;
+}
+
+bool DataManager::getIsLogin()
+{
+    return m_isLogin;
+}
+
+void DataManager::setIsLogin(bool isLogin)
+{
+    m_isLogin = isLogin;
 }

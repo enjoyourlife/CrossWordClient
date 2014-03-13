@@ -3,6 +3,10 @@
 #include "Scenes/SceneManager.h"
 #include "CommonUI/CGToast.h"
 #include "Common/Utilities.h"
+#include "CommonUI/CGWaiting.h"
+#include "Scenes/Login.h"
+#include "Platform/System.h"
+#include "Network/NetServerEx.h"
 
 USING_NS_CC;
 
@@ -135,14 +139,24 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     
 //    SceneManager::sharedSceneManager()->changeScene(SceneTypeSingleSubRoom);
     
-    
+    /*
     CGToast *toast = CGToast::create();
     toast->addTarget(this, menu_selector(HelloWorld::onToast));
     toast->playAction();
     this->addChild(toast);
+    */
     
-//    Utilities::getJsonFromFile("strings.json");
+//    CGWaiting *waiting = CGWaiting::create();
+//    this->addChild(waiting);
+
+//    Login* login = Login::create();
+//    this->addChild(login);
     
+//    CCLog("%d %d %d", System::isNetAvailable(), System::is3GEnabled(), System::isWIFIEnabled());
+    
+//    NetServerEx::sharedNetServerEx()->login("user1", "pwd");
+
+    SceneManager::sharedSceneManager()->changeScene(SceneTypeCompetitiveRoom);
 }
 
 void HelloWorld::onToast(CCObject* obj)

@@ -26,12 +26,18 @@ package com.crossword.main;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 public class CrossWordClient extends Cocos2dxActivity{
 	
+	private static CrossWordClient instance;
+	
     protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);	
+		instance = this;
 	}
 
     public Cocos2dxGLSurfaceView onCreateView() {
@@ -44,5 +50,27 @@ public class CrossWordClient extends Cocos2dxActivity{
 
     static {
         System.loadLibrary("cocos2dcpp");
-    }     
+    } 
+    
+    
+    /**
+	 * check network
+	 * 
+	 * @return false:no network
+	 */
+	public static boolean isNetworkAvailable() {
+		System.out.println("i am in isNetworkAvailable");
+		
+		boolean bRet = false;
+		
+		ConnectivityManager manager = (ConnectivityManager) instance
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (manager != null){
+			NetworkInfo info = manager.getActiveNetworkInfo();
+			
+			bRet = (info != null && info.isConnected());
+		}
+		
+		return bRet;
+	}
 }

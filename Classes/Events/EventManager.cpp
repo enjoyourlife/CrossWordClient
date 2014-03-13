@@ -88,9 +88,10 @@ void EventManager::process()
 	{
 		e->setState(EventStateNotified);
         
-		for (list<EventObserver*>::iterator it = m_observers.begin(); it != m_observers.end(); ++it)
+        //不能在m_observers循环的同时 改变其成员(比如切换界面引起成员销毁) 否则引起异常
+        for (list<EventObserver*>::iterator it = m_observers.begin(); it != m_observers.end(); ++it)
 		{
-			(*it)->onEventSucceeded(e);
+            (*it)->onEventSucceeded(e);
 		}
 	}
 }
@@ -281,15 +282,21 @@ const char* EventManager::getEventName(int type) const
         case EventTypeLogin:
             return "EventTypeLogin";
             
-        case EventTypeEnterGame:
-            return "EventTypeEnterGame";
+        case EventTypeEnterHall:
+            return "EventTypeEnterHall";
             
-        case EventTypeRoll:
-            return "EventTypeRoll";
+        case EventTypeEnterSingleGame:
+            return "EventTypeEnterSingleGame";
             
-        case EventTypeWin:
-            return "EventTypeWin";
-          
+        case EventTypeEnterCompetitiveGame:
+            return "EventTypeEnterCompetitiveGame";
+            
+        case EventTypeEnterCooperationGame:
+            return "EventTypeEnterCooperationGame";
+            
+        case EventTypeEnterSingleSubGame:
+            return "EventTypeEnterSingleSubGame";
+            
         default:
             return "UnknownEvent";
 	}

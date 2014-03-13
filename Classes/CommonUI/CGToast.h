@@ -25,6 +25,8 @@ public:
     CGToast(void);
     static CGToast* create();
 	virtual bool init();
+    //设置toast显示的话
+    void setText(const char* text);
 
 	void addTarget(CCObject* target, cocos2d::SEL_MenuHandler action);
     //根据actionType执行对应的动画

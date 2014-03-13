@@ -9,8 +9,9 @@
 #include "Hall.h"
 #include "../CommonUI/CGCCBReader.h"
 #include "../Events/EventManager.h"
-#include "../Events/Events.h"
+#include "../Events/GameEvents.h"
 #include "../Data/DataManager.h"
+#include "SceneManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -84,7 +85,6 @@ void Hall::keyMenuClicked()
 void Hall::onEnter()
 {
     CCLayer::onEnter();
-    
 }
 
 void Hall::onExit()
@@ -136,8 +136,8 @@ void Hall::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 void Hall::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 {
+    
 }
-
 
 void Hall::onSingleGame(CCObject* pObject, CCControlEvent event)
 {
@@ -149,10 +149,16 @@ void Hall::onSingleGame(CCObject* pObject, CCControlEvent event)
 
 void Hall::onCompetitiveGame(CCObject* pObject, CCControlEvent event)
 {
+    DataManager::sharedDataManager()->setGameType(GameTypeCompetitive);
     
+    Event *e = new Event(EventTypeEnterCompetitiveGame);
+    EventManager::sharedEventManager()->addEvent(e);
 }
 
 void Hall::onCooperationGame(CCObject* pObject, CCControlEvent event)
 {
+    DataManager::sharedDataManager()->setGameType(GameTypeCooperation);
     
+    Event *e = new Event(EventTypeEnterCooperationGame);
+    EventManager::sharedEventManager()->addEvent(e);
 }

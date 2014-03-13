@@ -57,9 +57,15 @@ bool CGToast::init()
     CCNode* node = reader.readCCBFile("toast.ccbi", this);
     addChild(node);
     
-    m_text->setString(Localize::sharedLocalize()->getString("toast_txt0"));
+    m_text->setString("");
+//    m_text->setString(Localize::sharedLocalize()->getString("toast_txt0"));
     
     return true;
+}
+
+void CGToast::setText(const char* text)
+{
+    m_text->setString(text);
 }
 
 void CGToast::addTarget(CCObject* target,SEL_MenuHandler action)

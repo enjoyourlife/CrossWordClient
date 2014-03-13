@@ -242,8 +242,8 @@ void LoadingLayer::update(float time)
      }*/
     else if (count == 50)
 	{
-//        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
-        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
+        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
+//        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
 	}
     
     count++;

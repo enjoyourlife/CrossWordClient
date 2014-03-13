@@ -41,7 +41,6 @@ public:
      */
     virtual void onEventFailed(Event* event);
     
-    
 public:
     GameType getGameType();
     void setGameType(GameType gameType);
@@ -49,10 +48,14 @@ public:
     int getSingleSubLevel();
     void setSingleSubLevel(int singleSubLevel);
     
+    bool getIsLogin();
+    void setIsLogin(bool isLogin);
 private:
     GameType m_gameType;
     //单机子关 0-easy 1-normal 2-hard
     int m_singleSubLevel;
+    //是否已经登录
+    bool m_isLogin;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */

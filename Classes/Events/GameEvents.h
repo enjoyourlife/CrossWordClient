@@ -14,6 +14,92 @@
 #include "EventManager.h"
 
 /*!
+ * @brief		登录游戏事件 
+ m_loginType
+ 0-外面大厅点登录
+ 1-点 GameTypeCompetitive 竞技模式进行登录
+ 2-点 GameTypeCooperation 合作模式进行登录
+ */
+class LoginEvent : public Event
+{
+public:
+    LoginEvent(int loginType, const std::string username, const std::string password) : Event(EventTypeLogin)
+    {
+        m_loginType = loginType;
+        m_username = username;
+        m_password = password;
+    }
+    
+    virtual ~ LoginEvent()
+    {
+        
+    }
+    
+    int getLoginType() const
+    {
+        return m_loginType;
+    }
+    
+    std::string getUsername() const
+    {
+        return m_username;
+    }
+    
+    std::string getPassword() const
+    {
+        return m_password;
+    }
+    
+    
+private:
+    int m_loginType;
+    std::string m_username;
+    std::string m_password;
+};
+
+
+/*
+ LoginEvent的拷贝事件 为了重复发一次
+ */
+class LoginEventEx : public Event
+{
+public:
+    LoginEventEx(int loginType, const std::string username, const std::string password) : Event(EventTypeLoginEx)
+    {
+        m_loginType = loginType;
+        m_username = username;
+        m_password = password;
+    }
+    
+    virtual ~ LoginEventEx()
+    {
+        
+    }
+    
+    int getLoginType() const
+    {
+        return m_loginType;
+    }
+    
+    std::string getUsername() const
+    {
+        return m_username;
+    }
+    
+    std::string getPassword() const
+    {
+        return m_password;
+    }
+    
+    
+private:
+    int m_loginType;
+    std::string m_username;
+    std::string m_password;
+};
+
+
+/*!
  * @brief		进入游戏事件，带有起始玩家的人数。
  */
 class EnterGameEvent : public Event

@@ -30,6 +30,7 @@ GameType;
 typedef enum
 {
     EventTypeLogin,         // 登录
+    EventTypeLoginEx,
     EventTypeEnterHall, //进入大厅 
     EventTypeEnterSingleGame, //进入单机房间
     EventTypeEnterCompetitiveGame,

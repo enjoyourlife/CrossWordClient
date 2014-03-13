@@ -20,6 +20,7 @@ typedef enum
     SceneTypeHall,
     SceneTypeSingleRoom,
     SceneTypeSingleSubRoom,
+    SceneTypeCompetitiveRoom,
     
     SceneTypeMainMenu,
     SceneTypeGamePlay
@@ -48,6 +49,8 @@ public:
      */
     void changeScene(SceneType type);
     
+    cocos2d::CCScene* getCurrentScene();
+    
 private:
     /*!
      * @brief		通过场景类型创建场景。
@@ -59,6 +62,8 @@ private:
     
     SceneType   m_currentScene;     // 当前场景
     SceneType   m_lastScene;        // 上一个场景
+    cocos2d::CCScene* m_nowScene;
+    
 
 };
 

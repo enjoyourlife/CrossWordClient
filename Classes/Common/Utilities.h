@@ -22,6 +22,9 @@ public:
      * @return  json 解析值
      */
     static json_t* getJsonFromFile(const char* fileName);
+    
+    //创建CCAnimate
+    static cocos2d::CCAnimate* createAnimate(const char* fileName, int frameCount, float delay);
 };
 
 #endif /* defined(__CrossWordClient__Utilities__) */

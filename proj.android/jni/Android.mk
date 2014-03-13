@@ -9,19 +9,25 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
+                   ../../Classes/Platform/SystemAndroid.cpp \
                    ../../Classes/Common/Utilities.cpp \
                    ../../Classes/Common/Localize.cpp \
                    ../../Classes/Network/NetServer.cpp \
+                   ../../Classes/Network/NetServerEx.cpp \
                    ../../Classes/Data/DataManager.cpp \
+                   ../../Classes/Data/SaveDataManager.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
                    ../../Classes/Scenes/Hall.cpp \
                    ../../Classes/Scenes/SingleRoom.cpp \
                    ../../Classes/Scenes/SingleSubRoom.cpp \
+                   ../../Classes/Scenes/Login.cpp \
+                   ../../Classes/Scenes/CompetitiveRoom.cpp \
                    ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
                    ../../Classes/CommonUI/CGControlButton.cpp \
                    ../../Classes/CommonUI/CGToast.cpp \
+                   ../../Classes/CommonUI/CGWaiting.cpp \
                    ../../Classes/Logic/OnlineGameController.cpp \
                    ../../Classes/Logic/SingleGameController.cpp \
                    ../../Classes/Events/EventManager.cpp \
