@@ -8,7 +8,6 @@
 
 #include "MainLayer.h"
 #include "../CommonUI/CGCCBReader.h"
-#include "../Network/NetServer.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -16,16 +15,26 @@ using namespace std;
 
 MainLayer::MainLayer()
 {
-    m_myCard = NULL;
+//    m_myCard = NULL;
     
 }
 
 MainLayer::~ MainLayer()
 {
-    CC_SAFE_RELEASE_NULL(m_myCard);
+//    CC_SAFE_RELEASE_NULL(m_myCard);
     
     
 }
+
+CCScene* MainLayer::scene()
+{
+    CCScene* scene = CCScene::create();
+    MainLayer* layer = MainLayer::create();
+    scene->addChild(layer);
+    
+    return scene;
+}
+
 
 MainLayer* MainLayer::create()
 {
@@ -89,7 +98,7 @@ SEL_MenuHandler MainLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarget, co
 
 SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
-   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", MainLayer::onStart);
+//   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", MainLayer::onStart);
     
     return NULL;
 }
@@ -97,7 +106,7 @@ SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget
 
 bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "myCard", CCSprite*, m_myCard);
+//    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "myCard", CCSprite*, m_myCard);
     return false;
 }
 

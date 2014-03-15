@@ -98,6 +98,39 @@ private:
     std::string m_password;
 };
 
+/**
+ 坐下事件
+ type 1-竞技 2-合作  暂时无用
+ level 级别
+ */
+class SitDownEvent : public Event
+{
+public:
+    SitDownEvent(int type, int level) : Event(EventTypeSitDown)
+    {
+        m_type = type;
+        m_level = level;
+    }
+    
+    virtual ~ SitDownEvent()
+    {
+        
+    }
+    
+    int getType() const
+    {
+        return m_type;
+    }
+    
+    int getLevel() const
+    {
+        return m_level;
+    }
+    
+private:
+    int m_type;
+    int m_level;
+};
 
 /*!
  * @brief		进入游戏事件，带有起始玩家的人数。

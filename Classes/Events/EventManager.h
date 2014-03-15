@@ -36,6 +36,8 @@ typedef enum
     EventTypeEnterCompetitiveGame,
     EventTypeEnterCooperationGame,
     EventTypeEnterSingleSubGame, //进入单机子关
+    EventTypeSitDown,//坐下
+    EventTypeGameStart,//游戏开始
     
     
     EventTypeEnterGame,

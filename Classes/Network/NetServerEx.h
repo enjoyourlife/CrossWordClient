@@ -26,6 +26,14 @@ public:
     void login(const std::string username, const std::string password);
     
     /**
+     坐下或者起来
+     sit 0-down 1-up
+     type 1-竞技 2-合作  暂时无用
+     level 级别
+     */
+    void sitDownOrUp(int sit, int type, int level);
+    
+    /**
      发送msg给server
      */
     void sendMsg(const char *route, json_t *msg);
@@ -49,6 +57,14 @@ private:
      对应于服务器的onChat方法的回调
      */
     static void onChatCallback(pc_client_t *client, const char *event, void *data);
+    
+    /*
+     对应于服务器的onEnter onGameStart onGameStop onExit方法的回调
+     */
+    static void onEnter(pc_client_t *client, const char *event, void *data);
+    static void onGameStart(pc_client_t *client, const char *event, void *data);
+    static void onGameStop(pc_client_t *client, const char *event, void *data);
+    static void onExit(pc_client_t *client, const char *event, void *data);
     
 private:
     //作为成员变量 便于超时的时候销毁

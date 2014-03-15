@@ -23,6 +23,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Scenes/SingleSubRoom.cpp \
                    ../../Classes/Scenes/Login.cpp \
                    ../../Classes/Scenes/CompetitiveRoom.cpp \
+                   ../../Classes/Scenes/WaitingRoom.cpp \
                    ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
                    ../../Classes/CommonUI/CGControlButton.cpp \

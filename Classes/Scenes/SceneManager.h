@@ -21,6 +21,8 @@ typedef enum
     SceneTypeSingleRoom,
     SceneTypeSingleSubRoom,
     SceneTypeCompetitiveRoom,
+    SceneTypeWaitingRoom,
+    
     
     SceneTypeMainMenu,
     SceneTypeGamePlay

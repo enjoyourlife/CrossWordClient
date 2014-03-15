@@ -57,6 +57,8 @@ bool Login::init()
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
+    m_username->setString("user2");
+    
     return true;
 }
 

@@ -13,6 +13,7 @@
 #include "SingleRoom.h"
 #include "SingleSubRoom.h"
 #include "CompetitiveRoom.h"
+#include "WaitingRoom.h"
 #include "../HelloWorldScene.h"
 
 using namespace cocos2d;
@@ -81,6 +82,14 @@ CCScene* SceneManager::createScene(SceneType type)
             
         case SceneTypeCompetitiveRoom:
             scene = CompetitiveRoom::scene();
+            break;
+            
+        case SceneTypeWaitingRoom:
+            scene = WaitingRoom::scene();
+            break;
+            
+        case SceneTypeMainLayer:
+            scene = MainLayer::scene();
             break;
             
         default:

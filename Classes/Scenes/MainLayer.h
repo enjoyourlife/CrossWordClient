@@ -20,6 +20,8 @@ public:
     MainLayer();
     ~ MainLayer();
     
+    static cocos2d::CCScene* scene();
+    
     /*!
      * @brief	创建一个MainLayer实例。
      */

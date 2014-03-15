@@ -10,9 +10,8 @@
 #include "../CommonUI/CGCCBReader.h"
 #include "../CommonUI/CGToast.h"
 #include "../Events/EventManager.h"
-#include "../Events/Events.h"
+#include "../Events/GameEvents.h"
 #include "../Common/Localize.h"
-#include "../Events/EventManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -91,7 +90,6 @@ void CompetitiveRoom::keyMenuClicked()
 void CompetitiveRoom::onEnter()
 {
     CCLayer::onEnter();
-    EventManager::sharedEventManager()->removeFocusOnEvent(this, EventManager::sharedEventManager()->getActiveEvent());
 }
 
 void CompetitiveRoom::onExit()
@@ -154,15 +152,18 @@ void CompetitiveRoom::onBack(CCObject* pObject, CCControlEvent event)
 
 void CompetitiveRoom::onEasy(CCObject* pObject, CCControlEvent event)
 {
-    
+    SitDownEvent *sde = new SitDownEvent(0, 0);
+    EventManager::sharedEventManager()->addEvent(sde);    
 }
 
 void CompetitiveRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
-    
+    SitDownEvent *sde = new SitDownEvent(0, 1);
+    EventManager::sharedEventManager()->addEvent(sde);
 }
 
 void CompetitiveRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
-    
+    SitDownEvent *sde = new SitDownEvent(0, 2);
+    EventManager::sharedEventManager()->addEvent(sde);
 }

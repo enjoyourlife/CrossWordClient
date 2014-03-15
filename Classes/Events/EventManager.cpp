@@ -282,6 +282,9 @@ const char* EventManager::getEventName(int type) const
         case EventTypeLogin:
             return "EventTypeLogin";
             
+        case EventTypeLoginEx:
+            return "EventTypeLoginEx";
+            
         case EventTypeEnterHall:
             return "EventTypeEnterHall";
             
@@ -296,6 +299,12 @@ const char* EventManager::getEventName(int type) const
             
         case EventTypeEnterSingleSubGame:
             return "EventTypeEnterSingleSubGame";
+            
+        case EventTypeSitDown:
+            return "EventTypeSitDown";
+            
+        case EventTypeGameStart:
+            return "EventTypeGameStart";
             
         default:
             return "UnknownEvent";

@@ -190,6 +190,16 @@ void NetServerEx::requestGateCallback(pc_request_t *req, int status, json_t *res
         void (*on_chat)(pc_client_t *client, const char *event, void *data) = &NetServerEx::onChatCallback;
         pc_add_listener(client, "onChat", on_chat);
          */
+        //添加事件监听 
+        void (*on_enter)(pc_client_t *client, const char *event, void *data) = &NetServerEx::onEnter;
+        pc_add_listener(client, "onEnter", on_enter);
+        void (*on_gamestart)(pc_client_t *client, const char *event, void *data) = &NetServerEx::onGameStart;
+        pc_add_listener(client, "onGameStart", on_gamestart);
+        void (*on_gamestop)(pc_client_t *client, const char *event, void *data) = &NetServerEx::onGameStop;
+        pc_add_listener(client, "onGameStop", on_gamestop);
+        void (*on_exit)(pc_client_t *client, const char *event, void *data) = &NetServerEx::onExit;
+        pc_add_listener(client, "onExit", on_exit);
+        
         
         const char *route = "connector.entryHandler.login";
         json_t *msg = json_object();
@@ -307,6 +317,23 @@ void NetServerEx::requestConnectorCallback(pc_request_t *req, int status, json_t
     pc_request_destroy(req);
 }
 
+void NetServerEx::sitDownOrUp(int sit, int type, int level)
+{
+    const char *route = "connector.entryHandler.desk";
+    json_t *msg = json_object();
+    json_t *sitJson = json_integer(sit);
+    json_t *typeJson = json_integer(type);
+    json_t *levelJson = json_integer(level);
+    json_object_set(msg, "sit", sitJson);
+    json_object_set(msg, "type", typeJson);
+    json_object_set(msg, "level", levelJson);
+    // 使用的时候记得删除不用的变量
+    json_decref(sitJson);
+    json_decref(typeJson);
+    json_decref(levelJson);
+    sendMsg(route, msg);
+}
+
 void NetServerEx::sendMsg(const char *route, json_t *msg)
 {
     if (pomelo_client != NULL)
@@ -350,3 +377,26 @@ void NetServerEx::onChatCallback(pc_client_t *client, const char *event, void *d
     CCLog("%s %s", event, msg);
     return;
 }
+
+void NetServerEx::onEnter(pc_client_t *client, const char *event, void *data)
+{
+    CCLog("onEnter~~~~~");
+}
+
+void NetServerEx::onGameStart(pc_client_t *client, const char *event, void *data)
+{
+    Event *e = new Event(EventTypeGameStart);
+    EventManager::sharedEventManager()->addEvent(e);
+    CCLog("onGameStart~~~~~");
+}
+
+void NetServerEx::onGameStop(pc_client_t *client, const char *event, void *data)
+{
+    CCLog("onGameStop~~~~~");
+}
+
+void NetServerEx::onExit(pc_client_t *client, const char *event, void *data)
+{
+    CCLog("onExit~~~~~");
+}
+

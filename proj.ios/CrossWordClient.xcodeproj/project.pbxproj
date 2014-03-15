@@ -37,6 +37,7 @@
 		01D1306C18BB5F1000BCCE03 /* SingleGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1306918BB5F1000BCCE03 /* SingleGameController.cpp */; };
 		01D1306F18BB920600BCCE03 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1306D18BB920600BCCE03 /* SceneManager.cpp */; };
 		01D1307218BB924700BCCE03 /* LoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1307018BB924700BCCE03 /* LoadingLayer.cpp */; };
+		01DFA0C218D1FB23003C9FEE /* WaitingRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */; };
 		15A3D8FF1682F7D5002FB0C5 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */; };
 		15A3D9001682F7D5002FB0C5 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88D1682F7D5002FB0C5 /* b2CollideCircle.cpp */; };
 		15A3D9011682F7D5002FB0C5 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88E1682F7D5002FB0C5 /* b2CollideEdge.cpp */; };
@@ -347,6 +348,8 @@
 		01D1306E18BB920600BCCE03 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
 		01D1307018BB924700BCCE03 /* LoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadingLayer.cpp; sourceTree = "<group>"; };
 		01D1307118BB924700BCCE03 /* LoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingLayer.h; sourceTree = "<group>"; };
+		01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitingRoom.cpp; sourceTree = "<group>"; };
+		01DFA0C118D1FB23003C9FEE /* WaitingRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingRoom.h; sourceTree = "<group>"; };
 		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
@@ -903,6 +906,8 @@
 				01C0746818C60612002DBF91 /* Login.h */,
 				01BCF49518C9D740006336CD /* CompetitiveRoom.cpp */,
 				01BCF49618C9D740006336CD /* CompetitiveRoom.h */,
+				01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */,
+				01DFA0C118D1FB23003C9FEE /* WaitingRoom.h */,
 			);
 			name = Scenes;
 			path = ../Classes/Scenes;
@@ -2291,6 +2296,7 @@
 				01C0798118C626E0002DBF91 /* Reachability.m in Sources */,
 				01C2720618C7E8870050FD6D /* NetServerEx.cpp in Sources */,
 				01BCF49718C9D740006336CD /* CompetitiveRoom.cpp in Sources */,
+				01DFA0C218D1FB23003C9FEE /* WaitingRoom.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

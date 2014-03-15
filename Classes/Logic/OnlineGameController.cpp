@@ -94,6 +94,23 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeSitDown:
+        {
+            SceneManager::sharedSceneManager()->changeScene(SceneTypeWaitingRoom);
+            break;
+        }
+            
+        case EventTypeGameStart:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case 199:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
             
         default:
             break;
@@ -154,6 +171,32 @@ void OnlineGameController::onEventSucceeded(Event* event)
             break;
         }
             
+        case EventTypeSitDown:
+        {
+            SitDownEvent *sde = (SitDownEvent*)event;
+            int type = sde->getType();
+            int level = sde->getLevel();
+            
+            NetServerEx::sharedNetServerEx()->sitDownOrUp(0, type, level);
+            break;
+        }
+            
+        case EventTypeGameStart:
+        {
+//            SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+            
+            Event *e = new Event(199);
+            EventManager::sharedEventManager()->addEvent(e);
+            CCLog("have fun boy!~~~~~~~~~~");
+            break;
+        }
+            
+        case 199:
+        {
+            SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+            CCLog("199~~~~~~~~~~");
+            break;
+        }
     }
     
 }
