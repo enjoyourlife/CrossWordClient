@@ -107,9 +107,12 @@ private:
     void onLogin(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onRegister(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onClose(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    void initEditBox();
     
-    cocos2d::CCLabelTTF* m_username;
-    cocos2d::CCLabelTTF* m_password;
+    cocos2d::extension::CCEditBox *m_username;
+    cocos2d::extension::CCEditBox *m_password;
+//    cocos2d::CCLabelTTF* m_username;
+//    cocos2d::CCLabelTTF* m_password;
     //登录的方式 0-点击大厅的登录 1-竞技场 2-合作场
     int m_loginType;
 };

@@ -23,8 +23,7 @@ Login::Login()
 
 Login::~ Login()
 {
-    CC_SAFE_RELEASE_NULL(m_username);
-    CC_SAFE_RELEASE_NULL(m_password);
+
 }
 
 Login* Login::create()
@@ -57,7 +56,8 @@ bool Login::init()
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
-    m_username->setString("user2");
+    initEditBox();
+//    m_username->setString("user2");
     
     return true;
 }
@@ -101,8 +101,8 @@ SEL_CCControlHandler Login::onResolveCCBCCControlSelector(CCObject * pTarget, co
 
 bool Login::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "username", CCLabelTTF*, m_username);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "password", CCLabelTTF*, m_password);
+//    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "username", CCLabelTTF*, m_username);
+//    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "password", CCLabelTTF*, m_password);
     return false;
 }
 
@@ -134,12 +134,12 @@ void Login::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 
 void Login::onLogin(CCObject* pObject, CCControlEvent event)
 {
-    const char* username = m_username->getString();
-    const char* password = m_password->getString();
+    const char* username = m_username->getText();
+    const char* password = m_password->getText();
     
     LoginEvent *loginEvent = new LoginEvent(m_loginType, username, password);
     EventManager::sharedEventManager()->addEvent(loginEvent);
-    CCLog("onLogin~~~~~~~");
+    CCLog("onLogin~~~~~~~ %s and %s", username, password);
 }
 
 void Login::onRegister(CCObject* pObject, CCControlEvent event)
@@ -155,4 +155,35 @@ void Login::onClose(CCObject* pObject, CCControlEvent event)
 void Login::setLoginType(int loginType)
 {
     m_loginType = loginType;
+}
+
+void Login::initEditBox()
+{
+    CCSize size = this->getContentSize();
+    float bgWidth = size.width;
+    float bgHeight = size.height;
+    
+    CCSpriteFrame *spriteFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("yellow_btn_select.png");
+    CCScale9Sprite *sprite = CCScale9Sprite::createWithSpriteFrame(spriteFrame);
+    m_username = CCEditBox::create(CCSizeMake(164, 52), sprite);//(164, 52)是yellow_btn_select.png的宽高
+    m_username->setAnchorPoint(ccp(0.5f, 0.5f));
+    m_username->setPosition(ccp(bgWidth * 0.25f, bgHeight * 0.8f));
+    m_username->setText("");
+    m_username->setMaxLength(20); //这个在PC上没有作用的。
+    m_username->setOpacity(200);
+    m_username->setFontSize(10);
+    m_username->setInputMode(kEditBoxInputModeAny);
+    this->addChild(m_username);
+    
+    CCScale9Sprite *spritePassword = CCScale9Sprite::createWithSpriteFrame(spriteFrame);
+    m_password = CCEditBox::create(CCSizeMake(164, 52), spritePassword);//(164, 52)是yellow_btn_select.png的宽高
+    m_password->setAnchorPoint(ccp(0.5f, 0.5f));
+    m_password->setPosition(ccp(bgWidth * 0.75f, bgHeight * 0.8f));
+    m_password->setText("");
+    m_password->setMaxLength(20); //这个在PC上没有作用的。
+    m_password->setOpacity(200);
+    m_password->setFontSize(10);
+    m_password->setInputFlag(kEditBoxInputFlagPassword);
+    this->addChild(m_password);
+    
 }
