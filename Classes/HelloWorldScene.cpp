@@ -156,7 +156,7 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     
 //    NetServerEx::sharedNetServerEx()->login("user1", "pwd");
 
-    SceneManager::sharedSceneManager()->changeScene(SceneTypeCompetitiveRoom);
+    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
 }
 
 void HelloWorld::onToast(CCObject* obj)

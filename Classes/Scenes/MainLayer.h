@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "../CommonUI/CGControlButton.h"
 
 
 class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
@@ -105,9 +106,90 @@ private:
     
 private:
     
+    void initGridButtons();
+    //格子点击回调
+    void onGridClicked(CCObject* obj);
+    //初始化gridLayer的x y移动范围限制
+    void initXYRange();
+    //初始化可以移动的方向
+    void initMoveDirection();
+    //点是否在可移动区域内
+    bool isInMoveArea(cocos2d::CCPoint point);
+    //gridLayer匀速移动
+    void layerXMoveInUniformSpeed(float moveV);
+    void layerYMoveInUniformSpeed(float moveV);
+    //把grid的rect转换为this坐标下的rect
+    cocos2d::CCRect changeGridToThisCoordRect(int index);
+    /*
+     是否点击到一个grid 没有的话返回-1
+     beginTouch和endTouch在同一个grid的rect内算是点击了该grid
+     */
+    int touchGrid(cocos2d::CCPoint beginTouch, cocos2d::CCPoint endTouch);
+    
     void onStart(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
-    cocos2d::CCSprite* m_myCard;
+    
+private:
+    //this的CCSize
+    cocos2d::CCSize m_size;
+    //缩放比例
+    float m_ccbScale;
+    //行列
+    int m_line;
+    int m_col;
+    
+    cocos2d::CCLayerColor *m_topLayer;
+    cocos2d::CCLayerColor *m_bottomLayer;
+    cocos2d::CCLayerColor *m_letterGroove;
+    cocos2d::CCLayerColor *m_letterLayer;
+    cocos2d::CCLayerColor *m_numberGroove;
+    cocos2d::CCLayerColor *m_numberLayer;
+    cocos2d::CCLayerColor *m_gridGroove;
+    cocos2d::CCLayerColor *m_gridLayer;
+    
+    //格子精灵
+//    std::vector<CGControlButton*> m_gridButtons;
+    std::vector<cocos2d::CCSprite*> m_gridButtons;
+
+    //精灵宽高
+    float m_btnWidth;
+    float m_btnHeight;
+    
+    //是否可以水平 垂直移动
+    bool m_horizontal;
+    bool m_vertical;
+    
+    //gridLayer的x y移动范围限制
+    float m_xMinRange;
+    float m_xMaxRange;
+    float m_yMinRange;
+    float m_yMaxRange;
+    //letterLayer的x 移动范围限制
+    float m_letterXMinRange;
+    float m_letterXMaxRange;
+    
+    //numberLayer的y移动范围限制
+    float m_numberYMinRange;
+    float m_numberYMaxRange;
+    
+    /*!
+     * @brief	场景层的移动速度
+     */
+    float m_moveV;
+    /*!
+     * @brief	触摸屏幕的实时点。
+     */
+    cocos2d::CCPoint m_location;
+    //超过这个距离才能移动 防止误操作
+    float m_ignoreDis;
+    //点击的起始点 和 抬起点 如果这两个点在同一个格子精灵之间 将视为点击了该格子精灵
+    cocos2d::CCPoint m_beginTouch;
+    cocos2d::CCPoint m_endTouch;
+    
+    
+    //字母数组
+    char m_letters[15];
+    
 };
 
 #endif /* defined(__CrossWordClient__MainLayer__) */

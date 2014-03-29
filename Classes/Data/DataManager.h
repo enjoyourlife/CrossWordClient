@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "../Events/EventManager.h"
 #include "../Events/EventObserver.h"
+#include "Grid.h"
 
 class DataManager : public cocos2d::CCObject, public EventObserver
 {
@@ -50,12 +51,21 @@ public:
     
     bool getIsLogin();
     void setIsLogin(bool isLogin);
+    
+    std::vector<Grid*> getGrids();
+    void initGrids(int line, int col);
+    
+private:
+    void clearGrids();
+    
 private:
     GameType m_gameType;
     //单机子关 0-easy 1-normal 2-hard
     int m_singleSubLevel;
     //是否已经登录
     bool m_isLogin;
+    //所有方框数据
+    std::vector<Grid*> m_grids;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */

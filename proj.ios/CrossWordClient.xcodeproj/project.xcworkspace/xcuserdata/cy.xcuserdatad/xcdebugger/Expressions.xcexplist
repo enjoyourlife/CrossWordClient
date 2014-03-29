@@ -10,5 +10,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "MainLayer::layerMoveInUniformSpeed(float):MainLayer.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "m_horizontal">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

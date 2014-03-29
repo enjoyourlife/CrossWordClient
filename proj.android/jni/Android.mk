@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Network/NetServerEx.cpp \
                    ../../Classes/Data/DataManager.cpp \
                    ../../Classes/Data/SaveDataManager.cpp \
+                   ../../Classes/Data/Grid.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
                    ../../Classes/Scenes/Hall.cpp \

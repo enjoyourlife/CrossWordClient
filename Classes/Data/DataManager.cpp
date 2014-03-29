@@ -90,3 +90,31 @@ void DataManager::setIsLogin(bool isLogin)
 {
     m_isLogin = isLogin;
 }
+
+vector<Grid*> DataManager::getGrids()
+{
+    return m_grids;
+}
+
+void DataManager::initGrids(int line, int col)
+{
+    clearGrids();
+    
+    int i = 0;
+    int num = line * col;
+    for (i = 0; i < num; i++)
+    {
+        Grid* grid = new Grid(i, 0);//暂时为0
+        m_grids.push_back(grid);
+    }
+    
+}
+
+void DataManager::clearGrids()
+{
+    for (vector<Grid*>::iterator it = m_grids.begin(); it != m_grids.end(); ++it)
+    {
+        delete *it;
+    }
+    m_grids.clear();
+}

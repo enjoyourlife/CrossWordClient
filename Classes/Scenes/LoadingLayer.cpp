@@ -97,7 +97,7 @@ void LoadingLayer::update(float time)
     }
     else if (count == 1)
     {
-        //		CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("dragonrun1.plist");
+        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Images/grid.plist");
     }
     /*
      else if (count == 2)
@@ -242,8 +242,8 @@ void LoadingLayer::update(float time)
      }*/
     else if (count == 50)
 	{
-        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
-//        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
+//        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
+        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
 	}
     
     count++;
