@@ -9,7 +9,9 @@
 #include "MainLayer.h"
 #include "../CommonUI/CGCCBReader.h"
 #include "../Data/Grid.h"
+#include "../Data/Words.h"
 #include "../Data/DataManager.h"
+#include "../Common/Utilities.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -54,6 +56,11 @@ MainLayer::MainLayer()
     m_letters[12] = 'M';
     m_letters[13] = 'N';
     m_letters[14] = 'O';
+    m_letters[15] = 'P';
+    m_letters[16] = 'Q';
+    m_letters[17] = 'R';
+    m_letters[18] = 'S';
+    m_letters[19] = 'T';
 }
 
 MainLayer::~ MainLayer()
@@ -112,13 +119,18 @@ bool MainLayer::init()
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
+    m_mainBorderLayer = MainBorderLayer::create();
+    this->addChild(m_mainBorderLayer);
+    
+    
     m_size = this->getContentSize();
     m_ignoreDis = CCDirector::sharedDirector()->getWinSize().width * 0.005f;
     
-    m_line = 15;
-    m_col = 15;
     
-    DataManager::sharedDataManager()->initGrids(m_line, m_col);
+    m_line = DataManager::sharedDataManager()->getLine();
+    m_col = DataManager::sharedDataManager()->getCol();
+    
+    
     
     
     initGridButtons();
@@ -322,13 +334,16 @@ void MainLayer::initGridButtons()
     float beginPosX = 0.0f;
     float beginPosY = m_gridLayer->getPosition().y;
     
+    vector<Words*> wordsVec = DataManager::sharedDataManager()->getWords();
     vector<Grid*> grids = DataManager::sharedDataManager()->getGrids();
     for (vector<Grid*>::iterator it = grids.begin(); it != grids.end(); ++it)
     {
         Grid *grid = *it;
+    
         int type = grid->getType();
+        int type2 = grid->getType2();
         CCSpriteFrame* gridFrame = NULL;
-        if (type == 0)
+        if (type == -1 && type2 == -1)
         {
             gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("block.png");
         }
@@ -360,6 +375,31 @@ void MainLayer::initGridButtons()
         label->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
         label->setColor(ccYELLOW);
         button->addChild(label);
+        
+        
+        string word = "";
+        int phraseIndex = grid->getPhraseIndex();//第几个成语
+        int wordIndex = grid->getWordIndex();//第几个字
+        int phrase2Index = grid->getPhrase2Index();
+        int word2Index = grid->getWord2Index();
+        if (phraseIndex != -1)
+        {
+            Words *words = wordsVec.at(phraseIndex);
+            vector<string> vTemp = Utilities::splitString(words->getName(), "*");
+            word = vTemp.at(wordIndex);
+            vTemp.clear();
+        }
+        else if (phrase2Index != -1)
+        {
+            Words *words = wordsVec.at(phrase2Index);
+            vector<string> vTemp = Utilities::splitString(words->getName(), "*");
+            word = vTemp.at(word2Index);
+            vTemp.clear();
+        }
+        CCLabelTTF *wordLabel = CCLabelTTF::create(word.c_str(), "Cochin", 36);
+        wordLabel->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
+        wordLabel->setColor(ccBLUE);
+        button->addChild(wordLabel);
         
         
         m_gridButtons.push_back(button);

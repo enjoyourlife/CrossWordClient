@@ -1,31 +1,31 @@
 //
-//  WaitingRoom.h
+//  MainBorderLayer.h
 //  CrossWordClient
 //
-//  Created by cy on 14-3-13.
+//  Created by cy on 14-4-12.
 //
 //
 
-#ifndef __CrossWordClient__WaitingRoom__
-#define __CrossWordClient__WaitingRoom__
+#ifndef __CrossWordClient__MainBorderLayer__
+#define __CrossWordClient__MainBorderLayer__
 
 #include <iostream>
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
 
-class WaitingRoom : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
+class MainBorderLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
 {
 public:
-    WaitingRoom();
-    ~ WaitingRoom();
+    MainBorderLayer();
+    ~ MainBorderLayer();
     
     static cocos2d::CCScene* scene();
     
     /*!
-     * @brief	创建一个WaitingRoom实例。
+     * @brief	创建一个MainBorderLayer实例。
      */
-    static WaitingRoom* create();
+    static MainBorderLayer* create();
     
     /*!
      * @brief		覆盖CCLayer类的init方法。
@@ -103,19 +103,14 @@ private:
      */
     virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);
     
-    /*!
-     * @brief		覆盖CCLayer类的update方法。
-     * @see         CCLayer::update
-     */
-    virtual void update(float dt);
-    
 private:
-    
+    //cgdialog的回调
+    void onOk(CCObject* obj);
     void onBack(CCObject* pObject, cocos2d::extension::CCControlEvent event);
-    //是否已经坐下
-    bool m_sitDowned;
-    float m_time;
-
+    
+    
+    cocos2d::CCLayerColor *m_leftBorder;
+    cocos2d::CCLayerColor *m_rightBorder;
 };
 
-#endif /* defined(__CrossWordClient__WaitingRoom__) */
+#endif /* defined(__CrossWordClient__MainBorderLayer__) */

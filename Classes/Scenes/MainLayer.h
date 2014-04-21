@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "../CommonUI/CGControlButton.h"
+#include "MainBorderLayer.h"
 
 
 class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
@@ -188,7 +189,11 @@ private:
     
     
     //字母数组
-    char m_letters[15];
+    char m_letters[20];
+    
+    
+    //mainBorder
+    MainBorderLayer *m_mainBorderLayer;
     
 };
 

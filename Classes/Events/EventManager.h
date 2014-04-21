@@ -21,9 +21,9 @@
  */
 typedef enum
 {
-    GameTypeSingle,       // 单机
-    GameTypeCompetitive,             // 竞技
-    GameTypeCooperation,              // 合作
+    GameTypeSingle = 0,       // 单机
+    GameTypeCompetitive = 1,             // 竞技
+    GameTypeCooperation = 2,              // 合作
 }
 GameType;
 
@@ -37,7 +37,9 @@ typedef enum
     EventTypeEnterCooperationGame,
     EventTypeEnterSingleSubGame, //进入单机子关
     EventTypeSitDown,//坐下
+    EventTypeSitUp,//站起
     EventTypeGameStart,//游戏开始
+    EventTypeGameStartEx,
     
     
     EventTypeEnterGame,

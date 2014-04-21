@@ -37,8 +37,11 @@
 		01D1306C18BB5F1000BCCE03 /* SingleGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1306918BB5F1000BCCE03 /* SingleGameController.cpp */; };
 		01D1306F18BB920600BCCE03 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1306D18BB920600BCCE03 /* SceneManager.cpp */; };
 		01D1307218BB924700BCCE03 /* LoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D1307018BB924700BCCE03 /* LoadingLayer.cpp */; };
+		01D25B7618F1955D0024C6E3 /* CGDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D25B7418F1955D0024C6E3 /* CGDialog.cpp */; };
 		01D5BF1D18DB23A70037631B /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01D5BF1B18DB23A70037631B /* Grid.cpp */; };
 		01DFA0C218D1FB23003C9FEE /* WaitingRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */; };
+		01DFD8B61904066200D0B5BB /* Words.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFD8B41904066200D0B5BB /* Words.cpp */; };
+		01ED807018F8BDBB003154EC /* MainBorderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01ED806E18F8BDBB003154EC /* MainBorderLayer.cpp */; };
 		15A3D8FF1682F7D5002FB0C5 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */; };
 		15A3D9001682F7D5002FB0C5 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88D1682F7D5002FB0C5 /* b2CollideCircle.cpp */; };
 		15A3D9011682F7D5002FB0C5 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88E1682F7D5002FB0C5 /* b2CollideEdge.cpp */; };
@@ -349,10 +352,16 @@
 		01D1306E18BB920600BCCE03 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
 		01D1307018BB924700BCCE03 /* LoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadingLayer.cpp; sourceTree = "<group>"; };
 		01D1307118BB924700BCCE03 /* LoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingLayer.h; sourceTree = "<group>"; };
+		01D25B7418F1955D0024C6E3 /* CGDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGDialog.cpp; sourceTree = "<group>"; };
+		01D25B7518F1955D0024C6E3 /* CGDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGDialog.h; sourceTree = "<group>"; };
 		01D5BF1B18DB23A70037631B /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		01D5BF1C18DB23A70037631B /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitingRoom.cpp; sourceTree = "<group>"; };
 		01DFA0C118D1FB23003C9FEE /* WaitingRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingRoom.h; sourceTree = "<group>"; };
+		01DFD8B41904066200D0B5BB /* Words.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Words.cpp; sourceTree = "<group>"; };
+		01DFD8B51904066200D0B5BB /* Words.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Words.h; sourceTree = "<group>"; };
+		01ED806E18F8BDBB003154EC /* MainBorderLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainBorderLayer.cpp; sourceTree = "<group>"; };
+		01ED806F18F8BDBB003154EC /* MainBorderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBorderLayer.h; sourceTree = "<group>"; };
 		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
@@ -885,6 +894,8 @@
 				01B10EB818C32F8900649A17 /* CGToast.h */,
 				01BA773F18C57A1100A40B37 /* CGWaiting.cpp */,
 				01BA774018C57A1100A40B37 /* CGWaiting.h */,
+				01D25B7418F1955D0024C6E3 /* CGDialog.cpp */,
+				01D25B7518F1955D0024C6E3 /* CGDialog.h */,
 			);
 			name = CommonUI;
 			path = ../Classes/CommonUI;
@@ -911,6 +922,8 @@
 				01BCF49618C9D740006336CD /* CompetitiveRoom.h */,
 				01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */,
 				01DFA0C118D1FB23003C9FEE /* WaitingRoom.h */,
+				01ED806E18F8BDBB003154EC /* MainBorderLayer.cpp */,
+				01ED806F18F8BDBB003154EC /* MainBorderLayer.h */,
 			);
 			name = Scenes;
 			path = ../Classes/Scenes;
@@ -990,6 +1003,8 @@
 				01C0746B18C60EA3002DBF91 /* SaveDataManager.h */,
 				01D5BF1B18DB23A70037631B /* Grid.cpp */,
 				01D5BF1C18DB23A70037631B /* Grid.h */,
+				01DFD8B41904066200D0B5BB /* Words.cpp */,
+				01DFD8B51904066200D0B5BB /* Words.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -2303,6 +2318,9 @@
 				01BCF49718C9D740006336CD /* CompetitiveRoom.cpp in Sources */,
 				01DFA0C218D1FB23003C9FEE /* WaitingRoom.cpp in Sources */,
 				01D5BF1D18DB23A70037631B /* Grid.cpp in Sources */,
+				01D25B7618F1955D0024C6E3 /* CGDialog.cpp in Sources */,
+				01ED807018F8BDBB003154EC /* MainBorderLayer.cpp in Sources */,
+				01DFD8B61904066200D0B5BB /* Words.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

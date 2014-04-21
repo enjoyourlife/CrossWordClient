@@ -10,6 +10,11 @@
 #include "../Events/EventManager.h"
 #include "../Events/GameEvents.h"
 #include "../Data/DataManager.h"
+#include "../Data/Words.h"
+#include "../Data/Grid.h"
+
+#include "../Common/Utilities.h"
+
 
 
 USING_NS_CC;
@@ -270,7 +275,7 @@ void NetServerEx::requestConnectorCallback(pc_request_t *req, int status, json_t
          free(json_str);//回收char*的方法
          return;
          }*/
-        
+        //json_integer_value才对？
         int result = json_number_value(json_object_get(resp, "result"));
         if (result == 0)
         {
@@ -332,6 +337,11 @@ void NetServerEx::sitDownOrUp(int sit, int type, int level)
     json_decref(typeJson);
     json_decref(levelJson);
     sendMsg(route, msg);
+    /*
+     Cocos2d: sendMsg pomelo_client state is 5
+     Invalid client state to send request: 5
+     还没有考虑断网连接不上的情况 比如说先登录 然后再断网 会出现此种情况
+     */
 }
 
 void NetServerEx::sendMsg(const char *route, json_t *msg)
@@ -360,10 +370,10 @@ void NetServerEx::sendMsgCallback(pc_request_t *req, int status, json_t *resp)
      */
     
     //是否应该销毁掉req和req->msg
+    /**/
     json_t *msg = req->msg;
     json_decref(msg);
     pc_request_destroy(req);
-    
 }
 
 void NetServerEx::onChatCallback(pc_client_t *client, const char *event, void *data)
@@ -387,7 +397,124 @@ void NetServerEx::onGameStart(pc_client_t *client, const char *event, void *data
 {
     Event *e = new Event(EventTypeGameStart);
     EventManager::sharedEventManager()->addEvent(e);
-    CCLog("onGameStart~~~~~");
+    
+    json_t* json = (json_t* )data;
+    json_t* gameDataJson = json_object_get(json, "game");
+    
+    json_t* wJson = json_object_get(gameDataJson, "w");
+    json_t* hJson = json_object_get(gameDataJson, "h");
+    int col = json_integer_value(wJson);
+    int line = json_integer_value(hJson);
+    
+    DataManager::sharedDataManager()->setCol(col);
+    DataManager::sharedDataManager()->setLine(line);
+    
+//    json_decref(wJson);
+//    json_decref(hJson);
+    
+    
+    //parse words
+    vector<Words*> wordsVector;    
+    json_t* wordsJson = json_object_get(gameDataJson, "words");
+    size_t wordsSize = json_array_size(wordsJson);
+    for (int i = 0; i < wordsSize; i++)
+    {
+        json_t *wordJson = json_array_get(wordsJson, i);
+        
+        json_t* idJson = json_object_get(wordJson, "id");
+        int wordId = json_integer_value(idJson);
+        
+        json_t *nameJson = json_object_get(wordJson, "name");
+        const char *nameData = json_string_value(nameJson);
+        
+        json_t *tipsJson = json_object_get(wordJson, "tips");
+        const char *tipsData = json_string_value(tipsJson);
+        
+        Words *words = new Words(wordId, Utilities::URLDecode(nameData), Utilities::URLDecode(tipsData));
+        wordsVector.push_back(words);
+//        json_decref(idJson);  //have wrongs
+//        json_decref(nameJson);
+//        json_decref(tipsJson);
+//        json_decref(wordJson);
+    }
+    DataManager::sharedDataManager()->initWords(wordsVector);
+
+    
+    //parse map_v and map_h
+    vector<Grid*> gridVector;
+    int index = 0;
+    int base = 16 * 16;
+    json_t* mapVJson = json_object_get(gameDataJson, "map_v");
+    size_t mapVSize = json_array_size(mapVJson);
+    
+    json_t* mapHJson = json_object_get(gameDataJson, "map_h");
+    
+    for (int i = 0; i < mapVSize; i++)
+    {
+        json_t *vJson = json_array_get(mapVJson, i);
+        size_t vSize = json_array_size(vJson);
+        
+        json_t *hJson = json_array_get(mapHJson, i);
+        
+        for (int j = 0; j < vSize; j++)
+        {
+            json_t *gridVJson = json_array_get(vJson, j);
+            int vType = json_integer_value(gridVJson);
+            
+            int phraseIndex = -1;//第几个成语
+            int wordIndex = -1;//第几个字
+            if (vType != -1)
+            {
+                phraseIndex = vType / base;
+                wordIndex = vType % base;
+            }
+            
+            
+            json_t *gridHJson = json_array_get(hJson, j);
+            int hType = json_integer_value(gridHJson);
+            int phrase2Index = -1;
+            int word2Index = -1;
+            if (hType != -1)
+            {
+                phrase2Index = hType / base;
+                word2Index = hType % base;
+            }
+            
+            Grid *grid = new Grid(index, vType, hType, phraseIndex, wordIndex, phrase2Index, word2Index);
+            index++;
+            
+            gridVector.push_back(grid);
+        }
+    }
+    
+    DataManager::sharedDataManager()->initGrids(gridVector);
+
+    
+    /*
+    json_t* json = (json_t* )data;
+    json_t* gameDataJson = json_object_get(json, "game");
+    json_t* wordsJson = json_object_get(gameDataJson, "words");
+    
+    size_t wordsSize = json_array_size(wordsJson);
+    for (int i = 0; i < wordsSize; i++)
+    {
+        json_t *wordJson = json_array_get(wordsJson, i);
+        const char *wordData = json_dumps(wordJson, 0);
+        CCLOG("i %d : word: %s \n", i, wordData);
+        
+        json_t *nameJson = json_object_get(wordJson, "name");
+        const char *nameData = json_string_value(nameJson);
+        CCLOG("nameData: %s \n", nameData);
+        
+        CCLog("utf8 is %s", Utilities::URLDecode(nameData).c_str());
+        
+    }
+    
+    
+    //由于game数据是一个json 而不是一个string 所以通过json_dumps取出来 而不是通过json_string_value
+    const char *gameData = json_dumps(gameDataJson, 0);
+    const char *wordsData = json_dumps(wordsJson, 0);
+    */
 }
 
 void NetServerEx::onGameStop(pc_client_t *client, const char *event, void *data)
@@ -399,4 +526,3 @@ void NetServerEx::onExit(pc_client_t *client, const char *event, void *data)
 {
     CCLog("onExit~~~~~");
 }
-

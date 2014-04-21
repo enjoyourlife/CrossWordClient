@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Data/DataManager.cpp \
                    ../../Classes/Data/SaveDataManager.cpp \
                    ../../Classes/Data/Grid.cpp \
+                   ../../Classes/Data/Words.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
                    ../../Classes/Scenes/Hall.cpp \
@@ -25,11 +26,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Scenes/Login.cpp \
                    ../../Classes/Scenes/CompetitiveRoom.cpp \
                    ../../Classes/Scenes/WaitingRoom.cpp \
+                   ../../Classes/Scenes/MainBorderLayer.cpp \
                    ../../Classes/Scenes/SceneManager.cpp \
                    ../../Classes/CommonUI/CGCCBReader.cpp \
                    ../../Classes/CommonUI/CGControlButton.cpp \
                    ../../Classes/CommonUI/CGToast.cpp \
                    ../../Classes/CommonUI/CGWaiting.cpp \
+                   ../../Classes/CommonUI/CGDialog.cpp \
                    ../../Classes/Logic/OnlineGameController.cpp \
                    ../../Classes/Logic/SingleGameController.cpp \
                    ../../Classes/Events/EventManager.cpp \

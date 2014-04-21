@@ -50,13 +50,15 @@ void OnlineGameController::startEvent(Event *event)
     {
         case EventTypeLogin:
         {
-            LoginEvent *loginEvent = (LoginEvent*)event;
-            NetServerEx::sharedNetServerEx()->login(loginEvent->getUsername(), loginEvent->getPassword());
-            
             //显示等待框 然后在成功或者失败的时候消去 失败消去的时候需要给提示
-            //目前此框出现和消失太快 后期改进或者直接去掉
+            //目前此框出现和消失太快 后期改进或者直接去掉  没有网络的时候有问题
             m_waiting = CGWaiting::create();
             CCDirector::sharedDirector()->getRunningScene()->addChild(m_waiting);
+            
+            
+            LoginEvent *loginEvent = (LoginEvent*)event;
+            NetServerEx::sharedNetServerEx()->login(loginEvent->getUsername(), loginEvent->getPassword());
+        
             break;
         }
             
@@ -100,13 +102,19 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeSitUp:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
         case EventTypeGameStart:
         {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
             
-        case 199:
+        case EventTypeGameStartEx:
         {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
@@ -181,20 +189,27 @@ void OnlineGameController::onEventSucceeded(Event* event)
             break;
         }
             
+        case EventTypeSitUp:
+        {
+            SitUpEvent *sue = (SitUpEvent*)event;
+            int type = sue->getType();
+            int level = sue->getLevel();
+            
+            NetServerEx::sharedNetServerEx()->sitDownOrUp(1, type, level);
+            break;
+        }
+            
         case EventTypeGameStart:
         {
-//            SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
-            
-            Event *e = new Event(199);
+            Event *e = new Event(EventTypeGameStartEx);
             EventManager::sharedEventManager()->addEvent(e);
             CCLog("have fun boy!~~~~~~~~~~");
             break;
         }
             
-        case 199:
+        case EventTypeGameStartEx:
         {
             SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
-            CCLog("199~~~~~~~~~~");
             break;
         }
     }

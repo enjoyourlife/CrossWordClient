@@ -58,3 +58,100 @@ CCAnimate* Utilities::createAnimate(const char* fileName, int frameCount, float 
     CCAnimation* animation = CCAnimation::createWithSpriteFrames(frameArray, delay);
     return CCAnimate::create(animation);
 }
+
+unsigned char Utilities::toHex(const unsigned char &x)
+{
+    return x > 9 ? x -10 + 'A': x + '0';
+}
+
+unsigned char Utilities::fromHex(const unsigned char &x)
+{
+    return isdigit(x) ? x-'0' : x-'A'+10;
+}
+
+string Utilities::URLEncode(const char *sIn)
+{
+    string sOut;
+    for( size_t ix = 0; ix < strlen(sIn); ix++ )
+    {
+        unsigned char buf[4];
+        memset( buf, 0, 4 );
+        if( isalnum( (unsigned char)sIn[ix] ) )
+        {
+            buf[0] = sIn[ix];
+        }
+        else
+        {
+            buf[0] = '%';
+            buf[1] = toHex( (unsigned char)sIn[ix] >> 4 );
+            buf[2] = toHex( (unsigned char)sIn[ix] % 16);
+        }
+        sOut += (char *)buf;
+    }
+    return sOut;
+};
+
+string Utilities::URLDecode(const char *sIn)
+{
+    string sOut;
+    for( size_t ix = 0; ix < strlen(sIn); ix++ )
+    {
+        unsigned char ch = 0;
+        if(sIn[ix]=='%')
+        {
+            ch = (fromHex(sIn[ix+1])<<4);
+            ch |= fromHex(sIn[ix+2]);
+            ix += 2;
+        }
+        else if(sIn[ix] == '+')
+        {
+            ch = ' ';
+        }
+        else
+        {
+            ch = sIn[ix];
+        }
+        sOut += (char)ch;
+    }
+    
+    return sOut;
+    
+}
+
+vector<string> Utilities::splitString(const string& str, const string& delimiter)
+{
+    string::size_type pos;
+    vector<string> result;
+    
+    if (str.find(delimiter) == string::npos)//整个语句没有包含delimiter
+    {
+        result.push_back(str);
+        return result;
+    }
+    
+    int size = str.size();
+    int lastIndex = 0;
+    
+    for(int i = 0; i < size; i++)
+    {
+        pos = str.find(delimiter, i);
+        if(pos < size)
+        {
+            string s = str.substr(i,pos-i);
+            if (s.size() > 0)
+            {
+                result.push_back(s);
+            }
+            i = pos + delimiter.size() - 1;
+            lastIndex = i;
+        }
+    }
+    
+    if (lastIndex + 1 < size)
+    {
+        string s=str.substr(lastIndex + 1);
+        result.push_back(s);
+    }
+    
+    return result;
+}

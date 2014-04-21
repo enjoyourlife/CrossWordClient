@@ -7,6 +7,7 @@
 #include "Scenes/Login.h"
 #include "Platform/System.h"
 #include "Network/NetServerEx.h"
+#include "CommonUI/CGDialog.h"
 
 USING_NS_CC;
 
@@ -156,7 +157,10 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     
 //    NetServerEx::sharedNetServerEx()->login("user1", "pwd");
 
-    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+    
+//    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+    
+    CGDialog::show(GameOKCancelButtonType, "waiting_txt", this, menu_selector(HelloWorld::onToast), menu_selector(HelloWorld::onToast));
 }
 
 void HelloWorld::onToast(CCObject* obj)

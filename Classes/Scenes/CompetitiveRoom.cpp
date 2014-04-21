@@ -12,6 +12,7 @@
 #include "../Events/EventManager.h"
 #include "../Events/GameEvents.h"
 #include "../Common/Localize.h"
+#include "../Data/DataManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -152,18 +153,33 @@ void CompetitiveRoom::onBack(CCObject* pObject, CCControlEvent event)
 
 void CompetitiveRoom::onEasy(CCObject* pObject, CCControlEvent event)
 {
-    SitDownEvent *sde = new SitDownEvent(0, 0);
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    
+    int level = 0;
+    DataManager::sharedDataManager()->setLevel(level);
+    
+    SitDownEvent *sde = new SitDownEvent(gameType, level);//1-竞技
     EventManager::sharedEventManager()->addEvent(sde);    
 }
 
 void CompetitiveRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
-    SitDownEvent *sde = new SitDownEvent(0, 1);
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    
+    int level = 1;
+    DataManager::sharedDataManager()->setLevel(level);
+    
+    SitDownEvent *sde = new SitDownEvent(gameType, level);
     EventManager::sharedEventManager()->addEvent(sde);
 }
 
 void CompetitiveRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
-    SitDownEvent *sde = new SitDownEvent(0, 2);
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    
+    int level = 2;
+    DataManager::sharedDataManager()->setLevel(level);
+    
+    SitDownEvent *sde = new SitDownEvent(gameType, level);
     EventManager::sharedEventManager()->addEvent(sde);
 }

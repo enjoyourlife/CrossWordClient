@@ -1,38 +1,35 @@
 //
-//  WaitingRoom.h
+//  CGDialog.h
 //  CrossWordClient
 //
-//  Created by cy on 14-3-13.
+//  Created by cy on 14-4-6.
 //
 //
 
-#ifndef __CrossWordClient__WaitingRoom__
-#define __CrossWordClient__WaitingRoom__
+#ifndef __CrossWordClient__CGDialog__
+#define __CrossWordClient__CGDialog__
 
 #include <iostream>
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
+typedef enum
+{
+	GameOKButtonType,
+	GameOKCancelButtonType
+} GameDialogType;
 
-class WaitingRoom : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
+class  CGDialog : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
 {
 public:
-    WaitingRoom();
-    ~ WaitingRoom();
+    virtual ~CGDialog(void);
+    CGDialog(void);
     
-    static cocos2d::CCScene* scene();
+    static CGDialog* create();
     
-    /*!
-     * @brief	创建一个WaitingRoom实例。
-     */
-    static WaitingRoom* create();
+    static void show(GameDialogType type = GameOKButtonType, const char *textId = "dialog_txt", CCObject* target = NULL, cocos2d::SEL_MenuHandler okAction = NULL, cocos2d::SEL_MenuHandler cancelAction = NULL);
     
-    /*!
-     * @brief		覆盖CCLayer类的init方法。
-     * @see         CCLayer::init
-     */
-    virtual bool init();
-    
+	virtual bool init();
     /*!
      * @brief		覆盖CCLayer类的onEnter方法。
      * @see         cocos2d::CCLayer::onEnter
@@ -56,8 +53,6 @@ public:
      * @see         cocos2d::CCLayer::keyMenuClicked
      */
 	virtual void keyMenuClicked();
-    
-private:
     
     virtual void registerWithTouchDispatcher(void);
     
@@ -103,19 +98,24 @@ private:
      */
     virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);
     
-    /*!
-     * @brief		覆盖CCLayer类的update方法。
-     * @see         CCLayer::update
-     */
-    virtual void update(float dt);
-    
 private:
+	cocos2d::SEL_MenuHandler m_okAction;
+    cocos2d::SEL_MenuHandler m_cancelAction;
+	CCObject* m_target;
     
-    void onBack(CCObject* pObject, cocos2d::extension::CCControlEvent event);
-    //是否已经坐下
-    bool m_sitDowned;
-    float m_time;
-
+    
+    cocos2d::CCLabelTTF *m_text;
+    cocos2d::CCLayer *m_ok_cancel_bg;
+    cocos2d::CCLayer *m_ok_bg;
+    
+    
+    void onOk(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    void onCancel(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    
+    //设置dialog显示的话
+    void setText(const char* text);
+	void addTarget(CCObject* target = NULL, cocos2d::SEL_MenuHandler okAction = NULL, cocos2d::SEL_MenuHandler cancelAction = NULL);
+    void setCGDialogByType(GameDialogType type = GameOKButtonType);
 };
 
-#endif /* defined(__CrossWordClient__WaitingRoom__) */
+#endif /* defined(__CrossWordClient__CGDialog__) */

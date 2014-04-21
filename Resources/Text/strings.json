@@ -6,5 +6,6 @@
     "toast_txt4" : "亲，欢迎进入合作场！",
     "toast_txt5" : "登录失败，请稍候再试！",
     "toast_txt6" : "亲，进入合作模式需要先登录哦！",
-    "waiting_txt" : "请稍候，正在登录。"
+    "waiting_txt" : "请稍候，正在登录。",
+    "dialog_txt" : "您确定要退出吗？"
 }

@@ -65,7 +65,6 @@ private:
     static void onGameStart(pc_client_t *client, const char *event, void *data);
     static void onGameStop(pc_client_t *client, const char *event, void *data);
     static void onExit(pc_client_t *client, const char *event, void *data);
-    
 private:
     //作为成员变量 便于超时的时候销毁
     pc_client_t* m_gate_client;

@@ -303,8 +303,14 @@ const char* EventManager::getEventName(int type) const
         case EventTypeSitDown:
             return "EventTypeSitDown";
             
+        case EventTypeSitUp:
+            return "EventTypeSitUp";
+            
         case EventTypeGameStart:
             return "EventTypeGameStart";
+            
+        case EventTypeGameStartEx:
+            return "EventTypeGameStartEx";
             
         default:
             return "UnknownEvent";

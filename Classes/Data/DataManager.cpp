@@ -28,6 +28,8 @@ void DataManager::init()
 {
     m_singleSubLevel = 0;
     m_isLogin = false;
+    m_line = 0;
+    m_col = 0;
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -71,6 +73,16 @@ void DataManager::setGameType(GameType gameType)
     m_gameType = gameType;
 }
 
+int DataManager::getLevel()
+{
+    return m_level;
+}
+
+void DataManager::setLevel(int level)
+{
+    m_level = level;
+}
+
 int DataManager::getSingleSubLevel()
 {
     return m_singleSubLevel;
@@ -96,16 +108,18 @@ vector<Grid*> DataManager::getGrids()
     return m_grids;
 }
 
-void DataManager::initGrids(int line, int col)
+
+void DataManager::initGrids(vector<Grid*>& gridVector)
 {
     clearGrids();
+    m_grids = gridVector;
     
-    int i = 0;
-    int num = line * col;
-    for (i = 0; i < num; i++)
+    
+    
+    for (vector<Grid*>::iterator it = m_grids.begin(); it != m_grids.end(); ++it)
     {
-        Grid* grid = new Grid(i, 0);//暂时为0
-        m_grids.push_back(grid);
+        Grid *grid = *it;
+        CCLog("id %d %d  %d %d %d %d %d", grid->getIndex(), grid->getType(), grid->getType2(), grid->getPhraseIndex(), grid->getWordIndex(), grid->getPhrase2Index(), grid->getWord2Index());
     }
     
 }
@@ -117,4 +131,45 @@ void DataManager::clearGrids()
         delete *it;
     }
     m_grids.clear();
+}
+
+
+vector<Words*> DataManager::getWords()
+{
+    return m_words;
+}
+
+void DataManager::initWords(vector<Words*>& words)
+{
+    clearWords();
+    m_words = words;
+}
+
+void DataManager::clearWords()
+{
+    for (vector<Words*>::iterator it = m_words.begin(); it != m_words.end(); ++it)
+    {
+        delete *it;
+    }
+    m_words.clear();
+}
+
+int DataManager::getLine()
+{
+    return m_line;
+}
+
+int DataManager::getCol()
+{
+    return m_col;
+}
+
+void DataManager::setLine(int line)
+{
+    m_line = line;
+}
+
+void DataManager::setCol(int col)
+{
+    m_col = col;
 }
