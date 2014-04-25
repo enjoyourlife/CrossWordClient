@@ -13,10 +13,12 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "../CommonUI/CGControlButton.h"
+#include "../Events/EventManager.h"
+#include "../Events/EventObserver.h"
 #include "MainBorderLayer.h"
 
 
-class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
+class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner, public EventObserver
 {
 public:
     MainLayer();
@@ -105,6 +107,19 @@ private:
      */
     virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);
     
+public:
+    /*!
+     * @brief		队列事件成功时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventSucceeded(Event* event);
+    
+    /*!
+     * @brief		队列事件失败时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventFailed(Event* event);
+    
 private:
     
     void initGridButtons();
@@ -126,6 +141,16 @@ private:
      beginTouch和endTouch在同一个grid的rect内算是点击了该grid
      */
     int touchGrid(cocos2d::CCPoint beginTouch, cocos2d::CCPoint endTouch);
+    
+    
+    //初始化TipsBg
+    void initTipsBg();
+    //显示对应的解析
+    void showTips(bool isShow, int phraseIndex = -1, int phrase2Index = -1);
+    
+    void initTouchGridActionSprite();
+    //显示触摸动画
+    void showTouchAction(Event *event);
     
     void onStart(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
@@ -191,6 +216,19 @@ private:
     //字母数组
     char m_letters[20];
     
+    
+    
+    //这里是m_topLayer层相关的变量
+    cocos2d::CCLayer *m_tipsBg;
+    cocos2d::CCLayer *m_tip1Bg;
+    cocos2d::CCLabelTTF *m_tip1;
+    cocos2d::CCLayer *m_tip2Bg;
+    cocos2d::CCLabelTTF *m_tip2;
+    
+    
+    //这里是播放 touch grid 动画需要的精灵  和  对应播放对应横竖成语背景动画需要的精灵
+    cocos2d::CCSprite *m_touchGridActionSprite;
+    std::vector<cocos2d::CCSprite*> m_wordsActionSpriteV;
     
     //mainBorder
     MainBorderLayer *m_mainBorderLayer;

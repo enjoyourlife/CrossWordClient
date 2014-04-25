@@ -12,6 +12,8 @@
 #include "../Data/Words.h"
 #include "../Data/DataManager.h"
 #include "../Common/Utilities.h"
+#include "../Events/GameEvents.h"
+#include "../Events/EventManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -61,6 +63,15 @@ MainLayer::MainLayer()
     m_letters[17] = 'R';
     m_letters[18] = 'S';
     m_letters[19] = 'T';
+    
+    
+    m_tipsBg = NULL;
+    m_tip1Bg = NULL;
+    m_tip1 = NULL;
+    m_tip2Bg = NULL;
+    m_tip2 = NULL;
+    
+    m_touchGridActionSprite = NULL;
 }
 
 MainLayer::~ MainLayer()
@@ -74,7 +85,11 @@ MainLayer::~ MainLayer()
     CC_SAFE_RELEASE_NULL(m_gridGroove);
     CC_SAFE_RELEASE_NULL(m_gridLayer);
     
-    
+    CC_SAFE_RELEASE_NULL(m_tipsBg);
+    CC_SAFE_RELEASE_NULL(m_tip1Bg);
+    CC_SAFE_RELEASE_NULL(m_tip1);
+    CC_SAFE_RELEASE_NULL(m_tip2Bg);
+    CC_SAFE_RELEASE_NULL(m_tip2);
 }
 
 CCScene* MainLayer::scene()
@@ -137,6 +152,10 @@ bool MainLayer::init()
     initMoveDirection();
     initXYRange();
     
+    initTipsBg();
+    
+    initTouchGridActionSprite();
+    
     return true;
 }
 
@@ -153,11 +172,12 @@ void MainLayer::keyMenuClicked()
 void MainLayer::onEnter()
 {
     CCLayer::onEnter();
-    
+    EventManager::sharedEventManager()->addObserver(this);
 }
 
 void MainLayer::onExit()
 {
+    EventManager::sharedEventManager()->removeObserver(this);
     CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
     CCLayer::onExit();
 }
@@ -185,6 +205,13 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_numberLayer", CCLayerColor*, m_numberLayer);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridGroove", CCLayerColor*, m_gridGroove);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridLayer", CCLayerColor*, m_gridLayer);
+    
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tipsBg", CCLayer*, m_tipsBg);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip1Bg", CCLayer*, m_tip1Bg);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip1", CCLabelTTF*, m_tip1);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2Bg", CCLayer*, m_tip2Bg);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2", CCLabelTTF*, m_tip2);
+
 
     return false;
 }
@@ -261,6 +288,53 @@ void MainLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 void MainLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 {
+}
+
+void MainLayer::onEventSucceeded(Event *event)
+{
+    int type = event->getType();
+    switch (type)
+    {
+        case EventTypeTouchGrid:
+        {
+            TouchGridEvent *touchGridEvent = (TouchGridEvent*)event;
+            showTips(true, touchGridEvent->getPhraseIndex(), touchGridEvent->getPhrase2Index());
+            showTouchAction(touchGridEvent);
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+void MainLayer::onEventFailed(Event *event)
+{
+    int type = event->getType();
+    switch (type)
+    {
+        case EventTypeTouchGrid:
+        {
+            showTips(false);
+            
+            m_touchGridActionSprite->setVisible(false);
+            
+            int size = m_wordsActionSpriteV.size();
+            if (size > 0)
+            {
+                for (vector<CCSprite*>::iterator it = m_wordsActionSpriteV.begin(); it != m_wordsActionSpriteV.end(); it++) {
+                    CCSprite *sprite = *it;
+                    sprite->removeFromParentAndCleanup(true);
+                }
+                m_wordsActionSpriteV.clear();
+            }
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
 }
 
 /*
@@ -371,8 +445,8 @@ void MainLayer::initGridButtons()
         
         char num[3];
         sprintf(num, "%d", index);
-        CCLabelTTF *label = CCLabelTTF::create(num, "Cochin", 36);
-        label->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
+        CCLabelTTF *label = CCLabelTTF::create(num, "Cochin", 16);
+        label->setPosition(ccp(button->getContentSize().width * 0.9f, button->getContentSize().height * 0.9f));
         label->setColor(ccYELLOW);
         button->addChild(label);
         
@@ -600,7 +674,121 @@ int MainLayer::touchGrid(CCPoint beginTouch, CCPoint endTouch)
         }
     }
     
+    if (index != -1)
+    {
+        TouchGridEvent *touchGridEvent = new TouchGridEvent();
+        touchGridEvent->setIndex(index);
+        
+        EventManager::sharedEventManager()->addEvent(touchGridEvent);
+    }
+    
     return index;
+}
+
+
+void MainLayer::initTipsBg()
+{
+    m_tipsBg->setVisible(false);
+}
+
+void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
+{
+    if (isShow)
+    {
+        m_tipsBg->setVisible(true);
+        if (phraseIndex != -1)
+        {
+            Words *words = DataManager::sharedDataManager()->getWords().at(phraseIndex);
+            string tip = words->getTips();
+            m_tip1Bg->setVisible(true);
+            m_tip1->setString(tip.c_str());
+        }
+        else
+        {
+            m_tip1Bg->setVisible(false);
+        }
+        
+        if (phrase2Index != -1)
+        {
+            Words *words = DataManager::sharedDataManager()->getWords().at(phrase2Index);
+            string tip = words->getTips();
+            m_tip2Bg->setVisible(true);
+            m_tip2->setString(tip.c_str());
+        }
+        else
+        {
+            m_tip2Bg->setVisible(false);
+        }
+    }
+    else
+    {
+        m_tipsBg->setVisible(false);
+    }
+}
+
+void MainLayer::initTouchGridActionSprite()
+{
+    CCSpriteFrame* frame = NULL;
+    frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("wait01.png");
+    m_touchGridActionSprite = CCSprite::createWithSpriteFrame(frame);
+
+    CCAnimate* animate = Utilities::createAnimate("wait", 14, 0.1f);
+    m_touchGridActionSprite->runAction(CCRepeatForever::create(animate));
+    
+    m_touchGridActionSprite->setVisible(false);
+    m_touchGridActionSprite->setColor(ccRED);
+    
+}
+
+void MainLayer::showTouchAction(Event *event)
+{
+    TouchGridEvent* touchGridEvent = (TouchGridEvent*)event;
+    
+    int index = touchGridEvent->getIndex();
+    vector<int> wordsIndexVector = touchGridEvent->getWordsIndexVector();
+    
+    m_touchGridActionSprite->setVisible(true);
+    m_touchGridActionSprite->removeFromParentAndCleanup(false);
+    
+    CCSprite *button = m_gridButtons.at(index);
+    m_touchGridActionSprite->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
+    button->addChild(m_touchGridActionSprite);
+    
+    
+    //显示横竖动画
+    int size = m_wordsActionSpriteV.size();
+    if (size > 0)
+    {
+        for (vector<CCSprite*>::iterator it = m_wordsActionSpriteV.begin(); it != m_wordsActionSpriteV.end(); it++) {
+            CCSprite *sprite = *it;
+            sprite->removeFromParentAndCleanup(true);
+        }
+        m_wordsActionSpriteV.clear();
+    }
+    
+    CCSpriteFrame* frame = NULL;
+    frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("wait01.png");
+    for (vector<int>::iterator it = wordsIndexVector.begin(); it != wordsIndexVector.end(); it++)
+    {
+        int wordsIndex = *it;
+        
+        if (wordsIndex != index)//点击grid播放上面的动画
+        {
+            CCSprite *sprite = CCSprite::createWithSpriteFrame(frame);
+            CCAnimate* animate = Utilities::createAnimate("wait", 14, 0.1f);
+            sprite->runAction(CCRepeatForever::create(animate));
+            
+            
+            CCSprite *button = m_gridButtons.at(wordsIndex);
+            sprite->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
+            button->addChild(sprite);
+            
+            m_wordsActionSpriteV.push_back(sprite);
+        }
+    }
+    
+    
+    
 }
 
 void MainLayer::onStart(CCObject* pObject, CCControlEvent event)

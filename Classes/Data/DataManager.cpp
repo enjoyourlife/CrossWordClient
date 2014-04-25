@@ -173,3 +173,13 @@ void DataManager::setCol(int col)
 {
     m_col = col;
 }
+
+Grid* DataManager::getClickGrid(int index)
+{
+    int size = m_grids.size();
+    if (index >= 0 && index < size)
+    {
+        return m_grids.at(index);
+    }
+    return NULL;
+}

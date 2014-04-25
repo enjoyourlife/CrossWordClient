@@ -17,6 +17,7 @@
 #include "../Common/Localize.h"
 #include "../Scenes/Login.h"
 #include "../Network/NetServerEx.h"
+#include "../Data/Grid.h"
 
 USING_NS_CC;
 using namespace std;
@@ -117,6 +118,71 @@ void OnlineGameController::startEvent(Event *event)
         case EventTypeGameStartEx:
         {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeTouchGrid://点击单元格事件
+        {
+            TouchGridEvent *touchGridEvent = (TouchGridEvent*)event;
+            int index = touchGridEvent->getIndex();
+            Grid *clickGrid = DataManager::sharedDataManager()->getClickGrid(index);
+            
+            if (clickGrid != NULL)
+            {
+                int phraseIndex = clickGrid->getPhraseIndex();
+                int phrase2Index = clickGrid->getPhrase2Index();
+                if (phraseIndex == -1 && phrase2Index == -1)
+                {
+                    EventManager::sharedEventManager()->notifyEventFailed(event);
+                }
+                else
+                {
+                    if (phraseIndex != -1)
+                    {
+                        touchGridEvent->setPhraseIndex(phraseIndex);
+                        touchGridEvent->setWordIndex(clickGrid->getWordIndex());
+                    }
+                    
+                    if (phrase2Index != -1)
+                    {
+                        touchGridEvent->setPhrase2Index(phrase2Index);
+                        touchGridEvent->setWord2Index(clickGrid->getWord2Index());
+                    }
+                    
+                    //遍历设置vector<int>
+                    vector<int> wordsIndexVector;
+                    wordsIndexVector.clear();
+                    //直接写it = DataManager::sharedDataManager()->getGrids().begin();为乱数据 why?
+                    vector<Grid*> gridsTemp = DataManager::sharedDataManager()->getGrids();
+                    for (vector<Grid*>::iterator it = gridsTemp.begin(); it != gridsTemp.end(); ++it)
+                    {
+                        Grid *grid = *it;
+                        int gridPhraseIndex = grid->getPhraseIndex();
+                        int gridPhrase2Index = grid->getPhrase2Index();
+                        if (phraseIndex != -1 && gridPhraseIndex == phraseIndex)
+                        {
+                            wordsIndexVector.push_back(grid->getIndex());
+                            continue;//去掉交叉点
+                        }
+                        
+                        if (phrase2Index != -1 && gridPhrase2Index == phrase2Index)
+                        {
+                            wordsIndexVector.push_back(grid->getIndex());
+                        }
+
+                    }
+                    touchGridEvent->setWordsIndexVector(wordsIndexVector);
+                    
+                    
+                    EventManager::sharedEventManager()->notifyEventSucceeded(event);
+                }
+            }
+            else
+            {
+                //点到block或者异常  显示block grid的动画
+                EventManager::sharedEventManager()->notifyEventFailed(event);
+            }
+            
             break;
         }
             

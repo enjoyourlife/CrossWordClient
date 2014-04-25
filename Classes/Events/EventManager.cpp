@@ -312,6 +312,9 @@ const char* EventManager::getEventName(int type) const
         case EventTypeGameStartEx:
             return "EventTypeGameStartEx";
             
+        case EventTypeTouchGrid:
+            return "EventTypeTouchGrid";
+            
         default:
             return "UnknownEvent";
 	}

@@ -40,6 +40,7 @@ typedef enum
     EventTypeSitUp,//站起
     EventTypeGameStart,//游戏开始
     EventTypeGameStartEx,
+    EventTypeTouchGrid,//点击格子
     
     
     EventTypeEnterGame,

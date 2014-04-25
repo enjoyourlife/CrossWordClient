@@ -69,6 +69,11 @@ public:
     void setLine(int line);
     void setCol(int col);
     
+    /*
+     根据点击的索引获取被点击的Grid
+     */
+    Grid* getClickGrid(int index);
+    
 private:
     void clearGrids();
     
