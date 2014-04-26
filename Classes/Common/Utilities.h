@@ -36,6 +36,11 @@ public:
      *	字符串分割 返回的vector不带分割符delimiter
      */
     static std::vector<std::string> splitString(const std::string& str, const std::string& delimiter);
+    
+    // 对vector中索引为start至(end-1)的元素进行随机排列
+    static void random_permute(std::vector<std::string>& array, int start, int end);
+    // 对vector中所有元素进行随机排列
+    static void random_permute(std::vector<std::string>& array);
 
 };
 

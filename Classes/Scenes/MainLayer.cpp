@@ -72,6 +72,11 @@ MainLayer::MainLayer()
     m_tip2 = NULL;
     
     m_touchGridActionSprite = NULL;
+    
+    for (int i = 0; i < ANSWER_NUM; i++)
+    {
+        m_answersV.push_back(CCLabelTTF::create());
+    }
 }
 
 MainLayer::~ MainLayer()
@@ -90,6 +95,13 @@ MainLayer::~ MainLayer()
     CC_SAFE_RELEASE_NULL(m_tip1);
     CC_SAFE_RELEASE_NULL(m_tip2Bg);
     CC_SAFE_RELEASE_NULL(m_tip2);
+    
+    vector<CCLabelTTF*>::iterator it;
+    for (it = m_answersV.begin(); it != m_answersV.end(); it++)
+    {
+        CCLabelTTF* label = *it;
+        CC_SAFE_RELEASE_NULL(label);
+    }
 }
 
 CCScene* MainLayer::scene()
@@ -156,6 +168,8 @@ bool MainLayer::init()
     
     initTouchGridActionSprite();
     
+    setAnswers(false);
+    
     return true;
 }
 
@@ -213,6 +227,13 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2", CCLabelTTF*, m_tip2);
 
 
+    char name[10];
+    for (int i = 0; i < ANSWER_NUM; i++)
+    {
+        sprintf(name, "m_answer%d", i);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCLabelTTF*, m_answersV.at(i));
+    }
+    
     return false;
 }
 
@@ -300,6 +321,7 @@ void MainLayer::onEventSucceeded(Event *event)
             TouchGridEvent *touchGridEvent = (TouchGridEvent*)event;
             showTips(true, touchGridEvent->getPhraseIndex(), touchGridEvent->getPhrase2Index());
             showTouchAction(touchGridEvent);
+            showAnswers();
             break;
         }
             
@@ -328,6 +350,8 @@ void MainLayer::onEventFailed(Event *event)
                 }
                 m_wordsActionSpriteV.clear();
             }
+            
+            setAnswers(false);
             
             break;
         }
@@ -787,8 +811,27 @@ void MainLayer::showTouchAction(Event *event)
         }
     }
     
-    
-    
+}
+
+void MainLayer::setAnswers(bool isShow)
+{
+    vector<CCLabelTTF*>::iterator it;
+    for (it = m_answersV.begin(); it != m_answersV.end(); it++)
+    {
+        CCLabelTTF* label = *it;
+        label->setVisible(isShow);
+    }
+}
+
+void MainLayer::showAnswers()
+{
+    vector<string> answers = DataManager::sharedDataManager()->getAnswers();
+    int size = answers.size();
+    for (int i = 0; i < size; i++)
+    {
+        m_answersV.at(i)->setVisible(true);
+        m_answersV.at(i)->setString(answers.at(i).c_str());
+    }
 }
 
 void MainLayer::onStart(CCObject* pObject, CCControlEvent event)

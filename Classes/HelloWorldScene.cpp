@@ -160,7 +160,11 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     
 //    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
     
-    CGDialog::show(GameOKCancelButtonType, "waiting_txt", this, menu_selector(HelloWorld::onToast), menu_selector(HelloWorld::onToast));
+//    CGDialog::show(GameOKCancelButtonType, "waiting_txt", this, menu_selector(HelloWorld::onToast), menu_selector(HelloWorld::onToast));
+    
+    std::string name = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
+    CCString *cstr = CCString::createWithContentsOfFile(name.c_str());
+    CCLog("cstr is %s", cstr->m_sString.c_str());
 }
 
 void HelloWorld::onToast(CCObject* obj)

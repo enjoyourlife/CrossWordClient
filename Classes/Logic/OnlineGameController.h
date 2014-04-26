@@ -12,6 +12,7 @@
 #include <iostream>
 #include "GameController.h"
 #include "../Events/EventObserver.h"
+#include "../Data/Grid.h"
 #include "../CommonUI/CGWaiting.h"
 
 class OnlineGameController : public GameController, public EventObserver
@@ -58,6 +59,9 @@ public:
 private:
     //进入竞技场或者合作场
     void enterCompOrCoopGame(Event* event);
+    
+    //设置候选答案
+    void initAnswers(Grid *grid);
     
     CGWaiting* m_waiting;
 };

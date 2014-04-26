@@ -15,9 +15,10 @@
 #include "../Scenes/SceneManager.h"
 #include "../CommonUI/CGToast.h"
 #include "../Common/Localize.h"
+#include "../Common/Utilities.h"
 #include "../Scenes/Login.h"
 #include "../Network/NetServerEx.h"
-#include "../Data/Grid.h"
+
 
 USING_NS_CC;
 using namespace std;
@@ -174,6 +175,9 @@ void OnlineGameController::startEvent(Event *event)
                     touchGridEvent->setWordsIndexVector(wordsIndexVector);
                     
                     
+                    //设置候选答案
+                    initAnswers(clickGrid);
+                                        
                     EventManager::sharedEventManager()->notifyEventSucceeded(event);
                 }
             }
@@ -402,4 +406,60 @@ void OnlineGameController::enterCompOrCoopGame(Event* event)
     }
     
     
+}
+
+
+void OnlineGameController::initAnswers(Grid *grid)
+{
+    int phraseIndex = grid->getPhraseIndex();
+    int phrase2Index = grid->getPhrase2Index();
+    
+    //设置候选答案
+    srand(time(0));
+    vector<string> answers;
+    
+    string fileName = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
+    CCString *answersCstr = CCString::createWithContentsOfFile(fileName.c_str());
+    
+    vector<Words*> wordsVec = DataManager::sharedDataManager()->getWords();
+    string word = "";
+    int answerIndex = 0;
+    bool flag = false;
+    //交叉字以横为准
+    if ((phraseIndex != -1 && phrase2Index == -1) || (phraseIndex != -1 && phrase2Index != -1))
+    {
+        Words *words = wordsVec.at(phraseIndex);
+        vector<string> vTemp = Utilities::splitString(words->getName(), "*");
+        word = vTemp.at(grid->getWordIndex());
+        vTemp.clear();
+        
+        flag = true;
+    }
+    else if (phraseIndex == -1 && phrase2Index != -1)
+    {
+        Words *words = wordsVec.at(phrase2Index);
+        vector<string> vTemp = Utilities::splitString(words->getName(), "*");
+        word = vTemp.at(grid->getWord2Index());
+        vTemp.clear();
+        
+        flag = true;
+    }
+    
+    if (flag)
+    {
+        vector<string> answersVTemp = Utilities::splitString(answersCstr->m_sString, "*");
+        //随机选7个放入answers 然后再加入word 最后随机排列
+        for (int i = 0; i < ANSWER_NUM - 1; i++)
+        {
+            answerIndex = rand() % answersVTemp.size();
+            answers.push_back(answersVTemp.at(answerIndex));
+        }
+        answersVTemp.clear();
+        
+        answers.push_back(word);
+        
+        Utilities::random_permute(answers);
+        
+        DataManager::sharedDataManager()->initAnswers(answers);
+    }
 }

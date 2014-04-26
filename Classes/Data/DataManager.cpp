@@ -183,3 +183,25 @@ Grid* DataManager::getClickGrid(int index)
     }
     return NULL;
 }
+
+void DataManager::initAnswers(vector<string>& answers)
+{
+    for (vector<string>::iterator it = m_answers.begin(); it != m_answers.end(); ++it)
+    {
+        *it = "";//right?
+    }
+    m_answers.clear();
+    
+    m_answers = answers;
+    
+    for (vector<string>::iterator it = m_answers.begin(); it != m_answers.end(); ++it)
+    {
+        string temp = *it;
+        CCLog("answer is %s", temp.c_str());
+    }
+}
+
+vector<string> DataManager::getAnswers()
+{
+    return m_answers;
+}

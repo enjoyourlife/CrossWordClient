@@ -155,3 +155,24 @@ vector<string> Utilities::splitString(const string& str, const string& delimiter
     
     return result;
 }
+
+// 对vector中索引为start至(end-1)的元素进行随机排列
+void Utilities::random_permute(vector<string>& array, int start, int end)
+{
+	assert(start >= 0 && array.size() >= end);
+    srand(time(0));
+	
+	for (int i = start; i < end; i++)
+	{
+		int n = rand() % (end - start) + start;
+		string value = array[n];
+		array[n] = array[i];
+		array[i] = value;
+	}
+}
+
+// 对vector中所有元素进行随机排列
+void Utilities::random_permute(vector<string>& array)
+{
+	random_permute(array, 0, array.size());
+}

@@ -152,6 +152,11 @@ private:
     //显示触摸动画
     void showTouchAction(Event *event);
     
+    //是否显示答案
+    void setAnswers(bool isShow);
+    //显示候选答案
+    void showAnswers();
+    
     void onStart(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
     
@@ -229,6 +234,10 @@ private:
     //这里是播放 touch grid 动画需要的精灵  和  对应播放对应横竖成语背景动画需要的精灵
     cocos2d::CCSprite *m_touchGridActionSprite;
     std::vector<cocos2d::CCSprite*> m_wordsActionSpriteV;
+    
+    
+    //下方候选答案精灵
+    std::vector<cocos2d::CCLabelTTF*> m_answersV;
     
     //mainBorder
     MainBorderLayer *m_mainBorderLayer;

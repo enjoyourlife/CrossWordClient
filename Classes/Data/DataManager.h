@@ -17,6 +17,10 @@
 #include "Grid.h"
 #include "Words.h"
 
+
+#define ANSWER_NUM 8 //答案的个数
+
+
 class DataManager : public cocos2d::CCObject, public EventObserver
 {
 private:
@@ -74,6 +78,10 @@ public:
      */
     Grid* getClickGrid(int index);
     
+    //初始化候选答案
+    void initAnswers(std::vector<std::string>& answers);
+    std::vector<std::string> getAnswers();
+    
 private:
     void clearGrids();
     
@@ -96,6 +104,8 @@ private:
     int m_col;
 
 
+    //候选答案
+    std::vector<std::string> m_answers;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */
