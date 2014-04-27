@@ -11,15 +11,18 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "../Data/Grid.h"
+
+
 
 class Event;
 
 class GameController : public cocos2d::CCObject
 {
 protected:
-    GameController() {};
-    virtual ~ GameController() {};
-    
+    GameController();
+    virtual ~ GameController();
+
 public:
 	/*!
      * @brief		开始执行某事件。
@@ -39,6 +42,14 @@ public:
      * @param       event   事件
      */
 	virtual void cancelEvent(Event* event) = 0;
+
+protected:
+    //设置候选答案
+    void initAnswers(Grid *grid);
+    //处理TouchGridEvent事件
+    void handleTouchGridEvent(Event* event);
+    
+
 };
 
 #endif /* defined(__SnakeClient__GameController__) */

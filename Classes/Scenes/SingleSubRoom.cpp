@@ -23,7 +23,7 @@ SingleSubRoom::SingleSubRoom()
     m_bgBeginY = 0.0f;
     m_bgEndY = 0.0f;
     
-    int subLevel = DataManager::sharedDataManager()->getSingleSubLevel();
+    int subLevel = DataManager::sharedDataManager()->getLevel();
     switch (subLevel)
     {
         case 0:
@@ -301,6 +301,12 @@ void SingleSubRoom::adjustScrollView(float offset)
 
 void SingleSubRoom::onBtnClicked(CCObject* obj)
 {
+    int subLevel = ((CGControlButton*)obj)->getTag();
+    DataManager::sharedDataManager()->setSingleSubLevel(subLevel);
+    
+    Event *e = new Event(EventTypeGameStart);
+    EventManager::sharedEventManager()->addEvent(e);
+    
     CCLog("i am button %d", ((CGControlButton*)obj)->getTag());
 }
 

@@ -13,6 +13,7 @@
 		011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259B118C051B0002F5063 /* SingleRoom.cpp */; };
 		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
+		0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0140E0B8190C91800071E6D3 /* GameController.cpp */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
 		01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EB718C32F8900649A17 /* CGToast.cpp */; };
 		01B10EBB18C34AC600649A17 /* Text in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBA18C34AC600649A17 /* Text */; };
@@ -305,6 +306,7 @@
 		011259B218C051B1002F5063 /* SingleRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRoom.h; sourceTree = "<group>"; };
 		012AA3D918B98BBD00A4910E /* CCB-1024X768 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-1024X768"; sourceTree = "<group>"; };
 		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
+		0140E0B8190C91800071E6D3 /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
 		01B10EB718C32F8900649A17 /* CGToast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGToast.cpp; sourceTree = "<group>"; };
@@ -984,6 +986,7 @@
 		01D1305818BB5EA500BCCE03 /* Logic */ = {
 			isa = PBXGroup;
 			children = (
+				0140E0B8190C91800071E6D3 /* GameController.cpp */,
 				01D1306618BB5F1000BCCE03 /* GameController.h */,
 				01D1306718BB5F1000BCCE03 /* OnlineGameController.cpp */,
 				01D1306818BB5F1000BCCE03 /* OnlineGameController.h */,
@@ -2321,6 +2324,7 @@
 				01D25B7618F1955D0024C6E3 /* CGDialog.cpp in Sources */,
 				01ED807018F8BDBB003154EC /* MainBorderLayer.cpp in Sources */,
 				01DFD8B61904066200D0B5BB /* Words.cpp in Sources */,
+				0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

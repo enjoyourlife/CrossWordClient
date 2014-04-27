@@ -82,15 +82,18 @@ public:
     void initAnswers(std::vector<std::string>& answers);
     std::vector<std::string> getAnswers();
     
+    void initAnswerDic();
+    std::vector<std::string> getAnswerDic();
+    
 private:
     void clearGrids();
     
     
 private:
     GameType m_gameType;
-    //竞技或合作的难度 取值0 1 2
+    //单机 竞技或合作的难度 取值0 1 2
     int m_level;
-    //单机子关 0-easy 1-normal 2-hard
+    //单机关卡里面的 子关 0-...
     int m_singleSubLevel;
     //是否已经登录
     bool m_isLogin;
@@ -106,6 +109,8 @@ private:
 
     //候选答案
     std::vector<std::string> m_answers;
+    //候选答案字典 从中选择ANSWER_NUM-1个字
+    std::vector<std::string> m_answerDic;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */

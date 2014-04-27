@@ -124,69 +124,7 @@ void OnlineGameController::startEvent(Event *event)
             
         case EventTypeTouchGrid://点击单元格事件
         {
-            TouchGridEvent *touchGridEvent = (TouchGridEvent*)event;
-            int index = touchGridEvent->getIndex();
-            Grid *clickGrid = DataManager::sharedDataManager()->getClickGrid(index);
-            
-            if (clickGrid != NULL)
-            {
-                int phraseIndex = clickGrid->getPhraseIndex();
-                int phrase2Index = clickGrid->getPhrase2Index();
-                if (phraseIndex == -1 && phrase2Index == -1)
-                {
-                    EventManager::sharedEventManager()->notifyEventFailed(event);
-                }
-                else
-                {
-                    if (phraseIndex != -1)
-                    {
-                        touchGridEvent->setPhraseIndex(phraseIndex);
-                        touchGridEvent->setWordIndex(clickGrid->getWordIndex());
-                    }
-                    
-                    if (phrase2Index != -1)
-                    {
-                        touchGridEvent->setPhrase2Index(phrase2Index);
-                        touchGridEvent->setWord2Index(clickGrid->getWord2Index());
-                    }
-                    
-                    //遍历设置vector<int>
-                    vector<int> wordsIndexVector;
-                    wordsIndexVector.clear();
-                    //直接写it = DataManager::sharedDataManager()->getGrids().begin();为乱数据 why?
-                    vector<Grid*> gridsTemp = DataManager::sharedDataManager()->getGrids();
-                    for (vector<Grid*>::iterator it = gridsTemp.begin(); it != gridsTemp.end(); ++it)
-                    {
-                        Grid *grid = *it;
-                        int gridPhraseIndex = grid->getPhraseIndex();
-                        int gridPhrase2Index = grid->getPhrase2Index();
-                        if (phraseIndex != -1 && gridPhraseIndex == phraseIndex)
-                        {
-                            wordsIndexVector.push_back(grid->getIndex());
-                            continue;//去掉交叉点
-                        }
-                        
-                        if (phrase2Index != -1 && gridPhrase2Index == phrase2Index)
-                        {
-                            wordsIndexVector.push_back(grid->getIndex());
-                        }
-
-                    }
-                    touchGridEvent->setWordsIndexVector(wordsIndexVector);
-                    
-                    
-                    //设置候选答案
-                    initAnswers(clickGrid);
-                                        
-                    EventManager::sharedEventManager()->notifyEventSucceeded(event);
-                }
-            }
-            else
-            {
-                //点到block或者异常  显示block grid的动画
-                EventManager::sharedEventManager()->notifyEventFailed(event);
-            }
-            
+            handleTouchGridEvent(event);
             break;
         }
             
@@ -205,6 +143,11 @@ void OnlineGameController::cancelEvent(Event *event)
 
 void OnlineGameController::onEventSucceeded(Event* event)
 {
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        return;
+    }
+    
     int type = event->getType();
     switch (type)
     {
@@ -288,6 +231,11 @@ void OnlineGameController::onEventSucceeded(Event* event)
 
 void OnlineGameController::onEventFailed(Event *event)
 {
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        return;
+    }
+    
     int type = event->getType();
     switch (type)
     {
@@ -406,60 +354,4 @@ void OnlineGameController::enterCompOrCoopGame(Event* event)
     }
     
     
-}
-
-
-void OnlineGameController::initAnswers(Grid *grid)
-{
-    int phraseIndex = grid->getPhraseIndex();
-    int phrase2Index = grid->getPhrase2Index();
-    
-    //设置候选答案
-    srand(time(0));
-    vector<string> answers;
-    
-    string fileName = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
-    CCString *answersCstr = CCString::createWithContentsOfFile(fileName.c_str());
-    
-    vector<Words*> wordsVec = DataManager::sharedDataManager()->getWords();
-    string word = "";
-    int answerIndex = 0;
-    bool flag = false;
-    //交叉字以横为准
-    if ((phraseIndex != -1 && phrase2Index == -1) || (phraseIndex != -1 && phrase2Index != -1))
-    {
-        Words *words = wordsVec.at(phraseIndex);
-        vector<string> vTemp = Utilities::splitString(words->getName(), "*");
-        word = vTemp.at(grid->getWordIndex());
-        vTemp.clear();
-        
-        flag = true;
-    }
-    else if (phraseIndex == -1 && phrase2Index != -1)
-    {
-        Words *words = wordsVec.at(phrase2Index);
-        vector<string> vTemp = Utilities::splitString(words->getName(), "*");
-        word = vTemp.at(grid->getWord2Index());
-        vTemp.clear();
-        
-        flag = true;
-    }
-    
-    if (flag)
-    {
-        vector<string> answersVTemp = Utilities::splitString(answersCstr->m_sString, "*");
-        //随机选7个放入answers 然后再加入word 最后随机排列
-        for (int i = 0; i < ANSWER_NUM - 1; i++)
-        {
-            answerIndex = rand() % answersVTemp.size();
-            answers.push_back(answersVTemp.at(answerIndex));
-        }
-        answersVTemp.clear();
-        
-        answers.push_back(word);
-        
-        Utilities::random_permute(answers);
-        
-        DataManager::sharedDataManager()->initAnswers(answers);
-    }
 }

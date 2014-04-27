@@ -11,8 +11,9 @@
 
 #include <iostream>
 #include "GameController.h"
+#include "../Events/EventObserver.h"
 
-class SingleGameController : public GameController
+class SingleGameController : public GameController, public EventObserver
 {
 public:
     SingleGameController();
@@ -38,10 +39,23 @@ public:
      */
 	virtual void cancelEvent(Event* event);
     
-private:
-    //掷骰子逻辑
-    int rollLogic();
     
+    /*!
+     * controller作为EventObserver 主要执行一些界面切换的操作  而scenes比如hall作为EventObserver 主要执行一些改变自身界面的操作
+     * @brief		队列事件成功时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventSucceeded(Event* event);
+    
+    /*!
+     * @brief		队列事件失败时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventFailed(Event *event);
+    
+private:
+    //解析关卡数据
+    void parseJson();
 };
 
 #endif /* defined(__SnakeClient__SingleGameController__) */

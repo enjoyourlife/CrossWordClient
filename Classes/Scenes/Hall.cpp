@@ -163,5 +163,5 @@ void Hall::onCooperationGame(CCObject* pObject, CCControlEvent event)
     Event *e = new Event(EventTypeEnterCooperationGame);
     EventManager::sharedEventManager()->addEvent(e);*/
     
-    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+//    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
 }

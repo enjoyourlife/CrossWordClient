@@ -60,9 +60,6 @@ private:
     //进入竞技场或者合作场
     void enterCompOrCoopGame(Event* event);
     
-    //设置候选答案
-    void initAnswers(Grid *grid);
-    
     CGWaiting* m_waiting;
 };
 

@@ -20,7 +20,7 @@
 USING_NS_CC;
 using namespace std;
 
-#define GATE_HOST "192.168.0.2"
+#define GATE_HOST "192.168.43.164"
 //#define GATE_HOST "127.0.0.1"
 #define GATE_PORT 3014
 

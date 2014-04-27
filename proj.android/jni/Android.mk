@@ -33,6 +33,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/CommonUI/CGToast.cpp \
                    ../../Classes/CommonUI/CGWaiting.cpp \
                    ../../Classes/CommonUI/CGDialog.cpp \
+                   ../../Classes/Logic/GameController.cpp \
                    ../../Classes/Logic/OnlineGameController.cpp \
                    ../../Classes/Logic/SingleGameController.cpp \
                    ../../Classes/Events/EventManager.cpp \

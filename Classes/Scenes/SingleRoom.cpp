@@ -149,7 +149,7 @@ void SingleRoom::onBack(CCObject* pObject, CCControlEvent event)
 
 void SingleRoom::onEasy(CCObject* pObject, CCControlEvent event)
 {
-    DataManager::sharedDataManager()->setSingleSubLevel(0);
+    DataManager::sharedDataManager()->setLevel(0);
     
     Event *e = new Event(EventTypeEnterSingleSubGame);
     EventManager::sharedEventManager()->addEvent(e);
@@ -157,7 +157,7 @@ void SingleRoom::onEasy(CCObject* pObject, CCControlEvent event)
 
 void SingleRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
-    DataManager::sharedDataManager()->setSingleSubLevel(1);
+    DataManager::sharedDataManager()->setLevel(1);
     
     Event *e = new Event(EventTypeEnterSingleSubGame);
     EventManager::sharedEventManager()->addEvent(e);
@@ -165,7 +165,7 @@ void SingleRoom::onNormal(CCObject* pObject, CCControlEvent event)
 
 void SingleRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
-    DataManager::sharedDataManager()->setSingleSubLevel(2);
+    DataManager::sharedDataManager()->setLevel(2);
     
     Event *e = new Event(EventTypeEnterSingleSubGame);
     EventManager::sharedEventManager()->addEvent(e);

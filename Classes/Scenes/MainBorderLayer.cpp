@@ -148,17 +148,18 @@ void MainBorderLayer::onOk(CCObject* obj)
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     int level = DataManager::sharedDataManager()->getLevel();
     
-    //sit up
-    SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
-    EventManager::sharedEventManager()->addEvent(sue);
-    
     //先站起然后回到对应的界面
     if (gameType == GameTypeSingle)
     {
-        
+        Event *e = new Event(EventTypeEnterSingleSubGame);
+        EventManager::sharedEventManager()->addEvent(e);
     }
     else if (gameType == GameTypeCompetitive)
     {
+        //sit up
+        SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+        EventManager::sharedEventManager()->addEvent(sue);
+        
         Event *e = new Event(EventTypeEnterCompetitiveGame);
         EventManager::sharedEventManager()->addEvent(e);
     }

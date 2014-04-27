@@ -7,6 +7,7 @@
 //
 
 #include "DataManager.h"
+#include "../Common/Utilities.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -30,6 +31,8 @@ void DataManager::init()
     m_isLogin = false;
     m_line = 0;
     m_col = 0;
+    
+    initAnswerDic();
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -113,15 +116,6 @@ void DataManager::initGrids(vector<Grid*>& gridVector)
 {
     clearGrids();
     m_grids = gridVector;
-    
-    
-    
-    for (vector<Grid*>::iterator it = m_grids.begin(); it != m_grids.end(); ++it)
-    {
-        Grid *grid = *it;
-        CCLog("id %d %d  %d %d %d %d %d", grid->getIndex(), grid->getType(), grid->getType2(), grid->getPhraseIndex(), grid->getWordIndex(), grid->getPhrase2Index(), grid->getWord2Index());
-    }
-    
 }
 
 void DataManager::clearGrids()
@@ -204,4 +198,16 @@ void DataManager::initAnswers(vector<string>& answers)
 vector<string> DataManager::getAnswers()
 {
     return m_answers;
+}
+
+void DataManager::initAnswerDic()
+{
+    string fileName = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
+    CCString *answerDisCstr = CCString::createWithContentsOfFile(fileName.c_str());
+    m_answerDic = Utilities::splitString(answerDisCstr->m_sString, "*");
+}
+
+vector<string> DataManager::getAnswerDic()
+{
+    return m_answerDic;
 }
