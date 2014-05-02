@@ -176,10 +176,6 @@ public:
     TouchGridEvent() : Event(EventTypeTouchGrid)
     {
         m_index = -1;
-        m_phraseIndex = -1;
-        m_wordIndex = -1;
-        m_phrase2Index = -1;
-        m_word2Index = -1;
     }
     
     virtual ~ TouchGridEvent()
@@ -192,49 +188,9 @@ public:
         return m_index;
     }
     
-    int getPhraseIndex() const
-    {
-        return m_phraseIndex;
-    }
-    
-    int getWordIndex() const
-    {
-        return m_wordIndex;
-    }
-    
-    int getPhrase2Index() const
-    {
-        return m_phrase2Index;
-    }
-    
-    int getWord2Index() const
-    {
-        return m_word2Index;
-    }
-    
     void setIndex(int index)
     {
         m_index = index;
-    }
-    
-    void setPhraseIndex(int phraseIndex)
-    {
-        m_phraseIndex = phraseIndex;
-    }
-    
-    void setWordIndex(int wordIndex)
-    {
-        m_wordIndex = wordIndex;
-    }
-    
-    void setPhrase2Index(int phrase2Index)
-    {
-        m_phrase2Index = phrase2Index;
-    }
-    
-    void setWord2Index(int word2Index)
-    {
-        m_word2Index = word2Index;
     }
     
     void setWordsIndexVector(const std::vector<int>& wordsIndexVector)
@@ -249,12 +205,106 @@ public:
     
 private:
     int m_index;
-    int m_phraseIndex;
-    int m_wordIndex;
-    int m_phrase2Index;
-    int m_word2Index;
     //横竖词语的索引vector
     std::vector<int> m_wordsIndexVector;
+    
+};
+
+class ChooseAnswerEvent : public Event
+{
+public:
+    ChooseAnswerEvent() : Event(EventTypeChooseAnswer)
+    {
+        m_index = -1;
+    }
+    
+    virtual ~ ChooseAnswerEvent()
+    {
+        
+    }
+    
+    int getIndex() const
+    {
+        return m_index;
+    }
+    
+    void setIndex(int index)
+    {
+        m_index = index;
+    }
+    
+private:
+    
+    int m_index;
+    
+};
+
+class FixAnswerEvent : public Event
+{
+public:
+    FixAnswerEvent() : Event(EventTypeFixAnswer)
+    {
+        m_phraseIndex = -1;
+        m_phrase2Index = -1;
+    }
+    
+    virtual ~ FixAnswerEvent()
+    {
+        
+    }
+    
+    int getPhraseIndex() const
+    {
+        return m_phraseIndex;
+    }
+    
+    void setPhraseIndex(int phraseIndex)
+    {
+        m_phraseIndex = phraseIndex;
+    }
+    
+    int getPhrase2Index() const
+    {
+        return m_phrase2Index;
+    }
+    
+    void setPhrase2Index(int phrase2Index)
+    {
+        m_phrase2Index = phrase2Index;
+    }
+    
+private:
+    int m_phraseIndex;//匹配的词语的索引
+    int m_phrase2Index;
+    
+};
+
+
+class RewardEvent : public Event
+{
+public:
+    RewardEvent() : Event(EventTypeReward)
+    {
+        m_isWin = false;
+    }
+    
+    virtual ~ RewardEvent()
+    {
+        
+    }
+    
+    bool getIsWin() const
+    {
+        return m_isWin;
+    }
+    
+    void setIsWin(bool isWin)
+    {
+        m_isWin = isWin;
+    }
+
+private:
+    bool m_isWin;
     
 };
 

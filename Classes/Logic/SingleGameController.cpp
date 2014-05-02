@@ -12,6 +12,7 @@
 #include "../Scenes/SceneManager.h"
 #include "../Data/DataManager.h"
 #include "../Common/Utilities.h"
+#include "../Data/Answer.h"
 
 USING_NS_CC;
 using namespace std;
@@ -67,6 +68,7 @@ void SingleGameController::startEvent(Event *event)
         case EventTypeGameStart:
         {
             parseJson();
+            DataManager::sharedDataManager()->clearRightWordsIndexVec();
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -77,6 +79,24 @@ void SingleGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeChooseAnswer:
+        {
+            handleChooseAnswerEvent(event);
+            break;
+        }
+            
+        case EventTypeFixAnswer:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeReward:
+        {
+            //暂时
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
         default:
             break;
             
@@ -148,7 +168,9 @@ void SingleGameController::parseJson()
     
     //开始解析
     json_t* gameDataJson = Utilities::getJsonFromFile(jsonFileName);
+    DataManager::sharedDataManager()->parseJson(gameDataJson);
     
+    /*
     json_t* wJson = json_object_get(gameDataJson, "w");
     json_t* hJson = json_object_get(gameDataJson, "h");
     int col = json_integer_value(wJson);
@@ -187,6 +209,9 @@ void SingleGameController::parseJson()
     }
     DataManager::sharedDataManager()->initWords(wordsVector);
     
+    
+    //预先初始化玩家选择的答案
+    vector<Answer*> selectAnswerVec;
     
     //parse map_v and map_h
     vector<Grid*> gridVector;
@@ -229,13 +254,46 @@ void SingleGameController::parseJson()
             }
             
             Grid *grid = new Grid(index, vType, hType, phraseIndex, wordIndex, phrase2Index, word2Index);
+            gridVector.push_back(grid);
+            
+            if (phraseIndex != -1 || phrase2Index != -1)
+            {
+                Answer *answer = new Answer(index, phraseIndex, wordIndex, phrase2Index, word2Index);
+                selectAnswerVec.push_back(answer);
+            }
+                        
             index++;
             
-            gridVector.push_back(grid);
         }
     }
     
-    DataManager::sharedDataManager()->initGrids(gridVector);
     
+    vector<Answer*>::iterator answerIt;
+    for (int i = 0; i < wordsVector.size(); i++)
+    {
+        Words *w = wordsVector.at(i);
+        vector<string> vTemp = Utilities::splitString(w->getName(), "*");
+        
+        for (answerIt = selectAnswerVec.begin(); answerIt != selectAnswerVec.end(); answerIt++)
+        {
+            Answer *a = *answerIt;
+            if (a->getPhraseIndex() == i)
+            {
+                a->setOriAnswerWord(vTemp.at(a->getWordIndex()));
+                continue;
+            }
+            
+            if (a->getPhrase2Index() == i)
+            {
+                a->setOriAnswerWord(vTemp.at(a->getWord2Index()));
+            }
+        }
+    }
+    
+    DataManager::sharedDataManager()->initSelectAnswerVec(selectAnswerVec);
+    
+    
+    DataManager::sharedDataManager()->initGrids(gridVector);
+    */
 }
 

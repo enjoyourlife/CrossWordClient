@@ -118,6 +118,7 @@ void OnlineGameController::startEvent(Event *event)
             
         case EventTypeGameStartEx:
         {
+            DataManager::sharedDataManager()->clearRightWordsIndexVec();
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -125,6 +126,25 @@ void OnlineGameController::startEvent(Event *event)
         case EventTypeTouchGrid://点击单元格事件
         {
             handleTouchGridEvent(event);
+            break;
+        }
+            
+        case EventTypeChooseAnswer:
+        {
+            handleChooseAnswerEvent(event);
+            break;
+        }
+            
+        case EventTypeFixAnswer:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeReward:
+        {
+            //暂时
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
             

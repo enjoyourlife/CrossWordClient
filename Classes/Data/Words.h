@@ -22,7 +22,7 @@ public:
     const std::string& getTips();
     
 private:
-    //id
+    //id 其实没有用到 用的是words在vector中的顺序
     int m_wordsId;
     //成语
     std::string m_name;

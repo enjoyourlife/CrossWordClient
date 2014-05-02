@@ -43,6 +43,7 @@
 		01DFA0C218D1FB23003C9FEE /* WaitingRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFA0C018D1FB23003C9FEE /* WaitingRoom.cpp */; };
 		01DFD8B61904066200D0B5BB /* Words.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFD8B41904066200D0B5BB /* Words.cpp */; };
 		01ED807018F8BDBB003154EC /* MainBorderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01ED806E18F8BDBB003154EC /* MainBorderLayer.cpp */; };
+		01FE2E8D190E999E009E9D8B /* Answer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FE2E8B190E999E009E9D8B /* Answer.cpp */; };
 		15A3D8FF1682F7D5002FB0C5 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */; };
 		15A3D9001682F7D5002FB0C5 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88D1682F7D5002FB0C5 /* b2CollideCircle.cpp */; };
 		15A3D9011682F7D5002FB0C5 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3D88E1682F7D5002FB0C5 /* b2CollideEdge.cpp */; };
@@ -364,6 +365,8 @@
 		01DFD8B51904066200D0B5BB /* Words.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Words.h; sourceTree = "<group>"; };
 		01ED806E18F8BDBB003154EC /* MainBorderLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainBorderLayer.cpp; sourceTree = "<group>"; };
 		01ED806F18F8BDBB003154EC /* MainBorderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBorderLayer.h; sourceTree = "<group>"; };
+		01FE2E8B190E999E009E9D8B /* Answer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Answer.cpp; sourceTree = "<group>"; };
+		01FE2E8C190E999E009E9D8B /* Answer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Answer.h; sourceTree = "<group>"; };
 		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
@@ -1008,6 +1011,8 @@
 				01D5BF1C18DB23A70037631B /* Grid.h */,
 				01DFD8B41904066200D0B5BB /* Words.cpp */,
 				01DFD8B51904066200D0B5BB /* Words.h */,
+				01FE2E8B190E999E009E9D8B /* Answer.cpp */,
+				01FE2E8C190E999E009E9D8B /* Answer.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -2325,6 +2330,7 @@
 				01ED807018F8BDBB003154EC /* MainBorderLayer.cpp in Sources */,
 				01DFD8B61904066200D0B5BB /* Words.cpp in Sources */,
 				0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */,
+				01FE2E8D190E999E009E9D8B /* Answer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

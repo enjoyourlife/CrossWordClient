@@ -20,7 +20,7 @@
 USING_NS_CC;
 using namespace std;
 
-#define GATE_HOST "192.168.43.164"
+#define GATE_HOST "192.168.0.2"
 //#define GATE_HOST "127.0.0.1"
 #define GATE_PORT 3014
 
@@ -400,7 +400,9 @@ void NetServerEx::onGameStart(pc_client_t *client, const char *event, void *data
     
     json_t* json = (json_t* )data;
     json_t* gameDataJson = json_object_get(json, "game");
+    DataManager::sharedDataManager()->parseJson(gameDataJson);
     
+    /*
     json_t* wJson = json_object_get(gameDataJson, "w");
     json_t* hJson = json_object_get(gameDataJson, "h");
     int col = json_integer_value(wJson);
@@ -488,6 +490,7 @@ void NetServerEx::onGameStart(pc_client_t *client, const char *event, void *data
     }
     
     DataManager::sharedDataManager()->initGrids(gridVector);
+    */
 
     
     /*

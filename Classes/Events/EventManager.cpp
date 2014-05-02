@@ -315,6 +315,15 @@ const char* EventManager::getEventName(int type) const
         case EventTypeTouchGrid:
             return "EventTypeTouchGrid";
             
+        case EventTypeChooseAnswer:
+            return "EventTypeChooseAnswer";
+            
+        case EventTypeFixAnswer:
+            return "EventTypeFixAnswer";
+            
+        case EventTypeReward:
+            return "EventTypeReward";
+            
         default:
             return "UnknownEvent";
 	}

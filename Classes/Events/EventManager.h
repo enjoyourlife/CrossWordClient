@@ -41,6 +41,9 @@ typedef enum
     EventTypeGameStart,//游戏开始
     EventTypeGameStartEx,
     EventTypeTouchGrid,//点击格子
+    EventTypeChooseAnswer,//选择答案
+    EventTypeFixAnswer,//一个词语适配事件
+    EventTypeReward,//游戏结束的奖励事件
     
     
     EventTypeEnterGame,
