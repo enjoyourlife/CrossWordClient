@@ -123,8 +123,6 @@ public:
 private:
     
     void initGridButtons();
-    //格子点击回调
-    void onGridClicked(CCObject* obj);
     //初始化gridLayer的x y移动范围限制
     void initXYRange();
     //初始化可以移动的方向

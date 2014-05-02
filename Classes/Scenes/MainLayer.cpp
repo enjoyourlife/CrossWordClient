@@ -403,71 +403,6 @@ void MainLayer::onEventFailed(Event *event)
     }
 }
 
-/*
-void MainLayer::initGridButtons()
-{
-    float beginPosX = 0.0f;
-    float beginPosY = m_gridLayer->getPosition().y;
-
-    vector<Grid*> grids = DataManager::sharedDataManager()->getGrids();
-    for (vector<Grid*>::iterator it = grids.begin(); it != grids.end(); ++it)
-    {
-        Grid *grid = *it;
-        CGControlButton *button = CGControlButton::create();
-        button->setEnabled(false);
-        int index = grid->getIndex();
-        button->setTag(index);
-        button->addTarget(this, menu_selector(MainLayer::onGridClicked));
-        
-        int type = grid->getType();
-        CCSpriteFrame* gridFrame = NULL;
-        if (type == 0)
-        {
-            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("block.png");
-        }
-        else
-        {
-            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("blank.png");
-        }
-        button->setDisplayFrame(gridFrame);
-        
-        button->setScale(m_ccbScale);
-        button->setAnchorPoint(ccp(0.0f, 1.0f));
-        
-        m_btnWidth = button->getContentSize().width;//不知道是否scale了没
-        m_btnHeight = button->getContentSize().height;
-        
-        float btnPosX = beginPosX + (index % m_col) * m_btnWidth;
-        float btnPosY = beginPosY - (index / m_col) * m_btnHeight;
-        
-        
-        //m_gridLayer的AnchorPoint设为(0.0f, 1.0f) 但其坐标原点还是在左下角
-        //而把button的AnchorPoint设为(0.0f, 1.0f) 然后setPosition设置的就是button锚点在m_gridLayer中的坐标
-        button->setPosition(ccp(btnPosX, btnPosY));
-        
-        m_gridLayer->addChild(button);
-        
-        
-        char num[3];
-        sprintf(num, "%d", index);
-        CCLabelTTF *label = CCLabelTTF::create(num, "Cochin", 36);
-        label->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
-        label->setColor(ccYELLOW);
-        button->addChild(label);
-        
-        
-        m_gridButtons.push_back(button);
-        
-    }
-
-}
-*/
-
-void MainLayer::onGridClicked(CCObject* obj)
-{
-    CCLog("i am button %d", ((CGControlButton*)obj)->getTag());
-}
-
 
 void MainLayer::initGridButtons()
 {
@@ -515,31 +450,6 @@ void MainLayer::initGridButtons()
         label->setPosition(ccp(button->getContentSize().width * 0.9f, button->getContentSize().height * 0.9f));
         label->setColor(ccYELLOW);
         button->addChild(label);
-        
-        /*
-        string word = "";
-        int phraseIndex = grid->getPhraseIndex();//第几个成语
-        int wordIndex = grid->getWordIndex();//第几个字
-        int phrase2Index = grid->getPhrase2Index();
-        int word2Index = grid->getWord2Index();
-        if (phraseIndex != -1)
-        {
-            Words *words = wordsVec.at(phraseIndex);
-            vector<string> vTemp = Utilities::splitString(words->getName(), "*");
-            word = vTemp.at(wordIndex);
-            vTemp.clear();
-        }
-        else if (phrase2Index != -1)
-        {
-            Words *words = wordsVec.at(phrase2Index);
-            vector<string> vTemp = Utilities::splitString(words->getName(), "*");
-            word = vTemp.at(word2Index);
-            vTemp.clear();
-        }
-        CCLabelTTF *wordLabel = CCLabelTTF::create(word.c_str(), "Cochin", 16);
-        wordLabel->setPosition(ccp(button->getContentSize().width * 0.1f, button->getContentSize().height * 0.1f));
-        wordLabel->setColor(ccBLUE);
-        button->addChild(wordLabel);*/
         
         int phraseIndex = grid->getPhraseIndex();//第几个成语
         int phrase2Index = grid->getPhrase2Index();
