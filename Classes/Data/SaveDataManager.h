@@ -26,10 +26,10 @@ public:
      */
     static SaveDataManager* sharedSaveDataManager();
     
-    void setUsername(const std::string username);
+    void setUsername(const std::string& username);
     const std::string getUsername();
     
-    void setPassword(const std::string password);
+    void setPassword(const std::string& password);
     const std::string getPassword();
 };
 

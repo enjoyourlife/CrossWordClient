@@ -157,11 +157,9 @@ void Hall::onCompetitiveGame(CCObject* pObject, CCControlEvent event)
 
 void Hall::onCooperationGame(CCObject* pObject, CCControlEvent event)
 {
-    /*
     DataManager::sharedDataManager()->setGameType(GameTypeCooperation);
     
     Event *e = new Event(EventTypeEnterCooperationGame);
-    EventManager::sharedEventManager()->addEvent(e);*/
+    EventManager::sharedEventManager()->addEvent(e);
     
-//    SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
 }

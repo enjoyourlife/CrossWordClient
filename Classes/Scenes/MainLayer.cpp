@@ -370,6 +370,12 @@ void MainLayer::onEventSucceeded(Event *event)
             break;
         }
             
+        case EventTypeUpdateMainEx://联网才有
+        {
+            updateMainLayer();
+            break;
+        }
+            
         case EventTypeReward:
         {
             //暂时
@@ -458,7 +464,7 @@ void MainLayer::initGridButtons()
             CCLabelTTF *wordLabel = CCLabelTTF::create("", "Cochin", 36);
             wordLabel->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
             wordLabel->setColor(ccBLUE);
-            button->addChild(wordLabel, 0, 99);
+            button->addChild(wordLabel, 0, 99);//tag = 99
         }
         
         
@@ -977,3 +983,145 @@ void MainLayer::onOk(CCObject* obj)
     
 }
 
+void MainLayer::updateMainLayer()
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    
+    if (gameType == GameTypeCompetitive)//竞技
+    {
+        vector<int> chessVec = DataManager::sharedDataManager()->getChessVec();
+//        vector<int> ownChessVec = DataManager::sharedDataManager()->getOwnChessVec();
+        
+        int chessFixNum = 0;
+        vector<int>::iterator it;
+        for (it = chessVec.begin(); it != chessVec.end(); it++)
+        {
+            int c = *it;
+            if (c == 1)
+            {
+                chessFixNum++;
+            }
+        }
+
+        int size = chessVec.size();
+//        float per = chessFixNum / chessVec.size();
+//        float ownPer = DataManager::sharedDataManager()->getRightWordsIndexVec().size() / chessVec.size();
+        
+        char perArr[9];
+        sprintf(perArr, "%d / %d", chessFixNum, size);
+        
+        int ownChessFixNum = DataManager::sharedDataManager()->getRightWordsIndexVec().size();
+        char ownPerArr[9];
+        sprintf(ownPerArr, "%d / %d", ownChessFixNum, size);
+        
+        m_mainBorderLayer->showPer(perArr, ownPerArr);
+    }
+    else if (gameType == GameTypeCooperation)
+    {
+        //取对方的应该是最新的
+        vector<int> chessVec = DataManager::sharedDataManager()->getChessVec();
+        
+        int chessFixNum = 0;
+        int fixIndex = 0;
+        vector<int>::iterator it;
+        for (it = chessVec.begin(); it != chessVec.end(); it++)
+        {
+
+            int c = *it;
+            if (c == 1)
+            {
+                chessFixNum++;
+                
+                this->showPartnerFixAnswer(fixIndex);
+            }
+            
+            fixIndex++;
+        }
+        
+        int size = chessVec.size();
+        
+        char perArr[9];
+        sprintf(perArr, "%d / %d", chessFixNum, size);
+        
+        m_mainBorderLayer->showPer(perArr, "");
+    }
+}
+
+/*
+ 1.应该比较和自己m_rightWordsIndexVec不同的索引
+ 2.然后对不同索引的成语 显示动画
+ 3.最后把该索引放入m_rightWordsIndexVec 同时设置m_selectAnswerVec 这样当点击棋盘对应点时 才不会做错误的处理
+ */
+void MainLayer::showPartnerFixAnswer(int fixIndex)
+{
+    vector<int> ownRightWordsIndexVec = DataManager::sharedDataManager()->getRightWordsIndexVec();
+    vector<int>::iterator it;
+    for (it = ownRightWordsIndexVec.begin(); it != ownRightWordsIndexVec.end(); it++)
+    {
+        int index = *it;
+        if (index == fixIndex)
+        {
+            return;
+        }
+    }
+    
+    //2
+    vector<Grid*> gridsTemp = DataManager::sharedDataManager()->getGrids();
+    vector<Answer*> selectAnswerVec = DataManager::sharedDataManager()->getSelectAnswerVec();
+    
+    for (vector<Grid*>::iterator it = gridsTemp.begin(); it != gridsTemp.end(); ++it)
+    {
+        Grid *grid = *it;
+        int gridPhraseIndex = grid->getPhraseIndex();
+        int gridPhrase2Index = grid->getPhrase2Index();
+        
+        if (fixIndex == gridPhraseIndex || fixIndex == gridPhrase2Index)
+        {
+            int gridIndex = grid->getIndex();
+            CCSprite *button = m_gridButtons.at(gridIndex);
+            
+            CCLabelTTF *wordLabel = (CCLabelTTF*)button->getChildByTag(99);
+            wordLabel->setColor(ccBLACK);
+            string wordTemp = "";
+            if (wordLabel != NULL)//显示动画的地方
+            {
+                Words *fixWords = DataManager::sharedDataManager()->getWords().at(fixIndex);
+                vector<string> wordVec = Utilities::splitString(fixWords->getName(), "*");
+                
+                if (fixIndex == gridPhraseIndex)
+                {
+                    int gridWordIndex = grid->getWordIndex();
+                    wordTemp = wordVec.at(gridWordIndex);
+                    wordLabel->setString(wordTemp.c_str());
+                }
+                else
+                {
+                    int gridWord2Index = grid->getWord2Index();
+                    wordTemp = wordVec.at(gridWord2Index);
+                    wordLabel->setString(wordTemp.c_str());
+                }
+            }
+            
+            
+            //3 设置m_selectAnswerVec
+            for (vector<Answer*>::iterator itAnswer = selectAnswerVec.begin(); itAnswer != selectAnswerVec.end(); itAnswer++)
+            {
+                Answer *a = *itAnswer;
+                if (a->getIndex() == gridIndex)
+                {
+                    a->setAnswerWord(wordTemp);
+                    a->setIsSame();
+                    a->setIsFix(true);
+                    break;
+                }
+            }
+            
+            
+        }
+        
+    }
+    
+    //3 
+    DataManager::sharedDataManager()->setRightWordsIndexVec(fixIndex);
+    
+}

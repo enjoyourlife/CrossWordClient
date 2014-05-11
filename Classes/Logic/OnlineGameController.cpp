@@ -26,6 +26,9 @@ using namespace std;
 OnlineGameController::OnlineGameController()
 {
     EventManager::sharedEventManager()->addObserver(this);
+    
+    m_pomeloLogin = new GPomeloLogin();
+    m_pomeloGame = new GPomeloGame();
 }
 
 OnlineGameController::~OnlineGameController()
@@ -37,8 +40,6 @@ void OnlineGameController::startEvent(int event, void* data)
 {
     switch (event)
     {
-        case EventTypeLogin:
-            break;
             
         default:
             break;
@@ -56,10 +57,12 @@ void OnlineGameController::startEvent(Event *event)
             //目前此框出现和消失太快 后期改进或者直接去掉  没有网络的时候有问题
             m_waiting = CGWaiting::create();
             CCDirector::sharedDirector()->getRunningScene()->addChild(m_waiting);
-            
-            
+
             LoginEvent *loginEvent = (LoginEvent*)event;
-            NetServerEx::sharedNetServerEx()->login(loginEvent->getUsername(), loginEvent->getPassword());
+            m_pomeloLogin->login(loginEvent->getUsername(), loginEvent->getPassword());
+            
+//            LoginEvent *loginEvent = (LoginEvent*)event;
+//            NetServerEx::sharedNetServerEx()->login(loginEvent->getUsername(), loginEvent->getPassword());
         
             break;
         }
@@ -137,6 +140,19 @@ void OnlineGameController::startEvent(Event *event)
             
         case EventTypeFixAnswer:
         {
+            m_pomeloGame->sendRightWordsIndexToServer();
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeUpdateMain:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeUpdateMainEx:
+        {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -189,7 +205,8 @@ void OnlineGameController::onEventSucceeded(Event* event)
             SaveDataManager::sharedSaveDataManager()->setPassword(lee->getPassword());
             
             DataManager::sharedDataManager()->setIsLogin(true);
-            
+            //明文的username SaveDataManager后期要加密存储
+            DataManager::sharedDataManager()->setUsername(lee->getUsername());
             
             //根据loginType改变界面
             int loginType = lee->getLoginType();
@@ -212,23 +229,25 @@ void OnlineGameController::onEventSucceeded(Event* event)
             break;
         }
             
-        case EventTypeSitDown:
+        case EventTypeSitDown://坐下失败尚未处理
         {
             SitDownEvent *sde = (SitDownEvent*)event;
             int type = sde->getType();
             int level = sde->getLevel();
             
-            NetServerEx::sharedNetServerEx()->sitDownOrUp(0, type, level);
+//            NetServerEx::sharedNetServerEx()->sitDownOrUp(0, type, level);
+            m_pomeloGame->userEnter(type, level);
             break;
         }
             
         case EventTypeSitUp:
         {
-            SitUpEvent *sue = (SitUpEvent*)event;
-            int type = sue->getType();
-            int level = sue->getLevel();
+//            SitUpEvent *sue = (SitUpEvent*)event;
+//            int type = sue->getType();
+//            int level = sue->getLevel();
             
-            NetServerEx::sharedNetServerEx()->sitDownOrUp(1, type, level);
+//            NetServerEx::sharedNetServerEx()->sitDownOrUp(1, type, level);
+            m_pomeloGame->userExit();
             break;
         }
             
@@ -236,13 +255,19 @@ void OnlineGameController::onEventSucceeded(Event* event)
         {
             Event *e = new Event(EventTypeGameStartEx);
             EventManager::sharedEventManager()->addEvent(e);
-            CCLog("have fun boy!~~~~~~~~~~");
             break;
         }
             
         case EventTypeGameStartEx:
         {
             SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+            break;
+        }
+            
+        case EventTypeUpdateMain:
+        {
+            Event *e = new Event(EventTypeUpdateMainEx);
+            EventManager::sharedEventManager()->addEvent(e);
             break;
         }
     }
@@ -279,6 +304,8 @@ void OnlineGameController::onEventFailed(Event *event)
             toast->setText(Localize::sharedLocalize()->getString("toast_txt5"));
             toast->playAction();
             CCDirector::sharedDirector()->getRunningScene()->addChild(toast);
+            
+            DataManager::sharedDataManager()->setUserUid("");
             break;
         }
     }

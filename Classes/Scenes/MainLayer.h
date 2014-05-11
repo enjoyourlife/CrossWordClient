@@ -178,6 +178,11 @@ private:
     void onOk(CCObject* obj);
 
     
+private:
+    //-- 联网相关的方法
+    void updateMainLayer();
+    //以很绚的动画显示合作玩家完成的答案
+    void showPartnerFixAnswer(int fixIndex);
     
 private:
     //this的CCSize

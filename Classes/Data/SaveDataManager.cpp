@@ -45,7 +45,7 @@ SaveDataManager* SaveDataManager::sharedSaveDataManager()
     return s_saveDataManager;
 }
 
-void SaveDataManager::setUsername(const string username)
+void SaveDataManager::setUsername(const string& username)
 {
     CCUserDefault::sharedUserDefault()->setStringForKey("username", username);
     CCUserDefault::sharedUserDefault()->flush();
@@ -56,7 +56,7 @@ const string SaveDataManager::getUsername()
     return CCUserDefault::sharedUserDefault()->getStringForKey("username");
 }
 
-void SaveDataManager::setPassword(const string password)
+void SaveDataManager::setPassword(const string& password)
 {
     CCUserDefault::sharedUserDefault()->setStringForKey("password", password);
     CCUserDefault::sharedUserDefault()->flush();

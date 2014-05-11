@@ -35,6 +35,9 @@ void DataManager::init()
     m_isVertical = false;
     
     initAnswerDic();
+    
+    m_userUid = "";
+    m_username = "";
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -419,5 +422,80 @@ bool DataManager::isWin()
     
     return flag;
 }
+
+void DataManager::setUserUid(const string& userUid)
+{
+    m_userUid = userUid;
+}
+
+string& DataManager::getUserUid()
+{
+    return m_userUid;
+}
+
+void DataManager::setUsername(const string& username)
+{
+    m_username = username;
+}
+
+string& DataManager::getUsername()
+{
+    return m_username;
+}
+
+void DataManager::parseGameProcJson(json_t* gameProcJson)
+{
+    json_t* usersJson = json_object_get(gameProcJson, "users");
+    size_t usersSize = json_array_size(usersJson);
+    
+    if (usersSize > 0)//防止gameProcJson有错
+    {
+        m_chessVec.clear();
+        m_ownChessVec.clear();
+    }
+    
+    for (int i = 0; i < usersSize; i++)
+    {
+        json_t *userJson = json_array_get(usersJson, i);
+        
+        json_t *uidJson = json_object_get(userJson, "uid");
+        const char *uidData = json_string_value(uidJson);
+        
+        json_t *chessJson = json_object_get(userJson, "chess");
+        size_t chessSize = json_array_size(chessJson);
+        
+        if (m_username.compare(uidData) == 0)
+        {
+            for (int j = 0; j < chessSize; j++)
+            {
+                json_t *cJson = json_array_get(chessJson, j);
+                int c = json_integer_value(cJson);
+                m_ownChessVec.push_back(c);
+            }
+        }
+        else
+        {
+            for (int j = 0; j < chessSize; j++)
+            {
+                json_t *cJson = json_array_get(chessJson, j);
+                int c = json_integer_value(cJson);
+                m_chessVec.push_back(c);
+            }
+        }
+    }
+    
+    
+}
+
+vector<int>& DataManager::getChessVec()
+{
+    return m_chessVec;
+}
+
+vector<int>& DataManager::getOwnChessVec()
+{
+    return m_ownChessVec;
+}
+
 
 

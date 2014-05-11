@@ -21,6 +21,9 @@ MainBorderLayer::MainBorderLayer()
 {
     m_leftBorder = NULL;
     m_rightBorder = NULL;
+    
+    m_per = NULL;
+    m_ownPer = NULL;
 }
 
 MainBorderLayer::~ MainBorderLayer()
@@ -28,6 +31,8 @@ MainBorderLayer::~ MainBorderLayer()
     CC_SAFE_RELEASE_NULL(m_leftBorder);
     CC_SAFE_RELEASE_NULL(m_rightBorder);
     
+    CC_SAFE_RELEASE_NULL(m_per);
+    CC_SAFE_RELEASE_NULL(m_ownPer);
 }
 
 CCScene* MainBorderLayer::scene()
@@ -108,6 +113,8 @@ bool MainBorderLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* p
 {
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_leftBorder", CCLayerColor*, m_leftBorder);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_rightBorder", CCLayerColor*, m_rightBorder);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_per", CCLabelTTF*, m_per);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownPer", CCLabelTTF*, m_ownPer);
     return false;
 }
 
@@ -168,4 +175,10 @@ void MainBorderLayer::onOk(CCObject* obj)
         
     }
     
+}
+
+void MainBorderLayer::showPer(const char* per, const char* ownPer)
+{
+    m_per->setString(per);
+    m_ownPer->setString(ownPer);
 }

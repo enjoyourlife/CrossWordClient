@@ -7,6 +7,8 @@
 #include "Scenes/Login.h"
 #include "Platform/System.h"
 #include "Network/NetServerEx.h"
+#include "Network/PomeloServer.h"
+#include "Network/GPomeloLogin.h"
 #include "CommonUI/CGDialog.h"
 
 USING_NS_CC;
@@ -162,9 +164,18 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     
 //    CGDialog::show(GameOKCancelButtonType, "waiting_txt", this, menu_selector(HelloWorld::onToast), menu_selector(HelloWorld::onToast));
     
-    std::string name = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
-    CCString *cstr = CCString::createWithContentsOfFile(name.c_str());
-    CCLog("cstr is %s", cstr->m_sString.c_str());
+//    std::string name = CCFileUtils::sharedFileUtils()->fullPathForFilename("Text/answers.json");
+//    CCString *cstr = CCString::createWithContentsOfFile(name.c_str());
+//    CCLog("cstr is %s", cstr->m_sString.c_str());
+    
+//    PomeloServer *ps = new PomeloServer();
+//    ps->init("http://localhost:1337/getip", 3010);
+//    ps->login("user1", "pwd");
+    
+    GPomeloLogin *gpl = new GPomeloLogin();
+//    gpl->init("http://localhost:1337/getip", 3010);
+    gpl->login("user1", "pwd");
+
 }
 
 void HelloWorld::onToast(CCObject* obj)

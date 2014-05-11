@@ -15,6 +15,9 @@
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
 		0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0140E0B8190C91800071E6D3 /* GameController.cpp */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
+		0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0155A08E1916852B00A2A61E /* PomeloServer.cpp */; };
+		017F96051919054F00D58055 /* GPomeloLogin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 017F96031919054F00D58055 /* GPomeloLogin.cpp */; };
+		017F96081919153700D58055 /* GPomeloGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 017F96061919153600D58055 /* GPomeloGame.cpp */; };
 		01B10EB918C32F8900649A17 /* CGToast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EB718C32F8900649A17 /* CGToast.cpp */; };
 		01B10EBB18C34AC600649A17 /* Text in Resources */ = {isa = PBXBuildFile; fileRef = 01B10EBA18C34AC600649A17 /* Text */; };
 		01B10EC118C34C8300649A17 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B10EBF18C34C8300649A17 /* Utilities.cpp */; };
@@ -310,6 +313,12 @@
 		0140E0B8190C91800071E6D3 /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
+		0155A08E1916852B00A2A61E /* PomeloServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PomeloServer.cpp; sourceTree = "<group>"; };
+		0155A08F1916852B00A2A61E /* PomeloServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloServer.h; sourceTree = "<group>"; };
+		017F96031919054F00D58055 /* GPomeloLogin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPomeloLogin.cpp; sourceTree = "<group>"; };
+		017F96041919054F00D58055 /* GPomeloLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPomeloLogin.h; sourceTree = "<group>"; };
+		017F96061919153600D58055 /* GPomeloGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPomeloGame.cpp; sourceTree = "<group>"; };
+		017F96071919153700D58055 /* GPomeloGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPomeloGame.h; sourceTree = "<group>"; };
 		01B10EB718C32F8900649A17 /* CGToast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGToast.cpp; sourceTree = "<group>"; };
 		01B10EB818C32F8900649A17 /* CGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGToast.h; sourceTree = "<group>"; };
 		01B10EBA18C34AC600649A17 /* Text */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Text; sourceTree = "<group>"; };
@@ -871,6 +880,12 @@
 				014AEC7518B6552200FFAB62 /* NetServer.h */,
 				01C2720418C7E8870050FD6D /* NetServerEx.cpp */,
 				01C2720518C7E8870050FD6D /* NetServerEx.h */,
+				0155A08E1916852B00A2A61E /* PomeloServer.cpp */,
+				0155A08F1916852B00A2A61E /* PomeloServer.h */,
+				017F96031919054F00D58055 /* GPomeloLogin.cpp */,
+				017F96041919054F00D58055 /* GPomeloLogin.h */,
+				017F96061919153600D58055 /* GPomeloGame.cpp */,
+				017F96071919153700D58055 /* GPomeloGame.h */,
 			);
 			name = Network;
 			path = ../Classes/Network;
@@ -2331,6 +2346,9 @@
 				01DFD8B61904066200D0B5BB /* Words.cpp in Sources */,
 				0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */,
 				01FE2E8D190E999E009E9D8B /* Answer.cpp in Sources */,
+				0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */,
+				017F96051919054F00D58055 /* GPomeloLogin.cpp in Sources */,
+				017F96081919153700D58055 /* GPomeloGame.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

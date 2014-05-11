@@ -313,37 +313,7 @@ private:
 
 
 
-/*!
- * @brief		进入游戏事件，带有起始玩家的人数。
- */
-class EnterGameEvent : public Event
-{
-public:
-    EnterGameEvent(int playerNumber, int npcNumber) : Event(EventTypeEnterGame)
-    {
-        m_playerNumber = playerNumber;
-        m_npcNumber = npcNumber;
-    }
-    
-    virtual ~ EnterGameEvent()
-    {
-        
-    }
-    
-    int getPlayerNumber() const
-    {
-        return m_playerNumber;
-    }
-    
-    int getNpcNumber() const
-    {
-        return m_npcNumber;
-    }
-    
-private:
-    int m_playerNumber;
-    int m_npcNumber;
-};
+
 
 
 /*!

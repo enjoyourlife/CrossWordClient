@@ -103,6 +103,20 @@ public:
     
     bool isWin();
     
+public:
+    // -- 和网络有关
+    void setUserUid(const std::string& userUid);
+    std::string& getUserUid();
+    
+    void setUsername(const std::string& username);
+    std::string& getUsername();
+    
+    //解析游戏实时数据
+    void parseGameProcJson(json_t* gameProcJson);
+    
+    std::vector<int>& getChessVec();
+    std::vector<int>& getOwnChessVec();
+    
 private:
     void clearGrids();
     void clearSelectAnswerVec();
@@ -142,6 +156,24 @@ private:
     std::vector<int> m_phrase2WordsIndexVec;//成语2所有字grid的索引
     //是否先点击了竖行 在手动点击的时候置为false
     bool m_isVertical;
+    
+    
+private:
+    // -- 和网络有关的变量
+    
+    //用户登录成功后赋于的uid
+    std::string m_userUid;
+    //用户名
+    std::string m_username;
+    
+    //对手或整个棋盘数据
+    std::vector<int> m_chessVec;
+    /*
+     自己的棋盘数据  形式如下
+     "chess": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+     1 代表该成语已经完成
+     */
+    std::vector<int> m_ownChessVec;
     
 };
 

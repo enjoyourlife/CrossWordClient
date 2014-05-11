@@ -14,6 +14,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Common/Localize.cpp \
                    ../../Classes/Network/NetServer.cpp \
                    ../../Classes/Network/NetServerEx.cpp \
+                   ../../Classes/Network/PomeloServer.cpp \
+                   ../../Classes/Network/GPomeloLogin.cpp \
+                   ../../Classes/Network/GPomeloGame.cpp \
                    ../../Classes/Data/DataManager.cpp \
                    ../../Classes/Data/SaveDataManager.cpp \
                    ../../Classes/Data/Grid.cpp \

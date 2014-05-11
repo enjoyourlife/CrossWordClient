@@ -57,6 +57,9 @@ public:
      */
 	virtual void keyMenuClicked();
     
+    //显示百分比
+    void showPer(const char* per, const char* ownPer);
+    
 private:
     
     virtual void registerWithTouchDispatcher(void);
@@ -111,6 +114,10 @@ private:
     
     cocos2d::CCLayerColor *m_leftBorder;
     cocos2d::CCLayerColor *m_rightBorder;
+    //整体或对手的百分比
+    cocos2d::CCLabelTTF *m_per;
+    //自己的百分比
+    cocos2d::CCLabelTTF *m_ownPer;
 };
 
 #endif /* defined(__CrossWordClient__MainBorderLayer__) */

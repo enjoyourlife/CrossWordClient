@@ -14,7 +14,7 @@
 #include "cocos2d.h"
 #include "pomelo.h"
 
-class NetServerEx : cocos2d::CCObject
+class NetServerEx : public cocos2d::CCObject
 {
 public:
 	NetServerEx();

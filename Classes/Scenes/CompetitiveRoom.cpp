@@ -155,10 +155,10 @@ void CompetitiveRoom::onEasy(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 0;
+    int level = 10;
     DataManager::sharedDataManager()->setLevel(level);
     
-    SitDownEvent *sde = new SitDownEvent(gameType, level);//1-竞技
+    SitDownEvent *sde = new SitDownEvent(gameType, level);//1-竞技 2-合作
     EventManager::sharedEventManager()->addEvent(sde);    
 }
 
@@ -166,7 +166,7 @@ void CompetitiveRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 1;
+    int level = 15;
     DataManager::sharedDataManager()->setLevel(level);
     
     SitDownEvent *sde = new SitDownEvent(gameType, level);
@@ -177,7 +177,7 @@ void CompetitiveRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 2;
+    int level = 20;
     DataManager::sharedDataManager()->setLevel(level);
     
     SitDownEvent *sde = new SitDownEvent(gameType, level);

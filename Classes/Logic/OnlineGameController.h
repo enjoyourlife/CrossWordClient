@@ -14,6 +14,8 @@
 #include "../Events/EventObserver.h"
 #include "../Data/Grid.h"
 #include "../CommonUI/CGWaiting.h"
+#include "../Network/GPomeloLogin.h"
+#include "../Network/GPomeloGame.h"
 
 class OnlineGameController : public GameController, public EventObserver
 {
@@ -61,6 +63,13 @@ private:
     void enterCompOrCoopGame(Event* event);
     
     CGWaiting* m_waiting;
+    
+private:
+    //登录Pomelo
+    GPomeloLogin *m_pomeloLogin;
+    //游戏Pomelo
+    GPomeloGame *m_pomeloGame;
+    
 };
 
 #endif /* defined(__SnakeClient__OnlineGameController__) */

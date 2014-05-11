@@ -324,6 +324,12 @@ const char* EventManager::getEventName(int type) const
         case EventTypeReward:
             return "EventTypeReward";
             
+        case EventTypeUpdateMain:
+            return "EventTypeUpdateMain";
+            
+        case EventTypeUpdateMainEx:
+            return "EventTypeUpdateMainEx";
+            
         default:
             return "UnknownEvent";
 	}

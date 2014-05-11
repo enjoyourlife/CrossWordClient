@@ -178,8 +178,8 @@ void WaitingRoom::onBack(CCObject* pObject, CCControlEvent event)
         SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
         EventManager::sharedEventManager()->addEvent(sue);
         
-        //先站起然后回到大厅
-        Event *e = new Event(EventTypeEnterHall);
+        //先站起然后回到选难度界面
+        Event *e = new Event(EventTypeEnterCompetitiveGame);
         EventManager::sharedEventManager()->addEvent(e);
     }
     

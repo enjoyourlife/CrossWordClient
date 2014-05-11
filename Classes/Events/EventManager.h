@@ -44,9 +44,10 @@ typedef enum
     EventTypeChooseAnswer,//选择答案
     EventTypeFixAnswer,//一个词语适配事件
     EventTypeReward,//游戏结束的奖励事件
+    EventTypeUpdateMain,//联网游戏过程中刷新主界面
+    EventTypeUpdateMainEx,
     
     
-    EventTypeEnterGame,
     EventTypeRoll,//掷骰子
     EventTypeWin,//检测是否有赢家
 }
