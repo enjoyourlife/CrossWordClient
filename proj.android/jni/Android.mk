@@ -9,6 +9,16 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
+../../Classes/easySQLite/SHA1.cpp \
+../../Classes/easySQLite/SqlCommon.cpp \
+../../Classes/easySQLite/SqlDatabase.cpp \
+../../Classes/easySQLite/SqlField.cpp \
+../../Classes/easySQLite/SqlFieldSet.cpp \
+../../Classes/easySQLite/SqlRecord.cpp \
+../../Classes/easySQLite/SqlRecordSet.cpp \
+../../Classes/easySQLite/SqlTable.cpp \
+../../Classes/easySQLite/SqlValue.cpp \
+../../Classes/easySQLite/sqlite3.c \
                    ../../Classes/Platform/SystemAndroid.cpp \
                    ../../Classes/Common/Utilities.cpp \
                    ../../Classes/Common/Localize.cpp \

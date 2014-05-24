@@ -20,6 +20,8 @@ public:
     
     //toast回调
     void onToast(CCObject* obj);
+    
+    void testSql();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

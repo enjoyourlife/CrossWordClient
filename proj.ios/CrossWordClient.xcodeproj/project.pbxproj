@@ -13,6 +13,20 @@
 		011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259B118C051B0002F5063 /* SingleRoom.cpp */; };
 		012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3D918B98BBD00A4910E /* CCB-1024X768 */; };
 		012AA3DC18B98BBD00A4910E /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 012AA3DA18B98BBD00A4910E /* Images */; };
+		0130776D19303B4B00897B3E /* _AUTHOR.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 0130775519303B4B00897B3E /* _AUTHOR.TXT */; };
+		0130776E19303B4B00897B3E /* _LICENSE.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 0130775619303B4B00897B3E /* _LICENSE.TXT */; };
+		0130776F19303B4B00897B3E /* _ReadMe.html in Resources */ = {isa = PBXBuildFile; fileRef = 0130775719303B4B00897B3E /* _ReadMe.html */; };
+		0130777019303B4B00897B3E /* _VERSION.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 0130775819303B4B00897B3E /* _VERSION.TXT */; };
+		0130777119303B4B00897B3E /* SHA1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130775919303B4B00897B3E /* SHA1.cpp */; };
+		0130777219303B4B00897B3E /* SqlCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130775B19303B4B00897B3E /* SqlCommon.cpp */; };
+		0130777319303B4B00897B3E /* SqlDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130775D19303B4B00897B3E /* SqlDatabase.cpp */; };
+		0130777419303B4B00897B3E /* SqlField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130775F19303B4B00897B3E /* SqlField.cpp */; };
+		0130777519303B4B00897B3E /* SqlFieldSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776119303B4B00897B3E /* SqlFieldSet.cpp */; };
+		0130777619303B4B00897B3E /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 0130776319303B4B00897B3E /* sqlite3.c */; };
+		0130777719303B4B00897B3E /* SqlRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776519303B4B00897B3E /* SqlRecord.cpp */; };
+		0130777819303B4B00897B3E /* SqlRecordSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776719303B4B00897B3E /* SqlRecordSet.cpp */; };
+		0130777919303B4B00897B3E /* SqlTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776919303B4B00897B3E /* SqlTable.cpp */; };
+		0130777A19303B4B00897B3E /* SqlValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776B19303B4B00897B3E /* SqlValue.cpp */; };
 		0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0140E0B8190C91800071E6D3 /* GameController.cpp */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
 		0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0155A08E1916852B00A2A61E /* PomeloServer.cpp */; };
@@ -310,6 +324,30 @@
 		011259B218C051B1002F5063 /* SingleRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRoom.h; sourceTree = "<group>"; };
 		012AA3D918B98BBD00A4910E /* CCB-1024X768 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-1024X768"; sourceTree = "<group>"; };
 		012AA3DA18B98BBD00A4910E /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
+		0130775519303B4B00897B3E /* _AUTHOR.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _AUTHOR.TXT; sourceTree = "<group>"; };
+		0130775619303B4B00897B3E /* _LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _LICENSE.TXT; sourceTree = "<group>"; };
+		0130775719303B4B00897B3E /* _ReadMe.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = _ReadMe.html; sourceTree = "<group>"; };
+		0130775819303B4B00897B3E /* _VERSION.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _VERSION.TXT; sourceTree = "<group>"; };
+		0130775919303B4B00897B3E /* SHA1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SHA1.cpp; sourceTree = "<group>"; };
+		0130775A19303B4B00897B3E /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
+		0130775B19303B4B00897B3E /* SqlCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlCommon.cpp; sourceTree = "<group>"; };
+		0130775C19303B4B00897B3E /* SqlCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlCommon.h; sourceTree = "<group>"; };
+		0130775D19303B4B00897B3E /* SqlDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlDatabase.cpp; sourceTree = "<group>"; };
+		0130775E19303B4B00897B3E /* SqlDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlDatabase.h; sourceTree = "<group>"; };
+		0130775F19303B4B00897B3E /* SqlField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlField.cpp; sourceTree = "<group>"; };
+		0130776019303B4B00897B3E /* SqlField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlField.h; sourceTree = "<group>"; };
+		0130776119303B4B00897B3E /* SqlFieldSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlFieldSet.cpp; sourceTree = "<group>"; };
+		0130776219303B4B00897B3E /* SqlFieldSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlFieldSet.h; sourceTree = "<group>"; };
+		0130776319303B4B00897B3E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		0130776419303B4B00897B3E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		0130776519303B4B00897B3E /* SqlRecord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlRecord.cpp; sourceTree = "<group>"; };
+		0130776619303B4B00897B3E /* SqlRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlRecord.h; sourceTree = "<group>"; };
+		0130776719303B4B00897B3E /* SqlRecordSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlRecordSet.cpp; sourceTree = "<group>"; };
+		0130776819303B4B00897B3E /* SqlRecordSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlRecordSet.h; sourceTree = "<group>"; };
+		0130776919303B4B00897B3E /* SqlTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlTable.cpp; sourceTree = "<group>"; };
+		0130776A19303B4B00897B3E /* SqlTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlTable.h; sourceTree = "<group>"; };
+		0130776B19303B4B00897B3E /* SqlValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlValue.cpp; sourceTree = "<group>"; };
+		0130776C19303B4B00897B3E /* SqlValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlValue.h; sourceTree = "<group>"; };
 		0140E0B8190C91800071E6D3 /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
@@ -873,6 +911,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0130775419303B4B00897B3E /* easySQLite */ = {
+			isa = PBXGroup;
+			children = (
+				0130775519303B4B00897B3E /* _AUTHOR.TXT */,
+				0130775619303B4B00897B3E /* _LICENSE.TXT */,
+				0130775719303B4B00897B3E /* _ReadMe.html */,
+				0130775819303B4B00897B3E /* _VERSION.TXT */,
+				0130775919303B4B00897B3E /* SHA1.cpp */,
+				0130775A19303B4B00897B3E /* SHA1.h */,
+				0130775B19303B4B00897B3E /* SqlCommon.cpp */,
+				0130775C19303B4B00897B3E /* SqlCommon.h */,
+				0130775D19303B4B00897B3E /* SqlDatabase.cpp */,
+				0130775E19303B4B00897B3E /* SqlDatabase.h */,
+				0130775F19303B4B00897B3E /* SqlField.cpp */,
+				0130776019303B4B00897B3E /* SqlField.h */,
+				0130776119303B4B00897B3E /* SqlFieldSet.cpp */,
+				0130776219303B4B00897B3E /* SqlFieldSet.h */,
+				0130776319303B4B00897B3E /* sqlite3.c */,
+				0130776419303B4B00897B3E /* sqlite3.h */,
+				0130776519303B4B00897B3E /* SqlRecord.cpp */,
+				0130776619303B4B00897B3E /* SqlRecord.h */,
+				0130776719303B4B00897B3E /* SqlRecordSet.cpp */,
+				0130776819303B4B00897B3E /* SqlRecordSet.h */,
+				0130776919303B4B00897B3E /* SqlTable.cpp */,
+				0130776A19303B4B00897B3E /* SqlTable.h */,
+				0130776B19303B4B00897B3E /* SqlValue.cpp */,
+				0130776C19303B4B00897B3E /* SqlValue.h */,
+			);
+			name = easySQLite;
+			path = ../Classes/easySQLite;
+			sourceTree = "<group>";
+		};
 		014AEC7318B6526800FFAB62 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1525,6 +1595,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0130775419303B4B00897B3E /* easySQLite */,
 				01C0746D18C61CD2002DBF91 /* Platform */,
 				01B10EBE18C34BDF00649A17 /* Common */,
 				01D1305918BB5ED600BCCE03 /* Data */,
@@ -2094,6 +2165,10 @@
 				012AA3DB18B98BBD00A4910E /* CCB-1024X768 in Resources */,
 				012AA3DC18B98BBD00A4910E /* Images in Resources */,
 				01B10EBB18C34AC600649A17 /* Text in Resources */,
+				0130776D19303B4B00897B3E /* _AUTHOR.TXT in Resources */,
+				0130776E19303B4B00897B3E /* _LICENSE.TXT in Resources */,
+				0130776F19303B4B00897B3E /* _ReadMe.html in Resources */,
+				0130777019303B4B00897B3E /* _VERSION.TXT in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2349,6 +2424,16 @@
 				0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */,
 				017F96051919054F00D58055 /* GPomeloLogin.cpp in Sources */,
 				017F96081919153700D58055 /* GPomeloGame.cpp in Sources */,
+				0130777119303B4B00897B3E /* SHA1.cpp in Sources */,
+				0130777219303B4B00897B3E /* SqlCommon.cpp in Sources */,
+				0130777319303B4B00897B3E /* SqlDatabase.cpp in Sources */,
+				0130777419303B4B00897B3E /* SqlField.cpp in Sources */,
+				0130777519303B4B00897B3E /* SqlFieldSet.cpp in Sources */,
+				0130777619303B4B00897B3E /* sqlite3.c in Sources */,
+				0130777719303B4B00897B3E /* SqlRecord.cpp in Sources */,
+				0130777819303B4B00897B3E /* SqlRecordSet.cpp in Sources */,
+				0130777919303B4B00897B3E /* SqlTable.cpp in Sources */,
+				0130777A19303B4B00897B3E /* SqlValue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

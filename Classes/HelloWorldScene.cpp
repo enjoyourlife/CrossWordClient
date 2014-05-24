@@ -10,9 +10,13 @@
 #include "Network/PomeloServer.h"
 #include "Network/GPomeloLogin.h"
 #include "CommonUI/CGDialog.h"
+#include "easySQLite/SqlDatabase.h"
+#include "easySQLite/SqlCommon.h"
+#include "easySQLite/SqlTable.h"
+#include "easySQLite/SqlField.h"
 
 USING_NS_CC;
-
+using namespace sql;
 
 CCScene* HelloWorld::scene()
 {
@@ -172,13 +176,90 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 //    ps->init("http://localhost:1337/getip", 3010);
 //    ps->login("user1", "pwd");
     
-    GPomeloLogin *gpl = new GPomeloLogin();
-//    gpl->init("http://localhost:1337/getip", 3010);
-    gpl->login("user1", "pwd");
+//    GPomeloLogin *gpl = new GPomeloLogin();
+////    gpl->init("http://localhost:1337/getip", 3010);
+//    gpl->login("user1", "pwd");
+    
+    testSql();
 
 }
 
 void HelloWorld::onToast(CCObject* obj)
 {
     CCLog("just toast!");
+}
+
+
+
+void HelloWorld::testSql()
+{
+    CCLog("i am here");
+    
+    Field definition_tbPerson[] =
+    {
+        Field(FIELD_KEY),
+        Field("fname", type_text, flag_not_null),
+        Field("lname", type_text, flag_not_null),
+        Field("birthdate", type_time),
+        Field(DEFINITION_END),
+    };
+    
+    Database db;
+    
+    try
+    {
+        string sqlPath = CCFileUtils::sharedFileUtils()->getWritablePath() + "test.db";
+        CCLog("sqlpath is %s", sqlPath.c_str());
+        
+        db.open(sqlPath);
+        
+        CCLog("db open success~~~~~~");
+        
+        Table tbPerson(db.getHandle(), "person", definition_tbPerson);
+        
+        //remove table from database if exists
+        if (tbPerson.exists())
+            tbPerson.remove();
+        
+        //create new table
+        tbPerson.create();
+        
+        //loads all records to internal recordset
+        tbPerson.open();
+        
+        CCLog("table records num is %d", tbPerson.recordCount());
+        
+        
+        //insert
+        Record record(tbPerson.fields());
+        
+        record.setString("fname", "Jan");
+        record.setString("lname", "Kowalski");
+        record.setTime("birthdate", time::now());
+        
+        tbPerson.addRecord(&record);
+        
+        
+        //query
+        tbPerson.open();
+        
+        for (int index = 0; index < tbPerson.recordCount(); index++)
+            if (Record* record = tbPerson.getRecord(index))
+            {
+                CCLog("record is %s", record->toString().c_str());
+                CGToast *toast = CGToast::create();
+                toast->setText(record->toString().c_str());
+                toast->addTarget(this, menu_selector(HelloWorld::onToast));
+                toast->playAction();
+                this->addChild(toast);
+            }
+                
+        
+        
+        
+        
+    } catch (Exception e) {
+        //...
+        CCLog("exception~~~~~~");
+    }
 }
