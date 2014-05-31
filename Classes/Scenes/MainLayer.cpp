@@ -9,7 +9,6 @@
 #include "MainLayer.h"
 #include "../CommonUI/CGCCBReader.h"
 #include "../Data/Grid.h"
-#include "../Data/Words.h"
 #include "../Data/DataManager.h"
 #include "../Common/Utilities.h"
 #include "../Events/GameEvents.h"
@@ -72,6 +71,10 @@ MainLayer::MainLayer()
     m_tip1 = NULL;
     m_tip2Bg = NULL;
     m_tip2 = NULL;
+    m_bonusSpriteH = NULL;
+    m_bonusBMFontH = NULL;
+    m_bonusSpriteV = NULL;
+    m_bonusBMFontV = NULL;
     
     m_touchGridActionSprite = NULL;
     
@@ -98,6 +101,10 @@ MainLayer::~ MainLayer()
     CC_SAFE_RELEASE_NULL(m_tip1);
     CC_SAFE_RELEASE_NULL(m_tip2Bg);
     CC_SAFE_RELEASE_NULL(m_tip2);
+    CC_SAFE_RELEASE_NULL(m_bonusSpriteH);
+    CC_SAFE_RELEASE_NULL(m_bonusBMFontH);
+    CC_SAFE_RELEASE_NULL(m_bonusSpriteV);
+    CC_SAFE_RELEASE_NULL(m_bonusBMFontV);
     
     vector<CCLabelTTF*>::iterator it;
     for (it = m_answersV.begin(); it != m_answersV.end(); it++)
@@ -235,6 +242,10 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip1", CCLabelTTF*, m_tip1);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2Bg", CCLayer*, m_tip2Bg);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2", CCLabelTTF*, m_tip2);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusSpriteH", CCSprite*, m_bonusSpriteH);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusBMFontH", CCLabelBMFont*, m_bonusBMFontH);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusSpriteV", CCSprite*, m_bonusSpriteV);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusBMFontV", CCLabelBMFont*, m_bonusBMFontV);
 
 
     char name[15];
@@ -379,7 +390,12 @@ void MainLayer::onEventSucceeded(Event *event)
         case EventTypeReward:
         {
             //暂时
-            CGDialog::show(GameOKCancelButtonType, "reward_txt", this, menu_selector(MainLayer::onOk), NULL);
+            if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+            {
+                showLocalUserRewardOrWinLayer(event);
+                m_mainBorderLayer->updateLocalUserData();
+            }
+            
             break;
         }
             
@@ -696,6 +712,8 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
             string tip = words->getTips();
             m_tip1Bg->setVisible(true);
             m_tip1->setString(tip.c_str());
+            
+            showCountDownBonus(words, true);
         }
         else
         {
@@ -708,6 +726,8 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
             string tip = words->getTips();
             m_tip2Bg->setVisible(true);
             m_tip2->setString(tip.c_str());
+         
+            showCountDownBonus(words, false);
         }
         else
         {
@@ -717,6 +737,66 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
     else
     {
         m_tipsBg->setVisible(false);
+    }
+}
+
+void MainLayer::showCountDownBonus(Words *words, bool isH)
+{
+    int bonusType = words->getBonusType();
+    int bonusValue = words->getBonusValue();
+    char bonus[10];
+    
+    CCSpriteFrame *frame = NULL;
+    switch (bonusType)
+    {
+        case 1:
+        {
+            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+            break;
+        }
+            
+        case 2:
+        {
+            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("sublevel_star.png");
+            break;
+        }
+            
+        default:
+            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+            break;
+    }
+    
+    if (isH)
+    {
+        if (bonusType > 0 && !words->isGet())
+        {
+            m_bonusSpriteH->setVisible(true);
+            m_bonusSpriteH->setDisplayFrame(frame);
+            
+            sprintf(bonus, "%d", bonusValue);
+            m_bonusBMFontH->setString(bonus);
+        }
+        else
+        {
+            m_bonusSpriteH->setVisible(false);
+        }
+
+    }
+    else
+    {
+        if (bonusType > 0 && !words->isGet())
+        {
+            m_bonusSpriteV->setVisible(true);
+            m_bonusSpriteV->setDisplayFrame(frame);
+ 
+            sprintf(bonus, "%d", bonusValue);
+            m_bonusBMFontV->setString(bonus);
+        }
+        else
+        {
+            m_bonusSpriteV->setVisible(false);
+        }
+
     }
 }
 
@@ -951,6 +1031,100 @@ bool MainLayer::checkGridIndexIsFix(int gridIndex)
     }
     
     return flag;
+}
+
+/*
+ 暂时只在中间弹出银币动画 和 经验动画 
+ 不在每个词语的位置弹
+ 后期需要优化这个方法 太长了
+ */
+void MainLayer::showLocalUserRewardOrWinLayer(Event *event)
+{
+    RewardEvent *re = (RewardEvent*)event;
+    int bonusType = re->getBonusType();
+    switch (bonusType)
+    {
+        case 1:
+        {
+            //银币
+            CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+            CCSprite *silverSprite = CCSprite::createWithSpriteFrame(frame);
+            
+            CCBlink *blink = CCBlink::create(1.5f, 5);
+            CCCallFuncN *blinkDone = CCCallFuncN::create(this, callfuncN_selector(MainLayer::blinkDone));
+            CCSequence* sequence = CCSequence::createWithTwoActions(blink, blinkDone);
+            silverSprite->runAction(sequence);
+            
+            silverSprite->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width * 0.5f, CCDirector::sharedDirector()->getWinSize().height * 0.5f));
+            this->addChild(silverSprite);
+            
+            break;
+        }
+        case 2:
+        {
+            //经验
+            CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("sublevel_star.png");
+            CCSprite *expSprite = CCSprite::createWithSpriteFrame(frame);
+            
+            CCBlink *blink = CCBlink::create(1.5f, 5);
+            CCCallFuncN *blinkDone = CCCallFuncN::create(this, callfuncN_selector(MainLayer::blinkDone));
+            CCSequence* sequence = CCSequence::createWithTwoActions(blink, blinkDone);
+            expSprite->runAction(sequence);
+            
+            expSprite->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width * 0.5f, CCDirector::sharedDirector()->getWinSize().height * 0.5f));
+            this->addChild(expSprite);
+            
+            break;
+        }
+        case 3:
+        {
+            //经验 和 银币
+            CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+            CCSprite *silverSprite = CCSprite::createWithSpriteFrame(frame);
+            
+            CCBlink *blink = CCBlink::create(1.5f, 5);
+            CCCallFuncN *blinkDone = CCCallFuncN::create(this, callfuncN_selector(MainLayer::blinkDone));
+            CCSequence* sequence = CCSequence::createWithTwoActions(blink, blinkDone);
+            silverSprite->runAction(sequence);
+            
+            silverSprite->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width * 0.45f, CCDirector::sharedDirector()->getWinSize().height * 0.5f));
+            this->addChild(silverSprite);
+            
+            
+            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("sublevel_star.png");
+            CCSprite *expSprite = CCSprite::createWithSpriteFrame(frame);
+            
+            blink = CCBlink::create(1.5f, 5);
+            blinkDone = CCCallFuncN::create(this, callfuncN_selector(MainLayer::blinkDone));
+            sequence = CCSequence::createWithTwoActions(blink, blinkDone);
+            expSprite->runAction(sequence);
+            
+            expSprite->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width * 0.55f, CCDirector::sharedDirector()->getWinSize().height * 0.5f));
+            this->addChild(expSprite);
+            
+            break;
+        }
+        case 4:
+        {
+            //弹结算框
+            CGDialog::show(GameOKCancelButtonType, "reward_txt", this, menu_selector(MainLayer::onOk), NULL);
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    //如果升级 升级动画
+    if (DataManager::sharedDataManager()->getLocalUser()->m_isLevelUp)
+    {
+        CCLog("level up~~~");
+    }
+}
+
+void MainLayer::blinkDone(CCNode* parent)
+{
+    parent->removeFromParentAndCleanup(true);
 }
 
 void MainLayer::onOk(CCObject* obj)

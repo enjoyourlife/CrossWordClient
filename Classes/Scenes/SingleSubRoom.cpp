@@ -247,7 +247,7 @@ CCLayerColor* SingleSubRoom::getContainerLayer()
     for (int i = 0; i < m_pageCount; i++)
     {
         CGControlButton *button = CGControlButton::create();
-        button->setTag(i);
+        button->setTag(i);//子关数 现在每页只有1关 后期应该扩展
         button->addTarget(this, menu_selector(SingleSubRoom::onBtnClicked));
         
         CCSpriteFrame* pokerFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("poker_back.png");

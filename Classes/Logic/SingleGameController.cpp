@@ -68,6 +68,9 @@ void SingleGameController::startEvent(Event *event)
         case EventTypeGameStart:
         {
             parseJson();
+            //设置随机奖励的成语
+            DataManager::sharedDataManager()->randomInitLocalWordBonus();
+            
             DataManager::sharedDataManager()->clearRightWordsIndexVec();
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
@@ -93,8 +96,7 @@ void SingleGameController::startEvent(Event *event)
             
         case EventTypeReward:
         {
-            //暂时
-            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            handleLocalUserRewardEvent(event);
             break;
         }
         default:
@@ -124,6 +126,17 @@ void SingleGameController::onEventSucceeded(Event* event)
             SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
             break;
         }
+            
+        case EventTypeFixAnswer:
+        {
+            //此时调用本地玩家奖励方法
+            FixAnswerEvent *fixAnswerEvent = (FixAnswerEvent*)event;
+            int phraseIndex = fixAnswerEvent->getPhraseIndex();
+            int phrase2Index = fixAnswerEvent->getPhrase2Index();
+            
+            localUserBonus(phraseIndex, phrase2Index);
+            break;
+        }
     }
     
 }
@@ -148,21 +161,21 @@ void SingleGameController::parseJson()
 {
     int level = DataManager::sharedDataManager()->getLevel();
     int subLevel = DataManager::sharedDataManager()->getSingleSubLevel();
-    char jsonFileName[20];
+    char jsonFileName[30];
     switch (level)
     {
         case 0:
-            sprintf(jsonFileName, "Text/e%d.json", subLevel);
+            sprintf(jsonFileName, "Text/map10_%04d.json", subLevel);
             break;
         case 1:
-            sprintf(jsonFileName, "Text/n%d.json", subLevel);
+            sprintf(jsonFileName, "Text/map15_%04d.json", subLevel);
             break;
         case 2:
-            sprintf(jsonFileName, "Text/h%d.json", subLevel);
+            sprintf(jsonFileName, "Text/map20_%04d.json", subLevel);
             break;
             
         default:
-            sprintf(jsonFileName, "Text/e%d.json", subLevel);
+            sprintf(jsonFileName, "Text/map10_%04d.json", subLevel);
             break;
     }
     
@@ -297,3 +310,101 @@ void SingleGameController::parseJson()
     */
 }
 
+void SingleGameController::localUserBonus(int phraseIndex, int phrase2Index)
+{
+    //不管如何先给对应的奖励 
+    localUserBonusByPhraseIndex(phraseIndex);
+    localUserBonusByPhraseIndex(phrase2Index);
+    
+    //然后胜利还给胜利奖励 同时在mainlayer弹出结算框
+    bool isWin = checkGameWin();
+    int bonusType = 0;
+    if (isWin)//单机游戏结束
+    {
+        bonusType = 4;
+        
+        RewardEvent *rewardEvent = new RewardEvent(bonusType);
+        rewardEvent->setIsWin(isWin);
+        
+        vector<int> localPassBonus = DataManager::sharedDataManager()->getLocalPassBonus();
+        if (localPassBonus.size() == 2)
+        {
+            rewardEvent->setBonusSilver(localPassBonus.at(0));
+            rewardEvent->setBonusExp(localPassBonus.at(1));
+        }
+        
+        EventManager::sharedEventManager()->addEvent(rewardEvent);
+    }
+    
+    
+}
+
+void SingleGameController::localUserBonusByPhraseIndex(int phraseIndex)
+{
+    if (phraseIndex != -1)
+    {
+        RewardEvent *rewardEvent = NULL;
+        int bonusType = 0;
+        
+        Words *words = DataManager::sharedDataManager()->getWords().at(phraseIndex);
+        int wordsBonusType = words->getBonusType();
+        if (wordsBonusType > 0)
+        {
+            rewardEvent = new RewardEvent(wordsBonusType);
+            if (wordsBonusType == 1)
+            {
+                rewardEvent->setBonusSilver(words->getBonusValue());
+            }
+            else if (wordsBonusType == 2)
+            {
+                rewardEvent->setBonusExp(words->getBonusValue());
+            }
+        }
+        else
+        {
+            bonusType = 3;
+            rewardEvent = new RewardEvent(bonusType);
+            
+            vector<int> localEveryBonus = DataManager::sharedDataManager()->getLocalEveryBonus();
+            if (localEveryBonus.size() == 2)
+            {
+                rewardEvent->setBonusSilver(localEveryBonus.at(0));
+                rewardEvent->setBonusExp(localEveryBonus.at(1));
+            }
+        }
+        
+        EventManager::sharedEventManager()->addEvent(rewardEvent);
+    }
+}
+
+void SingleGameController::handleLocalUserRewardEvent(Event *event)
+{
+    RewardEvent *re = (RewardEvent*)event;
+    int bonusType = re->getBonusType();
+    switch (bonusType)
+    {
+        case 1:
+        {
+            //钱满给提示
+            DataManager::sharedDataManager()->updateLocalUserSilver(re->getBonusSilver());
+            break;
+        }
+        case 2:
+        {
+            DataManager::sharedDataManager()->updateLocalUser(re->getBonusExp());
+            break;
+        }
+        case 3:
+        case 4:
+        {
+            DataManager::sharedDataManager()->updateLocalUser(re->getBonusExp());
+            DataManager::sharedDataManager()->updateLocalUserSilver(re->getBonusSilver());
+            break;
+        }
+
+        default:
+            break;
+    }
+    
+    EventManager::sharedEventManager()->notifyEventSucceeded(event);
+}

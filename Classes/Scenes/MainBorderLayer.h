@@ -60,6 +60,9 @@ public:
     //显示百分比
     void showPer(const char* per, const char* ownPer);
     
+    //显示单机玩家信息
+    void updateLocalUserData();
+    
 private:
     
     virtual void registerWithTouchDispatcher(void);
@@ -118,6 +121,13 @@ private:
     cocos2d::CCLabelTTF *m_per;
     //自己的百分比
     cocos2d::CCLabelTTF *m_ownPer;
+    
+    
+    //左侧单机相关变量
+    cocos2d::CCLayer *m_localUserBg;
+    cocos2d::CCLabelTTF *m_localUserSilver;
+    cocos2d::CCLabelTTF *m_localUserLevel;
+    cocos2d::CCLabelTTF *m_localUserExp;
 };
 
 #endif /* defined(__CrossWordClient__MainBorderLayer__) */

@@ -56,6 +56,18 @@ public:
 private:
     //解析关卡数据
     void parseJson();
+    
+    /*
+     处理本地玩家奖励 发送RewardEvent事件
+     由于判断词语正确与否的逻辑是放在本地的 
+     所以 单机奖励在EventTypeFixAnswer事件成功后判断给出
+     联网奖励却应该由服务器给出 应该在onGameProc里或其他回调里获取 然后再发送一个RewardEvent事件
+     */
+    void localUserBonus(int phraseIndex, int phrase2Index);
+    void localUserBonusByPhraseIndex(int phraseIndex);
+    
+    //处理RewardEvent奖励事件
+    void handleLocalUserRewardEvent(Event *event);
 };
 
 #endif /* defined(__SnakeClient__SingleGameController__) */

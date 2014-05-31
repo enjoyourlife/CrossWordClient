@@ -27,6 +27,11 @@ OnlineGameController::OnlineGameController()
 {
     EventManager::sharedEventManager()->addObserver(this);
     
+    /*
+     当EventManager被初始化时 m_onlineController也被初始化
+     此时 把联网的操作放在这个构造方法里 就会导致马上进行联网 速度变慢
+     后期一定要改进
+    */
     m_pomeloLogin = new GPomeloLogin();
     m_pomeloGame = new GPomeloGame();
 }

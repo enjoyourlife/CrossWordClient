@@ -27,8 +27,11 @@
 		0130777819303B4B00897B3E /* SqlRecordSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776719303B4B00897B3E /* SqlRecordSet.cpp */; };
 		0130777919303B4B00897B3E /* SqlTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776919303B4B00897B3E /* SqlTable.cpp */; };
 		0130777A19303B4B00897B3E /* SqlValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0130776B19303B4B00897B3E /* SqlValue.cpp */; };
+		013CD49D193895A600D931D1 /* Configs in Resources */ = {isa = PBXBuildFile; fileRef = 013CD49C193895A600D931D1 /* Configs */; };
 		0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0140E0B8190C91800071E6D3 /* GameController.cpp */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
+		014F85B31930950D008805E4 /* LocalUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014F85B11930950D008805E4 /* LocalUser.cpp */; };
+		014F85B6193099FC008805E4 /* DBManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014F85B4193099FB008805E4 /* DBManager.cpp */; };
 		0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0155A08E1916852B00A2A61E /* PomeloServer.cpp */; };
 		017F96051919054F00D58055 /* GPomeloLogin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 017F96031919054F00D58055 /* GPomeloLogin.cpp */; };
 		017F96081919153700D58055 /* GPomeloGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 017F96061919153600D58055 /* GPomeloGame.cpp */; };
@@ -348,9 +351,14 @@
 		0130776A19303B4B00897B3E /* SqlTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlTable.h; sourceTree = "<group>"; };
 		0130776B19303B4B00897B3E /* SqlValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SqlValue.cpp; sourceTree = "<group>"; };
 		0130776C19303B4B00897B3E /* SqlValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlValue.h; sourceTree = "<group>"; };
+		013CD49C193895A600D931D1 /* Configs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configs; sourceTree = "<group>"; };
 		0140E0B8190C91800071E6D3 /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
+		014F85B11930950D008805E4 /* LocalUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalUser.cpp; sourceTree = "<group>"; };
+		014F85B21930950D008805E4 /* LocalUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalUser.h; sourceTree = "<group>"; };
+		014F85B4193099FB008805E4 /* DBManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DBManager.cpp; sourceTree = "<group>"; };
+		014F85B5193099FB008805E4 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		0155A08E1916852B00A2A61E /* PomeloServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PomeloServer.cpp; sourceTree = "<group>"; };
 		0155A08F1916852B00A2A61E /* PomeloServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloServer.h; sourceTree = "<group>"; };
 		017F96031919054F00D58055 /* GPomeloLogin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPomeloLogin.cpp; sourceTree = "<group>"; };
@@ -1098,6 +1106,10 @@
 				01DFD8B51904066200D0B5BB /* Words.h */,
 				01FE2E8B190E999E009E9D8B /* Answer.cpp */,
 				01FE2E8C190E999E009E9D8B /* Answer.h */,
+				014F85B11930950D008805E4 /* LocalUser.cpp */,
+				014F85B21930950D008805E4 /* LocalUser.h */,
+				014F85B4193099FB008805E4 /* DBManager.cpp */,
+				014F85B5193099FB008805E4 /* DBManager.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -2064,6 +2076,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				013CD49C193895A600D931D1 /* Configs */,
 				01B10EBA18C34AC600649A17 /* Text */,
 				012AA3D918B98BBD00A4910E /* CCB-1024X768 */,
 				012AA3DA18B98BBD00A4910E /* Images */,
@@ -2169,6 +2182,7 @@
 				0130776E19303B4B00897B3E /* _LICENSE.TXT in Resources */,
 				0130776F19303B4B00897B3E /* _ReadMe.html in Resources */,
 				0130777019303B4B00897B3E /* _VERSION.TXT in Resources */,
+				013CD49D193895A600D931D1 /* Configs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2434,6 +2448,8 @@
 				0130777819303B4B00897B3E /* SqlRecordSet.cpp in Sources */,
 				0130777919303B4B00897B3E /* SqlTable.cpp in Sources */,
 				0130777A19303B4B00897B3E /* SqlValue.cpp in Sources */,
+				014F85B31930950D008805E4 /* LocalUser.cpp in Sources */,
+				014F85B6193099FC008805E4 /* DBManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -198,16 +198,6 @@ void GameController::handleChooseAnswerEvent(Event *event)
                     EventManager::sharedEventManager()->addEvent(touchGridEvent);
                 }
             }
-            
-            bool isWin = checkGameWin();
-            //后期结束游戏的方式还有时间到
-            if (isWin)
-            {
-                RewardEvent *rewardEvent = new RewardEvent();
-                rewardEvent->setIsWin(isWin);
-                
-                EventManager::sharedEventManager()->addEvent(rewardEvent);
-            }
 
             
         }
@@ -318,6 +308,10 @@ bool GameController::checkAnswerFix(int phraseIndex, int phrase2Index)
     if (isFix)//有匹配的词语
     {
         EventManager::sharedEventManager()->addEvent(fixAnswerEvent);
+    }
+    else
+    {
+        delete fixAnswerEvent;//?
     }
     
     return isFix;

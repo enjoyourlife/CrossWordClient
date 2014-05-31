@@ -8,6 +8,8 @@
 
 #include "LoadingLayer.h"
 #include "SceneManager.h"
+#include "../Data/DBManager.h"
+#include "../Events/EventManager.h"
 
 USING_NS_CC;
 using namespace std;
@@ -99,19 +101,19 @@ void LoadingLayer::update(float time)
     {
         CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Images/grid.plist");
     }
+    else if (count == 2)
+    {
+        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Images/three_lobby.plist");
+    }
+    else if (count == 3)
+    {
+        DBManager::sharedDBManager();
+    }
     /*
-     else if (count == 2)
-     {
-     MusicManager::getInstance()->preloadBackgroundMusic(GAMEBEGINMUSIC);
-     }
-     else if (count == 3)
-     {
-     MusicManager::getInstance()->preloadBackgroundMusic(GAMEONMUSIC);
-     }
-     else if (count == 4)
-     {
-     MusicManager::getInstance()->preloadEffect(BC1SOUND);
-     }
+    else if (count == 4)
+    {
+        EventManager::sharedEventManager();
+    }
      else if (count == 5)
      {
      MusicManager::getInstance()->preloadEffect(BC2SOUND);
@@ -242,8 +244,8 @@ void LoadingLayer::update(float time)
      }*/
     else if (count == 50)
 	{
-//        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
-        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
+        SceneManager::sharedSceneManager()->changeScene(SceneTypeHall);
+//        SceneManager::sharedSceneManager()->changeScene(SceneTypeNone);
 	}
     
     count++;

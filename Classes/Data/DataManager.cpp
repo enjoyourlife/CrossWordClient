@@ -8,6 +8,7 @@
 
 #include "DataManager.h"
 #include "../Common/Utilities.h"
+#include "DBManager.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -38,6 +39,10 @@ void DataManager::init()
     
     m_userUid = "";
     m_username = "";
+    
+    
+    initLocalUser();
+    m_localBonusJson = Utilities::getJsonFromFile("Configs/localBonus.json");
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -207,6 +212,62 @@ void DataManager::parseJson(json_t* gameDataJson)
             }
         }
     }
+    
+}
+
+void DataManager::randomInitLocalWordBonus()
+{
+    int size = m_words.size();
+    if (size > 0)
+    {
+        srand(time(0));
+        
+        int bonusIndex = rand() % size;
+        int bonusType = rand() % 2 + 1;
+        
+        json_t* levelsJson = json_object_get(m_localBonusJson, "levels");
+        //单机m_level取值0 1 2
+        json_t* levelBonusJson = json_array_get(levelsJson, m_level);
+        
+        float mul = 1.0f;
+        if (m_singleSubLevel > 50)
+        {
+            mul = 2.0f;
+        }
+        else if (m_singleSubLevel > 40)
+        {
+            mul = 1.8f;
+        }
+        else if (m_singleSubLevel > 30)
+        {
+            mul = 1.6f;
+        }
+        else if (m_singleSubLevel > 20)
+        {
+            mul = 1.4f;
+        }
+        else if (m_singleSubLevel > 10)
+        {
+            mul = 1.2f;
+        }
+        
+        int bonusValue = 0;
+        if (bonusType == 1)//银币
+        {
+            json_t* silverJson = json_object_get(levelBonusJson, "countdownsilver");
+            bonusValue = (int)(json_integer_value(silverJson) * mul);
+        }
+        else if (bonusType == 2)//经验
+        {
+            json_t* expJson = json_object_get(levelBonusJson, "countexp");
+            bonusValue = (int)(json_integer_value(expJson) * mul);
+        }
+        
+        Words *w = m_words.at(bonusIndex);
+        w->setBonusType(bonusType);
+        w->setBonusValue(bonusValue);
+    }
+    
     
 }
 
@@ -497,5 +558,169 @@ vector<int>& DataManager::getOwnChessVec()
     return m_ownChessVec;
 }
 
+void DataManager::initLocalUser()
+{
+    m_localUser = DBManager::sharedDBManager()->getLocalUserByUsername("user");
+    m_localUser->m_localUserJson = Utilities::getJsonFromFile("Configs/localLevelName.json");
+}
 
+LocalUser* DataManager::getLocalUser()
+{
+    return m_localUser;
+}
 
+void DataManager::updateLocalUser(int exp)
+{
+    int preLevel = m_localUser->m_lv;
+    
+    json_t* levelsJson = json_object_get(m_localUser->m_localUserJson, "levels");
+    size_t levelsSize = json_array_size(levelsJson);
+    if (preLevel == levelsSize)
+    {
+        return;
+    }
+    
+    //更新实时的m_localUser
+    int nowLocalUserExp = m_localUser->m_exp + exp;
+    
+    //下一级的json
+    json_t* nextLevelJson = json_array_get(levelsJson, preLevel);
+    json_t* nextExpJson = json_object_get(nextLevelJson, "experience");
+    int nextExp = json_integer_value(nextExpJson);
+    if (nowLocalUserExp >= nextExp)//升级了
+    {
+        m_localUser->m_isLevelUp = true;
+        
+        int nowLevel = preLevel + 1;//只升一级
+        m_localUser->m_lv = nowLevel;
+        
+        if (nowLevel == levelsSize)//满级
+        {
+            nowLocalUserExp = nextExp;//经验设为最大值
+        }
+        m_localUser->m_exp = nowLocalUserExp;
+        
+        json_t* nextNameJson = json_object_get(nextLevelJson, "name");
+        m_localUser->m_name = json_string_value(nextNameJson);
+    }
+    else
+    {
+        m_localUser->m_exp = nowLocalUserExp;
+    }
+    
+    //更新数据库
+    DBManager::sharedDBManager()->updateLocalUserByUsername("user", m_localUser->m_sex, m_localUser->m_exp, m_localUser->m_lv, m_localUser->m_name, m_localUser->m_silver);
+    
+    //连升两级 避免这种情况出现 则上面算法可以用
+    /*
+    int nowLevel = 1;
+    for (unsigned int i = 0; i < levelsSize; i++)
+    {
+        json_t *levelJson = json_array_get(levelsJson, i);
+        json_t* expJson = json_object_get(levelJson, "experience");
+        int exp = json_integer_value(expJson);
+        if (nowLocalUserExp >= exp)
+        {
+            nowLevel = json_integer_value(json_object_get(levelJson, "level"));
+            if (i == levelsSize - 1)//满级
+            {
+                nowLocalUserExp = exp;//经验设为最大值
+                break;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }*/
+    
+}
+
+void DataManager::updateLocalUserSilver(int silver)
+{
+    if (m_localUser->m_silver >= MAX_SILVER)
+    {
+        return;
+    }
+    
+    int nowSilver = m_localUser->m_silver + silver;
+    if (nowSilver > MAX_SILVER)
+    {
+        nowSilver = MAX_SILVER;
+    }
+    
+    m_localUser->m_silver = nowSilver;
+    DBManager::sharedDBManager()->updateLocalUserSilver("user", nowSilver);
+}
+
+vector<int>& DataManager::getLocalPassBonus()
+{
+    m_localPassBonus.clear();
+    
+    json_t* levelsJson = json_object_get(m_localBonusJson, "levels");
+    //单机m_level取值0 1 2
+    json_t* levelBonusJson = json_array_get(levelsJson, m_level);
+    
+    float mul = 1.0f;
+    if (m_singleSubLevel > 50)
+    {
+        mul = 2.0f;
+    }
+    else if (m_singleSubLevel > 40)
+    {
+        mul = 1.8f;
+    }
+    else if (m_singleSubLevel > 30)
+    {
+        mul = 1.6f;
+    }
+    else if (m_singleSubLevel > 20)
+    {
+        mul = 1.4f;
+    }
+    else if (m_singleSubLevel > 10)
+    {
+        mul = 1.2f;
+    }
+    
+    json_t* silverJson = json_object_get(levelBonusJson, "passsilver");
+    int passSilver = (int)(json_integer_value(silverJson) * mul);
+    
+    json_t* expJson = json_object_get(levelBonusJson, "passexp");
+    int passExp = (int)(json_integer_value(expJson) * mul);
+    
+    m_localPassBonus.push_back(passSilver);
+    m_localPassBonus.push_back(passExp);
+    
+    return m_localPassBonus;
+}
+
+vector<int>& DataManager::getLocalEveryBonus()
+{
+    if (m_localEveryBonus.size() == 2)
+    {
+        return m_localEveryBonus;
+    }
+    else
+    {
+        m_localEveryBonus.clear();
+        
+        json_t* levelsJson = json_object_get(m_localBonusJson, "levels");
+        //单机m_level取值0 1 2
+        json_t* levelBonusJson = json_array_get(levelsJson, m_level);
+        
+        //不需要加成 所以解析m_localBonusJson一次即可
+        json_t* silverJson = json_object_get(levelBonusJson, "everysilver");
+        int everySilver = json_integer_value(silverJson);
+        
+        json_t* expJson = json_object_get(levelBonusJson, "everyexp");
+        int everyExp = json_integer_value(expJson);
+        
+        m_localEveryBonus.push_back(everySilver);
+        m_localEveryBonus.push_back(everyExp);
+        
+        
+        return m_localEveryBonus;
+    }
+    
+}

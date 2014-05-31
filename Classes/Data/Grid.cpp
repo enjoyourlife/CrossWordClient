@@ -65,10 +65,10 @@ int Grid::getType2()
     return m_type2;
 }
 
-const string Grid::getWord()
-{
-    return m_word;
-}
+//const string Grid::getWord()
+//{
+//    return m_word;
+//}
 
 int Grid::getPhraseIndex()
 {

@@ -24,6 +24,12 @@ MainBorderLayer::MainBorderLayer()
     
     m_per = NULL;
     m_ownPer = NULL;
+    
+    m_localUserBg = NULL;
+    m_localUserSilver = NULL;
+    m_localUserLevel = NULL;
+    m_localUserExp = NULL;
+    
 }
 
 MainBorderLayer::~ MainBorderLayer()
@@ -33,6 +39,11 @@ MainBorderLayer::~ MainBorderLayer()
     
     CC_SAFE_RELEASE_NULL(m_per);
     CC_SAFE_RELEASE_NULL(m_ownPer);
+    
+    CC_SAFE_RELEASE_NULL(m_localUserBg);
+    CC_SAFE_RELEASE_NULL(m_localUserSilver);
+    CC_SAFE_RELEASE_NULL(m_localUserLevel);
+    CC_SAFE_RELEASE_NULL(m_localUserExp);
 }
 
 CCScene* MainBorderLayer::scene()
@@ -70,6 +81,10 @@ bool MainBorderLayer::init()
     CGCCBReader reader(ccNodeLoaderLibrary);
     CCNode* node = reader.readCCBFile("main_border.ccbi", this);
     addChild(node);
+    
+    
+    this->updateLocalUserData();
+    
     
 //    this->setTouchEnabled(true);
 //    this->setKeypadEnabled(true);
@@ -115,6 +130,12 @@ bool MainBorderLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* p
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_rightBorder", CCLayerColor*, m_rightBorder);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_per", CCLabelTTF*, m_per);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownPer", CCLabelTTF*, m_ownPer);
+    
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserBg", CCLayer*, m_localUserBg);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserLevel", CCLabelTTF*, m_localUserLevel);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExp", CCLabelTTF*, m_localUserExp);
+    
     return false;
 }
 
@@ -181,4 +202,31 @@ void MainBorderLayer::showPer(const char* per, const char* ownPer)
 {
     m_per->setString(per);
     m_ownPer->setString(ownPer);
+}
+
+void MainBorderLayer::updateLocalUserData()
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        m_localUserBg->setVisible(true);
+        LocalUser *lc = DataManager::sharedDataManager()->getLocalUser();
+        int silver = lc->m_silver;
+        int lv = lc->m_lv;
+        int exp = lc->m_exp;
+        
+        char data[15];
+        
+        sprintf(data, "%d", silver);
+        m_localUserSilver->setString(data);
+        
+        sprintf(data, "%d", lv);
+        m_localUserLevel->setString(data);
+        
+        sprintf(data, "%d", exp);
+        m_localUserExp->setString(data);
+    }
+    else
+    {
+        m_localUserBg->setVisible(false);
+    }
 }

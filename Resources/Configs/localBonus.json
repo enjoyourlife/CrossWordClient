@@ -1,0 +1,7 @@
+{
+    "levels": [
+        {"level":0, "passsilver":1000, "passexp":10, "everysilver":10, "everyexp":10, "countdownsilver":500, "countexp":50},
+        {"level":1, "passsilver":2000, "passexp":50, "everysilver":20, "everyexp":20, "countdownsilver":1000, "countexp":100},
+        {"level":2, "passsilver":3000, "passexp":100, "everysilver":30, "everyexp":30, "countdownsilver":1500, "countexp":100}
+    ]
+}

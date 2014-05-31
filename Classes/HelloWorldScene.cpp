@@ -14,6 +14,8 @@
 #include "easySQLite/SqlCommon.h"
 #include "easySQLite/SqlTable.h"
 #include "easySQLite/SqlField.h"
+#include "Data/LocalUser.h"
+#include "Data/DataManager.h"
 
 USING_NS_CC;
 using namespace sql;
@@ -180,7 +182,15 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 ////    gpl->init("http://localhost:1337/getip", 3010);
 //    gpl->login("user1", "pwd");
     
-    testSql();
+//    testSql();
+    
+    
+    LocalUser* lc = DataManager::sharedDataManager()->getLocalUser();
+    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
+    
+    DataManager::sharedDataManager()->updateLocalUser(10000);
+    DataManager::sharedDataManager()->updateLocalUserSilver(10000);
+    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
 
 }
 

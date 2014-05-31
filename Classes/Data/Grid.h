@@ -32,7 +32,7 @@ public:
     int getType();
     int getType2();
     
-    const std::string getWord();
+//    const std::string getWord();
     
     int getPhraseIndex();
     int getWordIndex();
@@ -60,7 +60,7 @@ private:
     int m_word2Index;
     
     //所包含的字
-    std::string m_word;
+//    std::string m_word;
 };
 
 #endif /* defined(__CrossWordClient__Grid__) */

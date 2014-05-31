@@ -279,13 +279,22 @@ private:
     
 };
 
-
+/*
+ 有以下几种奖励的方式 m_bonusType 为
+ 1 倒计时奖励的银币 或 经验 1 或 2
+ 2 完成一个成语奖励银币和经验 3
+ 3 关卡过关奖励的银币和经验 4
+ */
 class RewardEvent : public Event
 {
 public:
-    RewardEvent() : Event(EventTypeReward)
+    RewardEvent(int bonusType) : Event(EventTypeReward)
     {
+        m_bonusType = bonusType;
+        
         m_isWin = false;
+        m_bonusSilver = 0;
+        m_bonusExp = 0;
     }
     
     virtual ~ RewardEvent()
@@ -298,13 +307,41 @@ public:
         return m_isWin;
     }
     
+    int getBonusType() const
+    {
+        return m_bonusType;
+    }
+    
+    int getBonusSilver() const
+    {
+        return m_bonusSilver;
+    }
+    
+    int getBonusExp() const
+    {
+        return m_bonusExp;
+    }
+    
     void setIsWin(bool isWin)
     {
         m_isWin = isWin;
     }
+    
+    void setBonusSilver(int bonusSilver)
+    {
+        m_bonusSilver = bonusSilver;
+    }
+    
+    void setBonusExp(int bonusExp)
+    {
+        m_bonusExp = bonusExp;
+    }
 
 private:
     bool m_isWin;
+    int m_bonusType;
+    int m_bonusSilver;
+    int m_bonusExp;
     
 };
 

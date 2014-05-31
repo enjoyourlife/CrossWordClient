@@ -17,9 +17,11 @@
 #include "Grid.h"
 #include "Words.h"
 #include "Answer.h"
+#include "LocalUser.h"
 
 
 #define ANSWER_NUM 8 //答案的个数
+#define MAX_SILVER 999999 //最大银币值
 
 
 class DataManager : public cocos2d::CCObject
@@ -51,6 +53,8 @@ public:
     
     //解析游戏数据 联网和单机共用
     void parseJson(json_t* gameDataJson);
+    //随机设置单机成语的奖励
+    void randomInitLocalWordBonus();
     
     std::vector<Grid*>& getGrids();
     void initGrids(std::vector<Grid*>& gridVector);
@@ -117,6 +121,21 @@ public:
     std::vector<int>& getChessVec();
     std::vector<int>& getOwnChessVec();
     
+    
+public:
+    // -- 和策划数值有关的方法 会随着玩家的游戏而发生动态变化  比如本地玩家信息 联网玩家信息 成就等等
+    
+    //设置本地玩家信息
+    void initLocalUser();
+    LocalUser* getLocalUser();
+    //更新本地玩家 不更新银币
+    void updateLocalUser(int exp);
+    //只更新本地玩家银币
+    void updateLocalUserSilver(int silver);
+    //获取本地奖励
+    std::vector<int>& getLocalPassBonus();
+    std::vector<int>& getLocalEveryBonus();
+    
 private:
     void clearGrids();
     void clearSelectAnswerVec();
@@ -175,6 +194,17 @@ private:
      */
     std::vector<int> m_ownChessVec;
     
+    
+private:
+    // -- 和策划数值有关的变量 会随着玩家的游戏而发生动态变化  比如本地玩家信息 联网玩家信息 成就等等
+    
+    //本地玩家信息
+    LocalUser* m_localUser;
+    //本地游戏奖励
+    json_t* m_localBonusJson;
+    //本地  过关奖励 和 每个词语的奖励 解析m_localBonusJson获得 后期看能否优化 优化到只需要解析m_localBonusJson一次
+    std::vector<int> m_localPassBonus;//先银币后经验
+    std::vector<int> m_localEveryBonus;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */

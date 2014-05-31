@@ -32,6 +32,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Data/Grid.cpp \
                    ../../Classes/Data/Words.cpp \
                    ../../Classes/Data/Answer.cpp \
+                   ../../Classes/Data/LocalUser.cpp \
+                   ../../Classes/Data/DBManager.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
                    ../../Classes/Scenes/Hall.cpp \

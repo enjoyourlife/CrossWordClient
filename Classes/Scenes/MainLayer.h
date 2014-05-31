@@ -16,6 +16,7 @@
 #include "../Events/EventManager.h"
 #include "../Events/EventObserver.h"
 #include "MainBorderLayer.h"
+#include "../Data/Words.h"
 
 
 class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner, public EventObserver
@@ -145,6 +146,8 @@ private:
     void initTipsBg();
     //显示对应的解析
     void showTips(bool isShow, int phraseIndex = -1, int phrase2Index = -1);
+    //显示词语前面的倒计时奖励精灵 isH true-横 false-竖
+    void showCountDownBonus(Words *words, bool isH);
     
     void initTouchGridActionSprite();
     //显示触摸动画
@@ -173,6 +176,10 @@ private:
     
     //检查点击的grid是否已经是fix
     bool checkGridIndexIsFix(int gridIndex);
+    
+    //显示本地玩家的奖励动画 或者 弹出本地玩家的结算框
+    void showLocalUserRewardOrWinLayer(Event *event);
+    void blinkDone(CCNode* parent);
     
     //cgdialog的回调 暂时
     void onOk(CCObject* obj);
@@ -255,6 +262,11 @@ private:
     cocos2d::CCLabelTTF *m_tip1;
     cocos2d::CCLayer *m_tip2Bg;
     cocos2d::CCLabelTTF *m_tip2;
+    //奖励相关变量
+    cocos2d::CCSprite *m_bonusSpriteH;
+    cocos2d::CCLabelBMFont *m_bonusBMFontH;
+    cocos2d::CCSprite *m_bonusSpriteV;
+    cocos2d::CCLabelBMFont *m_bonusBMFontV;
     
     
     //这里是播放 touch grid 动画需要的精灵  和  对应播放对应横竖成语背景动画需要的精灵

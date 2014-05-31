@@ -43,7 +43,7 @@ typedef enum
     EventTypeTouchGrid,//点击格子
     EventTypeChooseAnswer,//选择答案
     EventTypeFixAnswer,//一个词语适配事件
-    EventTypeReward,//游戏结束的奖励事件
+    EventTypeReward,//游戏中的奖励事件
     EventTypeUpdateMain,//联网游戏过程中刷新主界面
     EventTypeUpdateMainEx,
     
