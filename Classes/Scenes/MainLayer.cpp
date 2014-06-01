@@ -14,6 +14,8 @@
 #include "../Events/GameEvents.h"
 #include "../Events/EventManager.h"
 #include "../CommonUI/CGDialog.h"
+#include "../CommonUI/CGToast.h"
+#include "../Common/Localize.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -1136,13 +1138,41 @@ void MainLayer::onOk(CCObject* obj)
     //先站起然后回到对应的界面
     if (gameType == GameTypeSingle)
     {
+        int subLevelNum = 1;
+        switch (level)
+        {
+            case 0:
+                subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level0Num;
+                break;
+            case 1:
+                subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level1Num;
+                break;
+            case 2:
+                subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level2Num;
+                break;
+            default:
+                subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level0Num;
+                break;
+        }
+        
         int subLevel = DataManager::sharedDataManager()->getSingleSubLevel();
         //下一关逻辑
-        //    subLevel++;
-        DataManager::sharedDataManager()->setSingleSubLevel(subLevel);
-        
-        Event *e = new Event(EventTypeGameStart);
-        EventManager::sharedEventManager()->addEvent(e);
+        subLevel++;
+        if (subLevel >= subLevelNum)
+        {
+            const char* text = Localize::sharedLocalize()->getString("toast_txt9");
+            CGToast *toast = CGToast::create();
+            toast->setText(text);
+            toast->playAction();
+            this->addChild(toast);
+        }
+        else
+        {
+            DataManager::sharedDataManager()->setSingleSubLevel(subLevel);
+            
+            Event *e = new Event(EventTypeGameStart);
+            EventManager::sharedEventManager()->addEvent(e);
+        }
         
     }
     else if (gameType == GameTypeCompetitive)

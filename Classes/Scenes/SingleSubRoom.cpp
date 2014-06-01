@@ -10,6 +10,8 @@
 #include "../CommonUI/CGCCBReader.h"
 #include "../CommonUI/CGControlButton.h"
 #include "../Data/DataManager.h"
+#include "../CommonUI/CGToast.h"
+#include "../Common/Localize.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -23,21 +25,30 @@ SingleSubRoom::SingleSubRoom()
     m_bgBeginY = 0.0f;
     m_bgEndY = 0.0f;
     
-    int subLevel = DataManager::sharedDataManager()->getLevel();
-    switch (subLevel)
+    int level = DataManager::sharedDataManager()->getLevel();
+    switch (level)
     {
         case 0:
-            m_pageCount = 5;//暂时设置为5
+            m_subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level0Num;
+            m_unLockSubLevel = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel0;
             break;
         case 1:
-            m_pageCount = 8;
+            m_subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level1Num;
+            m_unLockSubLevel = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel1;
             break;
         case 2:
-            m_pageCount = 9;
+            m_subLevelNum = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_level2Num;
+            m_unLockSubLevel = DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel2;
             break;
             
         default:
             break;
+    }
+    
+    m_pageCount = m_subLevelNum / LEVELNUMINPAGE;
+    if (m_subLevelNum % LEVELNUMINPAGE > 0)
+    {
+        m_pageCount++;
     }
     
 }
@@ -244,7 +255,7 @@ CCLayerColor* SingleSubRoom::getContainerLayer()
     float bgWidth = m_scrollViewBg->getContentSize().width;
     float bgHeight = m_scrollViewBg->getContentSize().height;
     
-    for (int i = 0; i < m_pageCount; i++)
+    for (int i = 0; i < m_subLevelNum; i++)
     {
         CGControlButton *button = CGControlButton::create();
         button->setTag(i);//子关数 现在每页只有1关 后期应该扩展
@@ -253,8 +264,19 @@ CCLayerColor* SingleSubRoom::getContainerLayer()
         CCSpriteFrame* pokerFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("poker_back.png");
         
         button->setDisplayFrame(pokerFrame);
+        //已经缩放了
         button->setScale(m_ccbScale);
-        button->setPosition(ccpAdd(ccp(bgWidth * 0.5f, bgHeight * 0.5f), ccp(bgWidth * i, 0)));
+        
+        int half = LEVELNUMINPAGE / 2;
+        if ((i % LEVELNUMINPAGE) < half)
+        {
+            button->setPosition(ccpAdd(ccp(bgWidth * 0.25f * (1 + i % half), bgHeight * 0.7f), ccp(bgWidth * (i / LEVELNUMINPAGE), 0)));
+        }
+        else
+        {
+            button->setPosition(ccpAdd(ccp(bgWidth * 0.25f * (1 + i % half), bgHeight * 0.3f), ccp(bgWidth * (i / LEVELNUMINPAGE), 0)));
+        }
+        
         container->addChild(button);
         
         char num[3];
@@ -264,7 +286,16 @@ CCLayerColor* SingleSubRoom::getContainerLayer()
         label->setColor(ccYELLOW);
         button->addChild(label);
         
+        //增加锁精灵
+        CCSpriteFrame *lockFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+        CCSprite *lockSprite = CCSprite::createWithSpriteFrame(lockFrame);
+        if (i > m_unLockSubLevel)
+        {
+            lockSprite->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
+            button->addChild(lockSprite);
+        }
     }
+    
     container->setContentSize(ccp(bgWidth * m_pageCount, bgHeight));
     
     return container;
@@ -302,10 +333,23 @@ void SingleSubRoom::adjustScrollView(float offset)
 void SingleSubRoom::onBtnClicked(CCObject* obj)
 {
     int subLevel = ((CGControlButton*)obj)->getTag();
-    DataManager::sharedDataManager()->setSingleSubLevel(subLevel);
-    
-    Event *e = new Event(EventTypeGameStart);
-    EventManager::sharedEventManager()->addEvent(e);
+    if (subLevel > m_unLockSubLevel)
+    {
+        //目前只弹出toast提示框 后面应该弹出一个提示框 可以让玩家花钱解锁
+        const char* text = Localize::sharedLocalize()->getString("toast_txt8");
+        
+        CGToast *toast = CGToast::create();
+        toast->setText(text);
+        toast->playAction();
+        this->addChild(toast);
+    }
+    else
+    {
+        DataManager::sharedDataManager()->setSingleSubLevel(subLevel);
+        
+        Event *e = new Event(EventTypeGameStart);
+        EventManager::sharedEventManager()->addEvent(e);
+    }
     
     CCLog("i am button %d", ((CGControlButton*)obj)->getTag());
 }

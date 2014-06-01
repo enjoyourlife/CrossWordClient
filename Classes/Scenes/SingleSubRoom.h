@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
+#define LEVELNUMINPAGE 6 //每页有多少关卡
 
 class SingleSubRoom : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner
 {
@@ -125,6 +126,10 @@ private:
     cocos2d::CCLayerColor *m_scrollViewBg;
     //scrollview和container(即包含内容能被拖动的层)
     cocos2d::extension::CCScrollView *m_scrollView;
+    //总共的子关卡数
+    int m_subLevelNum;
+    //解锁的子关卡
+    int m_unLockSubLevel;
     //页数 通过计算得到
     int m_pageCount;
     //当前页数

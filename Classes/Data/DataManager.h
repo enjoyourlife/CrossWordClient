@@ -18,6 +18,7 @@
 #include "Words.h"
 #include "Answer.h"
 #include "LocalUser.h"
+#include "LocalUnLockLevel.h"
 
 
 #define ANSWER_NUM 8 //答案的个数
@@ -136,6 +137,12 @@ public:
     std::vector<int>& getLocalPassBonus();
     std::vector<int>& getLocalEveryBonus();
     
+    //设置关卡解锁信息
+    void initLocalUnLockLevel();
+    LocalUnLockLevel* getLocalUnLockLevel();
+    //用当前的关卡的数值作为逻辑判断
+    void updateLocalUnLockLevel();
+    
 private:
     void clearGrids();
     void clearSelectAnswerVec();
@@ -205,6 +212,8 @@ private:
     //本地  过关奖励 和 每个词语的奖励 解析m_localBonusJson获得 后期看能否优化 优化到只需要解析m_localBonusJson一次
     std::vector<int> m_localPassBonus;//先银币后经验
     std::vector<int> m_localEveryBonus;
+    //本地解锁关卡信息
+    LocalUnLockLevel* m_localUnLockLevel;
 };
 
 #endif /* defined(__CrossWordClient__DataManager__) */

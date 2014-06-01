@@ -333,6 +333,9 @@ void SingleGameController::localUserBonus(int phraseIndex, int phrase2Index)
             rewardEvent->setBonusExp(localPassBonus.at(1));
         }
         
+        //同时还需要解锁关卡 后期解锁的时候 在界面上给一个提示
+        DataManager::sharedDataManager()->updateLocalUnLockLevel();
+        
         EventManager::sharedEventManager()->addEvent(rewardEvent);
     }
     

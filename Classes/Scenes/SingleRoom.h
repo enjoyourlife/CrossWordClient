@@ -110,6 +110,13 @@ private:
     void onNormal(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onHard(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
+    //显示锁精灵
+    void showLock();
+    
+    
+    cocos2d::CCSprite *m_normalLock;
+    cocos2d::CCSprite *m_hardLock;
+    
 };
 
 #endif /* defined(__CrossWordClient__SingleRoom__) */

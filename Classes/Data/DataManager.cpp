@@ -43,6 +43,7 @@ void DataManager::init()
     
     initLocalUser();
     m_localBonusJson = Utilities::getJsonFromFile("Configs/localBonus.json");
+    initLocalUnLockLevel();//在initLocalUser()之后
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -609,7 +610,7 @@ void DataManager::updateLocalUser(int exp)
     }
     
     //更新数据库
-    DBManager::sharedDBManager()->updateLocalUserByUsername("user", m_localUser->m_sex, m_localUser->m_exp, m_localUser->m_lv, m_localUser->m_name, m_localUser->m_silver);
+    DBManager::sharedDBManager()->updateLocalUserByUsername("user", m_localUser->m_sex, m_localUser->m_exp, m_localUser->m_lv, m_localUser->m_name, m_localUser->m_silver, m_localUser->m_version);
     
     //连升两级 避免这种情况出现 则上面算法可以用
     /*
@@ -722,5 +723,76 @@ vector<int>& DataManager::getLocalEveryBonus()
         
         return m_localEveryBonus;
     }
+    
+}
+
+void DataManager::initLocalUnLockLevel()
+{
+    m_localUnLockLevel = DBManager::sharedDBManager()->getLocalUnLockLevelByVersion(m_localUser->m_version);
+    m_localUnLockLevel->m_localUnLockLevelJson = Utilities::getJsonFromFile("Configs/localUnLockLevel.json");
+}
+
+LocalUnLockLevel* DataManager::getLocalUnLockLevel()
+{
+    return m_localUnLockLevel;
+}
+
+void DataManager::updateLocalUnLockLevel()
+{
+    //需要更新m_localUnLockLevel 和 数据库
+    switch (m_level)
+    {
+        case 0:
+        case 1:
+        {
+            json_t* levelsJson = json_object_get(m_localUnLockLevel->m_localUnLockLevelJson, "levels");
+            json_t* levelJson = json_array_get(levelsJson, m_level);//普通关卡的解锁json
+            json_t* unLockNumJson = json_object_get(levelJson, "unlocknum");
+            int unLockNum = json_integer_value(unLockNumJson);//普通关卡的解锁条件：简单关卡开启到一定的关数
+            
+            if (m_level == 0)
+            {
+                //m_localUnLockLevel->m_unLockSubLevel0 < (m_localUnLockLevel->m_level0Num - 1) 总关卡的限制条件
+                if (m_singleSubLevel == m_localUnLockLevel->m_unLockSubLevel0 && m_localUnLockLevel->m_unLockSubLevel0 < (m_localUnLockLevel->m_level0Num - 1))
+                {
+                    m_localUnLockLevel->m_unLockSubLevel0 += 1;
+                    
+                    if (m_singleSubLevel == (unLockNum - 1) && m_localUnLockLevel->m_unLockSubLevel1 == -1)//未解锁则解锁普通关卡
+                    {
+                        m_localUnLockLevel->m_unLockSubLevel1 = 0;//普通第一关
+                    }
+                }
+            }
+            else if (m_level == 1)
+            {
+                if (m_singleSubLevel == m_localUnLockLevel->m_unLockSubLevel1 && m_localUnLockLevel->m_unLockSubLevel1 < (m_localUnLockLevel->m_level1Num - 1))
+                {
+                    m_localUnLockLevel->m_unLockSubLevel1 += 1;
+                    
+                    if (m_singleSubLevel == (unLockNum - 1) && m_localUnLockLevel->m_unLockSubLevel2 == -1)//未解锁则解锁困难关卡
+                    {
+                        m_localUnLockLevel->m_unLockSubLevel2 = 0;//困难第一关
+                    }
+                }
+            }
+            
+            break;
+        }   
+            
+        case 2:
+        {
+            if (m_singleSubLevel == m_localUnLockLevel->m_unLockSubLevel2 && m_localUnLockLevel->m_unLockSubLevel2 < (m_localUnLockLevel->m_level2Num - 1))
+            {
+                m_localUnLockLevel->m_unLockSubLevel2 += 1;
+            }
+            break;
+        }
+            
+            
+        default:
+            break;
+    }
+    
+    DBManager::sharedDBManager()->updateLocalUnLockLevelByVersion(m_localUnLockLevel->m_unLockSubLevel0, m_localUnLockLevel->m_unLockSubLevel1, m_localUnLockLevel->m_unLockSubLevel2, m_localUser->m_version);
     
 }

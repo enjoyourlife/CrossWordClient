@@ -15,6 +15,7 @@ LocalUser::LocalUser()
     m_username = "user";
     m_sex = 1;
     m_isLevelUp = false;
+    m_version = 0;
 }
 
 LocalUser::~ LocalUser()

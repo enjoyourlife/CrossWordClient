@@ -36,6 +36,8 @@ public:
     int m_silver;
     //是否升级了
     bool m_isLevelUp;
+    //当前本地版本
+    int m_version;
     //与本地用户对应的json
     json_t* m_localUserJson;
 };

@@ -11,6 +11,8 @@
 #include "../Events/EventManager.h"
 #include "../Events/Events.h"
 #include "../Data/DataManager.h"
+#include "../CommonUI/CGToast.h"
+#include "../Common/Localize.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -18,14 +20,15 @@ using namespace std;
 
 SingleRoom::SingleRoom()
 {
-    //    m_myCard = NULL;
+    m_normalLock = NULL;
+    m_hardLock = NULL;
     
 }
 
 SingleRoom::~ SingleRoom()
 {
-    //    CC_SAFE_RELEASE_NULL(m_myCard);
-    
+    CC_SAFE_RELEASE_NULL(m_normalLock);
+    CC_SAFE_RELEASE_NULL(m_hardLock);
     
 }
 
@@ -68,6 +71,8 @@ bool SingleRoom::init()
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
+    showLock();
+    
     return true;
 }
 
@@ -109,7 +114,8 @@ SEL_CCControlHandler SingleRoom::onResolveCCBCCControlSelector(CCObject * pTarge
 
 bool SingleRoom::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
-    //    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "myCard", CCSprite*, m_myCard);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_normalLock", CCSprite*, m_normalLock);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_hardLock", CCSprite*, m_hardLock);
     return false;
 }
 
@@ -157,16 +163,63 @@ void SingleRoom::onEasy(CCObject* pObject, CCControlEvent event)
 
 void SingleRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
-    DataManager::sharedDataManager()->setLevel(1);
-    
-    Event *e = new Event(EventTypeEnterSingleSubGame);
-    EventManager::sharedEventManager()->addEvent(e);
+
+    if (DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel1 == -1)
+    {
+        //目前只弹出toast提示框 后面应该弹出一个提示框 可以让玩家花钱解锁
+        const char* text = Localize::sharedLocalize()->getString("toast_txt7");
+            
+        CGToast *toast = CGToast::create();
+        toast->setText(text);
+        toast->playAction();
+        this->addChild(toast);
+    }
+    else
+    {
+        DataManager::sharedDataManager()->setLevel(1);
+        
+        Event *e = new Event(EventTypeEnterSingleSubGame);
+        EventManager::sharedEventManager()->addEvent(e);
+    }
 }
 
 void SingleRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
-    DataManager::sharedDataManager()->setLevel(2);
+    if (DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel2 == -1)
+    {
+        const char* text = Localize::sharedLocalize()->getString("toast_txt7");
+        
+        CGToast *toast = CGToast::create();
+        toast->setText(text);
+        toast->playAction();
+        this->addChild(toast);
+    }
+    else
+    {
+        DataManager::sharedDataManager()->setLevel(2);
+        
+        Event *e = new Event(EventTypeEnterSingleSubGame);
+        EventManager::sharedEventManager()->addEvent(e);
+    }
+}
+
+void SingleRoom::showLock()
+{
+    if (DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel1 == -1)
+    {
+        m_normalLock->setVisible(true);
+    }
+    else
+    {
+        m_normalLock->setVisible(false);
+    }
     
-    Event *e = new Event(EventTypeEnterSingleSubGame);
-    EventManager::sharedEventManager()->addEvent(e);
+    if (DataManager::sharedDataManager()->getLocalUnLockLevel()->m_unLockSubLevel2 == -1)
+    {
+        m_hardLock->setVisible(true);
+    }
+    else
+    {
+        m_hardLock->setVisible(false);
+    }
 }
