@@ -33,6 +33,7 @@ public:
     void setOriAnswerWord(const std::string& oriAnswerWord);
     void setAnswerWord(const std::string& answerWord);
     void setIsSame();
+    void setIsSameEx(bool isSame);
     void setIsFix(bool isFix);
     
     /*

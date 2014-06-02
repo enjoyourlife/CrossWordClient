@@ -68,10 +68,14 @@ void SingleGameController::startEvent(Event *event)
         case EventTypeGameStart:
         {
             parseJson();
+            DataManager::sharedDataManager()->clearRightWordsIndexVec();
+            
             //设置随机奖励的成语
             DataManager::sharedDataManager()->randomInitLocalWordBonus();
             
-            DataManager::sharedDataManager()->clearRightWordsIndexVec();
+            //加载上一局的信息
+            DataManager::sharedDataManager()->loadLastSelectAnswerVec();
+            
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -335,6 +339,9 @@ void SingleGameController::localUserBonus(int phraseIndex, int phrase2Index)
         
         //同时还需要解锁关卡 后期解锁的时候 在界面上给一个提示
         DataManager::sharedDataManager()->updateLocalUnLockLevel();
+        
+        //单机游戏结束时 需要保存玩家所选的答案
+        DataManager::sharedDataManager()->saveSelectAnswerVec();
         
         EventManager::sharedEventManager()->addEvent(rewardEvent);
     }

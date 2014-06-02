@@ -143,6 +143,11 @@ public:
     //用当前的关卡的数值作为逻辑判断
     void updateLocalUnLockLevel();
     
+    //单机 在玩家退出或胜利时 保存玩家所选的答案
+    void saveSelectAnswerVec();
+    //重新加载上一次保存的m_selectAnswerVec
+    void loadLastSelectAnswerVec();
+    
 private:
     void clearGrids();
     void clearSelectAnswerVec();

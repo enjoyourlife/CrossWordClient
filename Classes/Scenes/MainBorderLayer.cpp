@@ -181,6 +181,9 @@ void MainBorderLayer::onOk(CCObject* obj)
     {
         Event *e = new Event(EventTypeEnterSingleSubGame);
         EventManager::sharedEventManager()->addEvent(e);
+        
+        //单机游戏玩家退出时 需要保存玩家所选的答案
+        DataManager::sharedDataManager()->saveSelectAnswerVec();
     }
     else if (gameType == GameTypeCompetitive)
     {

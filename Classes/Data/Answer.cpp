@@ -98,6 +98,11 @@ void Answer::setIsSame()
 
 }
 
+void Answer::setIsSameEx(bool isSame)
+{
+    m_isSame = isSame;
+}
+
 void Answer::setIsFix(bool isFix)
 {
     m_isFix = isFix;

@@ -41,6 +41,23 @@ Field tbLocalUnLockLevel[9] =
     Field(DEFINITION_END)
 };
 
+Field tbSelectAnswer[14] =
+{
+    Field(FIELD_KEY),
+    Field("m_level", type_int),
+    Field("m_subLevel", type_int),
+    Field("m_version", type_int),
+    Field("m_index", type_int),
+    Field("m_phraseIndex", type_int),
+    Field("m_wordIndex", type_int),
+    Field("m_phrase2Index", type_int),
+    Field("m_word2Index", type_int),
+    Field("m_oriAnswerWord", type_text),
+    Field("m_answerWord", type_text),
+    Field("m_isSame", type_int),
+    Field("m_isFix", type_int),
+    Field(DEFINITION_END)
+};
 
 DBManager::DBManager()
 {
@@ -118,6 +135,12 @@ void DBManager::createDefaultTables()
         record.setInteger("m_level2Num", 10);
         
         m_tbLocalUnLockLevel->addRecord(&record);
+    }
+    
+    m_tbSelectAnswer = new Table(m_db.getHandle(), "m_tbselectanswer", tbSelectAnswer);
+    if (!m_tbSelectAnswer->exists())
+    {
+        m_tbSelectAnswer->create();
     }
 }
 
@@ -238,4 +261,84 @@ void DBManager::addLocalUnLockLevel(int unLockSubLevel0, int unLockSubLevel1, in
     record.setInteger("m_level2Num", level2Num);
     
     m_tbLocalUnLockLevel->addRecord(&record);
+}
+
+void DBManager::addSelectAnswer(int level, int subLevel, int version, int index, int phraseIndex, int wordIndex, int phrase2Index, int word2Index, const string& oriAnswerWord, const string& answerWord, bool isSame, bool isFix)
+{
+    Record record(m_tbSelectAnswer->fields());
+    
+    record.setInteger("m_level", level);
+    record.setInteger("m_subLevel", subLevel);
+    record.setInteger("m_version", version);
+    record.setInteger("m_index", index);
+    record.setInteger("m_phraseIndex", phraseIndex);
+    record.setInteger("m_wordIndex", wordIndex);
+    record.setInteger("m_phrase2Index", phrase2Index);
+    record.setInteger("m_word2Index", word2Index);
+    record.setString("m_oriAnswerWord", oriAnswerWord);
+    record.setString("m_answerWord", answerWord);
+    if (isSame)
+    {
+        record.setInteger("m_isSame", 1);
+    }
+    else
+    {
+        record.setInteger("m_isSame", 0);
+    }
+    if (isFix)
+    {
+        record.setInteger("m_isFix", 1);
+    }
+    else
+    {
+        record.setInteger("m_isFix", 0);
+    }
+    
+    m_tbSelectAnswer->addRecord(&record);
+}
+
+vector<Answer*> DBManager::listSelectAnswer(int level, int subLevel, int version)
+{
+    vector<Answer*> selectAnswerVec;
+    
+    ostringstream oss;
+    oss << "m_level == " << level << " and m_subLevel == " << subLevel << " and m_version == " << version;
+    string condition = oss.str();
+    
+    m_tbSelectAnswer->open(condition);
+    int recordCount = m_tbSelectAnswer->recordCount();
+    if (recordCount > 0) {
+        for (int i = 0; i < recordCount; i++) {
+            Record* record = m_tbSelectAnswer->getRecord(i);
+
+            int index = record->getValue("m_index")->asInteger();
+            int phraseIndex = record->getValue("m_phraseIndex")->asInteger();
+            int wordIndex = record->getValue("m_wordIndex")->asInteger();
+            int phrase2Index = record->getValue("m_phrase2Index")->asInteger();
+            int word2Index = record->getValue("m_word2Index")->asInteger();
+            string oriAnswerWord = record->getValue("m_oriAnswerWord")->asString();
+            string answerWord = record->getValue("m_answerWord")->asString();
+            bool isSame = record->getValue("m_isSame")->asInteger() == 1 ? true : false;
+            bool isFix = record->getValue("m_isFix")->asInteger() == 1 ? true : false;
+            
+            Answer *answer = new Answer(index, phraseIndex, wordIndex, phrase2Index, word2Index);
+            answer->setOriAnswerWord(oriAnswerWord);
+            answer->setAnswerWord(answerWord);
+            answer->setIsSameEx(isSame);
+            answer->setIsFix(isFix);
+            
+            selectAnswerVec.push_back(answer);
+        }
+        
+    }
+    return selectAnswerVec;
+}
+
+bool DBManager::deleteSelectAnswer(int level, int subLevel, int version)
+{
+    ostringstream oss;
+    oss << "m_level == " << level << " and m_subLevel == " << subLevel << " and m_version == " << version;
+    string condition = oss.str();
+    
+    return m_tbSelectAnswer->deleteRecords(condition);
 }

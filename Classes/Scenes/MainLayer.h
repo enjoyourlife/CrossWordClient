@@ -184,6 +184,8 @@ private:
     //cgdialog的回调 暂时
     void onOk(CCObject* obj);
 
+    //加载单机游戏上一局的信息
+    void loadSingleSelectAnswer();
     
 private:
     //-- 联网相关的方法

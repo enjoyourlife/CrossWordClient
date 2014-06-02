@@ -796,3 +796,45 @@ void DataManager::updateLocalUnLockLevel()
     DBManager::sharedDBManager()->updateLocalUnLockLevelByVersion(m_localUnLockLevel->m_unLockSubLevel0, m_localUnLockLevel->m_unLockSubLevel1, m_localUnLockLevel->m_unLockSubLevel2, m_localUser->m_version);
     
 }
+
+void DataManager::saveSelectAnswerVec()
+{
+    //先删除旧的答案 再保存
+    DBManager::sharedDBManager()->deleteSelectAnswer(m_level, m_singleSubLevel, m_localUser->m_version);
+    
+    vector<Answer*>::iterator answerIt;
+    for (answerIt = m_selectAnswerVec.begin(); answerIt != m_selectAnswerVec.end(); answerIt++)
+    {
+        Answer *a = *answerIt;
+        DBManager::sharedDBManager()->addSelectAnswer(m_level, m_singleSubLevel, m_localUser->m_version, a->getIndex(), a->getPhraseIndex(), a->getWordIndex(), a->getPhrase2Index(), a->getWord2Index(), a->getOriAnswerWord(), a->getAnswerWord(), a->getIsSame(), a->getIsFix());
+    }
+}
+
+void DataManager::loadLastSelectAnswerVec()
+{
+    vector<Answer*> lastSelectAnswerVec = DBManager::sharedDBManager()->listSelectAnswer(m_level, m_singleSubLevel, m_localUser->m_version);
+    //需要给m_selectAnswerVec赋值 才能使得这一局起作用
+    if (lastSelectAnswerVec.size() > 0)
+    {
+        this->initSelectAnswerVec(lastSelectAnswerVec);
+        
+        //同时需要重新加载m_rightWordsIndexVec 只有m_isFix为true的m_index才是正确的索引
+        vector<Answer*>::iterator answerIt;
+        for (answerIt = m_selectAnswerVec.begin(); answerIt != m_selectAnswerVec.end(); answerIt++)
+        {
+            Answer *a = *answerIt;
+            if (a->getIsFix())
+            {
+                //不用if...if 是因为除了交叉的字之外 肯定还有其他字属于某个成语
+                if (a->getPhraseIndex() != -1)
+                {
+                    this->setRightWordsIndexVec(a->getPhraseIndex());
+                }
+                else
+                {
+                    this->setRightWordsIndexVec(a->getPhrase2Index());
+                }
+            }
+        }
+    }
+}

@@ -16,6 +16,7 @@
 #include "../easySQLite/SqlTable.h"
 #include "LocalUser.h"
 #include "LocalUnLockLevel.h"
+#include "Answer.h"
 
 
 class DBManager : public cocos2d::CCObject
@@ -45,6 +46,13 @@ public:
     //当有新版本的时候 需要插入一条新的LocalUnLockLevel
     void addLocalUnLockLevel(int unLockSubLevel0, int unLockSubLevel1, int unLockSubLevel2, int level0Num, int level1Num, int level2Num, int version);
     
+    //增加玩家已经选择的答案 在每局游戏退出前调用
+    void addSelectAnswer(int level, int subLevel, int version, int index, int phraseIndex, int wordIndex, int phrase2Index, int word2Index, const std::string& oriAnswerWord, const std::string& answerWord, bool isSame, bool isFix);
+    //获取SelectAnswer
+    std::vector<Answer*> listSelectAnswer(int level, int subLevel, int version);
+    //删除SelectAnswer
+    bool deleteSelectAnswer(int level, int subLevel, int version);
+    
 private:
     void openDataBase(const std::string& dataBaseName);
     void createDefaultTables();
@@ -53,6 +61,7 @@ private:
     sql::Database m_db;
     sql::Table* m_tbLocalUser;
     sql::Table* m_tbLocalUnLockLevel;
+    sql::Table* m_tbSelectAnswer;
 };
 
 #endif /* defined(__CrossWordClient__DBManager__) */

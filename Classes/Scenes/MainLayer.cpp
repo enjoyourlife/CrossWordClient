@@ -189,6 +189,8 @@ bool MainLayer::init()
     
     setAnswers(false);
     
+    loadSingleSelectAnswer();
+    
     return true;
 }
 
@@ -1185,6 +1187,56 @@ void MainLayer::onOk(CCObject* obj)
     }
     
     
+}
+
+void MainLayer::loadSingleSelectAnswer()
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    if (gameType == GameTypeSingle)
+    {
+        vector<Answer*> lastSelectAnswerVec = DataManager::sharedDataManager()->getSelectAnswerVec();
+        vector<Answer*>::iterator answerIt;
+        for (answerIt = lastSelectAnswerVec.begin(); answerIt != lastSelectAnswerVec.end(); answerIt++)
+        {
+            Answer *a = *answerIt;
+            
+            CCSprite *button = m_gridButtons.at(a->getIndex());//按钮的索引位置
+            CCLabelTTF *wordLabel = (CCLabelTTF*)button->getChildByTag(99);
+            
+            if (wordLabel != NULL)
+            {
+                if (a->getPhraseIndex() != -1)
+                {
+                    if (a->getIsFix())
+                    {
+                        wordLabel->setColor(ccBLACK);
+                        wordLabel->setString(a->getAnswerWord().c_str());
+                    }
+                    else
+                    {
+                        wordLabel->setString(a->getAnswerWord().c_str());
+                    }
+                }
+                
+                if (a->getPhrase2Index() != -1)
+                {
+                    if (a->getIsFix())
+                    {
+                        wordLabel->setColor(ccBLACK);
+                        wordLabel->setString(a->getAnswerWord().c_str());
+                    }
+                    else
+                    {
+                        wordLabel->setString(a->getAnswerWord().c_str());
+                    }
+                }
+            }
+            
+            
+            
+        }
+        
+    }
 }
 
 void MainLayer::updateMainLayer()
