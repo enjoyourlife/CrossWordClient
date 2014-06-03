@@ -63,6 +63,9 @@ public:
     //显示单机玩家信息
     void updateLocalUserData();
     
+    //是否显示重置按钮
+    void showSingleResetBtn();
+    
 private:
     
     virtual void registerWithTouchDispatcher(void);
@@ -114,6 +117,10 @@ private:
     void onOk(CCObject* obj);
     void onBack(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
+    //单机重置事件
+    void onSingleReset(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    //重置确认 发送重置事件
+    void onResetOk(CCObject* obj);
     
     cocos2d::CCLayerColor *m_leftBorder;
     cocos2d::CCLayerColor *m_rightBorder;
@@ -128,6 +135,9 @@ private:
     cocos2d::CCLabelTTF *m_localUserSilver;
     cocos2d::CCLabelTTF *m_localUserLevel;
     cocos2d::CCLabelTTF *m_localUserExp;
+    
+    //右侧单机相关变量
+    cocos2d::extension::CCControlButton *m_singleResetBtn;
 };
 
 #endif /* defined(__CrossWordClient__MainBorderLayer__) */

@@ -46,6 +46,7 @@ typedef enum
     EventTypeReward,//游戏中的奖励事件
     EventTypeUpdateMain,//联网游戏过程中刷新主界面
     EventTypeUpdateMainEx,
+    EventTypeSingleReset,//单机重置游戏事件
     
     
     EventTypeRoll,//掷骰子

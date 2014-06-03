@@ -403,6 +403,21 @@ void MainLayer::onEventSucceeded(Event *event)
             break;
         }
             
+        case EventTypeSingleReset:
+        {
+            clearSingleSelectAnswer();
+            //隐藏重置按钮
+            m_mainBorderLayer->showSingleResetBtn();
+            
+            const char* text = Localize::sharedLocalize()->getString("toast_txt10");
+            CGToast *toast = CGToast::create();
+            toast->setText(text);
+            toast->playAction();
+            this->addChild(toast);
+            
+            break;
+        }
+            
         default:
             break;
     }
@@ -1236,6 +1251,26 @@ void MainLayer::loadSingleSelectAnswer()
             
         }
         
+    }
+}
+
+
+void MainLayer::clearSingleSelectAnswer()
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    if (gameType == GameTypeSingle)
+    {
+        vector<CCSprite*>::iterator buttonIt;
+        for (buttonIt = m_gridButtons.begin(); buttonIt != m_gridButtons.end(); buttonIt++)
+        {
+            CCSprite *button = *buttonIt;
+            CCLabelTTF *wordLabel = (CCLabelTTF*)button->getChildByTag(99);
+            if (wordLabel != NULL)
+            {
+                wordLabel->setString("");
+                wordLabel->setColor(ccBLUE);
+            }
+        }
     }
 }
 

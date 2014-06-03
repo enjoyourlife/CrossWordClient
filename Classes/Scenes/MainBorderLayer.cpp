@@ -30,6 +30,7 @@ MainBorderLayer::MainBorderLayer()
     m_localUserLevel = NULL;
     m_localUserExp = NULL;
     
+    m_singleResetBtn = NULL;
 }
 
 MainBorderLayer::~ MainBorderLayer()
@@ -44,6 +45,8 @@ MainBorderLayer::~ MainBorderLayer()
     CC_SAFE_RELEASE_NULL(m_localUserSilver);
     CC_SAFE_RELEASE_NULL(m_localUserLevel);
     CC_SAFE_RELEASE_NULL(m_localUserExp);
+    
+    CC_SAFE_RELEASE_NULL(m_singleResetBtn);
 }
 
 CCScene* MainBorderLayer::scene()
@@ -84,6 +87,7 @@ bool MainBorderLayer::init()
     
     
     this->updateLocalUserData();
+    this->showSingleResetBtn();
     
     
 //    this->setTouchEnabled(true);
@@ -121,6 +125,7 @@ SEL_MenuHandler MainBorderLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarg
 SEL_CCControlHandler MainBorderLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
     CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onBack", MainBorderLayer::onBack);
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onSingleReset", MainBorderLayer::onSingleReset);
     return NULL;
 }
 
@@ -135,6 +140,8 @@ bool MainBorderLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* p
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserLevel", CCLabelTTF*, m_localUserLevel);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExp", CCLabelTTF*, m_localUserExp);
+    
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_singleResetBtn", CCControlButton*, m_singleResetBtn);
     
     return false;
 }
@@ -231,5 +238,31 @@ void MainBorderLayer::updateLocalUserData()
     else
     {
         m_localUserBg->setVisible(false);
+    }
+}
+
+void MainBorderLayer::showSingleResetBtn()
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle && DataManager::sharedDataManager()->isWin())
+    {
+        m_singleResetBtn->setVisible(true);
+    }
+    else
+    {
+        m_singleResetBtn->setVisible(false);
+    }
+}
+
+void MainBorderLayer::onSingleReset(CCObject* pObject, CCControlEvent event)
+{
+    CGDialog::show(GameOKCancelButtonType, "dialog_reset_txt", this, menu_selector(MainBorderLayer::onResetOk), NULL);
+}
+
+void MainBorderLayer::onResetOk(CCObject* obj)
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle && DataManager::sharedDataManager()->isWin())
+    {
+        Event *event = new Event(EventTypeSingleReset);
+        EventManager::sharedEventManager()->addEvent(event);
     }
 }

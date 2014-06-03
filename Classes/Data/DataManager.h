@@ -54,7 +54,7 @@ public:
     
     //解析游戏数据 联网和单机共用
     void parseJson(json_t* gameDataJson);
-    //随机设置单机成语的奖励
+    //随机设置单机成语的奖励 需要把奖励设置得很小 因为重置可以不停地玩
     void randomInitLocalWordBonus();
     
     std::vector<Grid*>& getGrids();
@@ -147,6 +147,11 @@ public:
     void saveSelectAnswerVec();
     //重新加载上一次保存的m_selectAnswerVec
     void loadLastSelectAnswerVec();
+    //清空上次存储的数据 重置单机游戏用
+    void clearLastSelectAnswerVec();
+    
+    //重置SelectAnswerVec 不是清空 而是把Answer的m_answerWord变回初始值
+    void resetSelectAnswerVec();
     
 private:
     void clearGrids();

@@ -186,6 +186,8 @@ private:
 
     //加载单机游戏上一局的信息
     void loadSingleSelectAnswer();
+    //重置清空已选的答案
+    void clearSingleSelectAnswer();
     
 private:
     //-- 联网相关的方法

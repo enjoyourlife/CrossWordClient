@@ -330,6 +330,9 @@ const char* EventManager::getEventName(int type) const
         case EventTypeUpdateMainEx:
             return "EventTypeUpdateMainEx";
             
+        case EventTypeSingleReset:
+            return "EventTypeSingleReset";
+            
         default:
             return "UnknownEvent";
 	}

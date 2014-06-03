@@ -103,6 +103,23 @@ void SingleGameController::startEvent(Event *event)
             handleLocalUserRewardEvent(event);
             break;
         }
+            
+        case EventTypeSingleReset:
+        {
+            //清空玩家已经选择的答案
+            DataManager::sharedDataManager()->resetSelectAnswerVec();
+            //清空已经正确的词语
+            DataManager::sharedDataManager()->clearRightWordsIndexVec();
+            //不调用randomInitLocalWordBonus() 因为进入这个界面的EventTypeGameStart事件已经调用一次了
+            
+            
+            //清空数据库 其实是否调用并不影响 因为退出时又重新存储了
+            DataManager::sharedDataManager()->clearLastSelectAnswerVec();
+            
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
         default:
             break;
             

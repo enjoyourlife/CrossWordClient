@@ -223,7 +223,8 @@ void DataManager::randomInitLocalWordBonus()
     {
         srand(time(0));
         
-        int bonusIndex = rand() % size;
+//        int bonusIndex = rand() % size;
+        int bonusIndex = size / 2;//固定中间那一个
         int bonusType = rand() % 2 + 1;
         
         json_t* levelsJson = json_object_get(m_localBonusJson, "levels");
@@ -836,5 +837,21 @@ void DataManager::loadLastSelectAnswerVec()
                 }
             }
         }
+    }
+}
+
+void DataManager::clearLastSelectAnswerVec()
+{
+    DBManager::sharedDBManager()->deleteSelectAnswer(m_level, m_singleSubLevel, m_localUser->m_version);
+}
+
+void DataManager::resetSelectAnswerVec()
+{
+    for (vector<Answer*>::iterator it = m_selectAnswerVec.begin(); it != m_selectAnswerVec.end(); ++it)
+    {
+        Answer *a = *it;
+        a->setAnswerWord("");
+        a->setIsSameEx(false);
+        a->setIsFix(false);
     }
 }

@@ -9,7 +9,9 @@
     "toast_txt7" : "亲，此模式尚未解锁！",
     "toast_txt8" : "亲，此关卡尚未解锁！",
     "toast_txt9" : "亲，这是这个模式的最后一关啦！",
+    "toast_txt10" : "重置成功！",
     "waiting_txt" : "请稍候，正在登录。",
     "reward_txt" : "恭喜您过关！下一关？",
-    "dialog_txt" : "您确定要退出吗？"
+    "dialog_txt" : "您确定要退出吗？",
+    "dialog_reset_txt" : "您确定重置吗？"
 }
