@@ -52,7 +52,7 @@ void PomeloServer::getIpByHost(const char* host)
 			CCLog("http request error: %i",res);
 			return;
 		}
-        m_ip = "192.168.0.2";
+        
         CCLog("m_ip is : %s \n",m_ip.c_str());
 	}
 	else
@@ -64,7 +64,7 @@ void PomeloServer::getIpByHost(const char* host)
 
 bool PomeloServer::init(const char* host, u_short port)
 {
-    this->getIpByHost(host);
+    this->getIpByHost(host);//只要调用一次即可
     if (m_ip.compare("") != 0)
     {
         m_client = pc_client_new();
@@ -109,5 +109,5 @@ void PomeloServer::reset()
     m_client = NULL;
     
     m_isInit = false;
-    m_ip = "";
+//    m_ip = "";//不需要
 }

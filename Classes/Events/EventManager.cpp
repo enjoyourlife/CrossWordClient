@@ -333,6 +333,9 @@ const char* EventManager::getEventName(int type) const
         case EventTypeSingleReset:
             return "EventTypeSingleReset";
             
+        case EventTypeDisconnect:
+            return "EventTypeDisconnect";
+            
         default:
             return "UnknownEvent";
 	}

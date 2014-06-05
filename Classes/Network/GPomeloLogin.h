@@ -19,7 +19,13 @@ public:
     ~GPomeloLogin();
     
 public:
+    //把构造函数里的初始化方法放出来 避免一初始化就调用
+    void initPomeloLogin();
+    
     void login(const std::string username, const std::string password);
+    
+    //重置事件
+    void resetLogin();
     
 private:
     //对应于服务器方法的回调

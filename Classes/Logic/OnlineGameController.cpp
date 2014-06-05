@@ -169,6 +169,30 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeDisconnect:
+        {
+            DisconnectEvent *de = (DisconnectEvent*)event;
+            switch (de->getPomeloType())
+            {
+                case 1:
+                {
+                    m_pomeloLogin->resetLogin();
+                    break;
+                }
+                    
+                case 2:
+                {
+                    m_pomeloGame->resetPomeloGame();
+                    break;
+                }
+                default:
+                    break;
+            }
+            
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
         default:
             break;
             
@@ -237,21 +261,21 @@ void OnlineGameController::onEventSucceeded(Event* event)
         case EventTypeSitDown://坐下失败尚未处理
         {
             SitDownEvent *sde = (SitDownEvent*)event;
-            int type = sde->getType();
+            int gameType = sde->getGameType();
             int level = sde->getLevel();
             
 //            NetServerEx::sharedNetServerEx()->sitDownOrUp(0, type, level);
-            m_pomeloGame->userEnter(type, level);
+            m_pomeloGame->userEnter(gameType, level);
             break;
         }
             
         case EventTypeSitUp:
         {
 //            SitUpEvent *sue = (SitUpEvent*)event;
-//            int type = sue->getType();
+//            int gameType = sue->getGameType();
 //            int level = sue->getLevel();
             
-//            NetServerEx::sharedNetServerEx()->sitDownOrUp(1, type, level);
+//            NetServerEx::sharedNetServerEx()->sitDownOrUp(1, gameType, level);
             m_pomeloGame->userExit();
             break;
         }
@@ -310,7 +334,7 @@ void OnlineGameController::onEventFailed(Event *event)
             toast->playAction();
             CCDirector::sharedDirector()->getRunningScene()->addChild(toast);
             
-            DataManager::sharedDataManager()->setUserUid("");
+            DataManager::sharedDataManager()->setUserUuid("");
             break;
         }
     }

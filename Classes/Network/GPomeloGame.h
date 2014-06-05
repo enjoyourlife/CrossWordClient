@@ -19,12 +19,16 @@ public:
     ~GPomeloGame();
     
 public:
+    void initPomeloGame();
+    
     //坐下
     void userEnter(int type, int level);
     //坐起
     void userExit();
     //发送已经正确的索引给服务器
     void sendRightWordsIndexToServer();
+    
+    void resetPomeloGame();
     
 private:
     //对应于服务器方法的回调

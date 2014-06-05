@@ -110,8 +110,11 @@ public:
     
 public:
     // -- 和网络有关
-    void setUserUid(const std::string& userUid);
-    std::string& getUserUid();
+    void setUserUuid(const std::string& userUuid);
+    std::string& getUserUuid();
+    
+    void setOwnUid(int ownUid);
+    int getOwnUid();
     
     void setUsername(const std::string& username);
     std::string& getUsername();
@@ -197,8 +200,13 @@ private:
 private:
     // -- 和网络有关的变量
     
-    //用户登录成功后赋于的uid
-    std::string m_userUid;
+    //用户登录成功后赋于的uuid 和 uid(用来获取用户概况信息) 有区别
+    std::string m_userUuid;
+    /*
+     用户自身的uid 用来获取用户概况信息 也是登录成功后回传
+     同时在onUserEnter的回调里会有其他玩家的uid
+     */
+    int m_ownUid;
     //用户名
     std::string m_username;
     

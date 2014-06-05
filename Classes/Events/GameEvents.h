@@ -106,9 +106,9 @@ private:
 class SitDownEvent : public Event
 {
 public:
-    SitDownEvent(int type, int level) : Event(EventTypeSitDown)
+    SitDownEvent(int gameType, int level) : Event(EventTypeSitDown)
     {
-        m_type = type;
+        m_gameType = gameType;
         m_level = level;
     }
     
@@ -117,9 +117,9 @@ public:
         
     }
     
-    int getType() const
+    int getGameType() const
     {
-        return m_type;
+        return m_gameType;
     }
     
     int getLevel() const
@@ -128,7 +128,7 @@ public:
     }
     
 private:
-    int m_type;
+    int m_gameType;
     int m_level;
 };
 
@@ -140,9 +140,9 @@ private:
 class SitUpEvent : public Event
 {
 public:
-    SitUpEvent(int type, int level) : Event(EventTypeSitUp)
+    SitUpEvent(int gameType, int level) : Event(EventTypeSitUp)
     {
-        m_type = type;
+        m_gameType = gameType;
         m_level = level;
     }
     
@@ -151,9 +151,9 @@ public:
         
     }
     
-    int getType() const
+    int getGameType() const
     {
-        return m_type;
+        return m_gameType;
     }
     
     int getLevel() const
@@ -162,7 +162,7 @@ public:
     }
     
 private:
-    int m_type;
+    int m_gameType;
     int m_level;
 };
 
@@ -346,7 +346,28 @@ private:
 };
 
 
-
+class DisconnectEvent : public Event
+{
+public:
+    //m_pomeloType 1-PomeloLogin 2-PomeloGame
+    DisconnectEvent(int pomeloType) : Event(EventTypeDisconnect)
+    {
+        m_pomeloType = pomeloType;
+    }
+    
+    virtual ~ DisconnectEvent()
+    {
+        
+    }
+    
+    int getPomeloType() const
+    {
+        return m_pomeloType;
+    }
+    
+private:
+    int m_pomeloType;
+};
 
 
 

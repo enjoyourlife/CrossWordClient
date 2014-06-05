@@ -17,11 +17,7 @@ using namespace std;
 
 GPomeloLogin::GPomeloLogin()
 {
-    m_isInit = init(HOST, PORT);
-    if (m_isInit)
-    {
-        addServerListener();
-    }
+    
     
 }
 
@@ -35,21 +31,40 @@ void GPomeloLogin::onDisconnect(pc_client_t *client, const char *event, void *da
 {
     CCLog("GPomeloLogin onDisconnect~~~");
     //发送断线消息 执行重登录
+    DisconnectEvent *disconnectEvent = new DisconnectEvent(1);
+    EventManager::sharedEventManager()->addEvent(disconnectEvent);
+}
+
+void GPomeloLogin::initPomeloLogin()
+{
+    if (!m_isInit)
+    {
+        m_isInit = init(HOST, PORT);
+        if (m_isInit)
+        {
+            addServerListener();
+        }
+    }
 }
 
 void GPomeloLogin::login(const string username, const string password)
 {
+    initPomeloLogin();
+    
     if (m_isInit)//此时还不一定登录成功 需要在loginCallback里判断
     {
         const char *route = "connector.entryHandler.login";
         json_t *msg = json_object();
         json_t *username_str = json_string(username.c_str());
         json_t *password_str = json_string(password.c_str());
+        json_t *gid_str = json_string("crossword");
         json_object_set(msg, "usr", username_str);
         json_object_set(msg, "pwd", password_str);
+        json_object_set(msg, "gid", gid_str);
         // decref for json object
         json_decref(username_str);
         json_decref(password_str);
+        json_decref(gid_str);
         
         this->request(route, msg, GPomeloLogin::loginCallback);
     }
@@ -63,6 +78,9 @@ void GPomeloLogin::login(const string username, const string password)
 
 void GPomeloLogin::loginCallback(pc_request_t *req, int status, json_t *resp)
 {
+    char *json_str = json_dumps(resp, 0);
+    CCLOG("GPomeloLogin resp is : %s \n", json_str);
+    
     if(status == -1)
     {
         Event* e = EventManager::sharedEventManager()->getEvent(EventTypeLogin);
@@ -78,8 +96,11 @@ void GPomeloLogin::loginCallback(pc_request_t *req, int status, json_t *resp)
         int code = json_integer_value(json_object_get(resp, "code"));
         if (code == 200)
         {
-            const char *uid = json_string_value(json_object_get(resp, "uid"));
-            DataManager::sharedDataManager()->setUserUid(uid);
+            const char *uuid = json_string_value(json_object_get(resp, "uuid"));
+            DataManager::sharedDataManager()->setUserUuid(uuid);
+            
+            int ownUid = json_integer_value(json_object_get(resp, "uid"));
+            DataManager::sharedDataManager()->setOwnUid(ownUid);
             
             Event* e = EventManager::sharedEventManager()->getEvent(EventTypeLogin);
             if (e != NULL)
@@ -101,4 +122,12 @@ void GPomeloLogin::loginCallback(pc_request_t *req, int status, json_t *resp)
 void GPomeloLogin::addServerListener()
 {
     pc_add_listener(m_client, PC_EVENT_DISCONNECT, GPomeloLogin::onDisconnect);
+}
+
+void GPomeloLogin::resetLogin()
+{
+    /* crash
+    pc_remove_listener(m_client, PC_EVENT_DISCONNECT, GPomeloLogin::onDisconnect);
+     */
+    PomeloServer::reset();
 }

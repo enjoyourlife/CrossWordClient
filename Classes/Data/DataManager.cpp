@@ -37,7 +37,7 @@ void DataManager::init()
     
     initAnswerDic();
     
-    m_userUid = "";
+    m_userUuid = "";
     m_username = "";
     
     
@@ -486,14 +486,24 @@ bool DataManager::isWin()
     return flag;
 }
 
-void DataManager::setUserUid(const string& userUid)
+void DataManager::setUserUuid(const string& userUuid)
 {
-    m_userUid = userUid;
+    m_userUuid = userUuid;
 }
 
-string& DataManager::getUserUid()
+string& DataManager::getUserUuid()
 {
-    return m_userUid;
+    return m_userUuid;
+}
+
+void DataManager::setOwnUid(int ownUid)
+{
+    m_ownUid = ownUid;
+}
+
+int DataManager::getOwnUid()
+{
+    return m_ownUid;
 }
 
 void DataManager::setUsername(const string& username)
@@ -506,6 +516,7 @@ string& DataManager::getUsername()
     return m_username;
 }
 
+//此处的uid尚未更改
 void DataManager::parseGameProcJson(json_t* gameProcJson)
 {
     json_t* usersJson = json_object_get(gameProcJson, "users");
@@ -521,13 +532,14 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
     {
         json_t *userJson = json_array_get(usersJson, i);
         
+        //这里变成uid后 应该是数字
         json_t *uidJson = json_object_get(userJson, "uid");
-        const char *uidData = json_string_value(uidJson);
+        int uidData = json_integer_value(uidJson);
         
         json_t *chessJson = json_object_get(userJson, "chess");
         size_t chessSize = json_array_size(chessJson);
         
-        if (m_username.compare(uidData) == 0)
+        if (uidData == m_ownUid)//自己
         {
             for (int j = 0; j < chessSize; j++)
             {
@@ -536,7 +548,7 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
                 m_ownChessVec.push_back(c);
             }
         }
-        else
+        else//其他玩家 这里是2个玩家的情况 后期要修改
         {
             for (int j = 0; j < chessSize; j++)
             {

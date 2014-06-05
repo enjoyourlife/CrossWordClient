@@ -47,6 +47,7 @@ typedef enum
     EventTypeUpdateMain,//联网游戏过程中刷新主界面
     EventTypeUpdateMainEx,
     EventTypeSingleReset,//单机重置游戏事件
+    EventTypeDisconnect,//联网断线事件
     
     
     EventTypeRoll,//掷骰子
