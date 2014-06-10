@@ -164,7 +164,7 @@ void WaitingRoom::onBack(CCObject* pObject, CCControlEvent event)
             EventManager::sharedEventManager()->notifyEventFailed(sde);
         }
         
-        Event *e = new Event(EventTypeEnterHall);
+        Event *e = new Event(EventTypeEnterCompetitiveGame);
         EventManager::sharedEventManager()->addEvent(e);
     }
     else

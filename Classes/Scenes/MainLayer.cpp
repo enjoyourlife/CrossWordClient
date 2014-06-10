@@ -1274,6 +1274,7 @@ void MainLayer::clearSingleSelectAnswer()
     }
 }
 
+//优化一下
 void MainLayer::updateMainLayer()
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
@@ -1305,7 +1306,15 @@ void MainLayer::updateMainLayer()
         char ownPerArr[9];
         sprintf(ownPerArr, "%d / %d", ownChessFixNum, size);
         
-        m_mainBorderLayer->showPer(perArr, ownPerArr);
+        OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
+        char ownInfo[30];
+        sprintf(ownInfo, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+        
+        OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
+        char otherInfo[30];
+        sprintf(otherInfo, "info:[username:%s, gold:%d, exp:%d]", otherOnLineUser->m_username.c_str(), otherOnLineUser->m_gold, otherOnLineUser->m_exp);
+        
+        m_mainBorderLayer->showPer(perArr, otherInfo, ownPerArr, ownInfo);
     }
     else if (gameType == GameTypeCooperation)
     {
@@ -1334,7 +1343,15 @@ void MainLayer::updateMainLayer()
         char perArr[9];
         sprintf(perArr, "%d / %d", chessFixNum, size);
         
-        m_mainBorderLayer->showPer(perArr, "");
+        OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
+        char ownInfo[30];
+        sprintf(ownInfo, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+        
+        OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
+        char otherInfo[30];
+        sprintf(otherInfo, "info:[username:%s, gold:%d, exp:%d]", otherOnLineUser->m_username.c_str(), otherOnLineUser->m_gold, otherOnLineUser->m_exp);
+        
+        m_mainBorderLayer->showPer(perArr, otherInfo, "", ownInfo);
     }
 }
 

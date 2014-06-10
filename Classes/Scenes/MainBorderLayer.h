@@ -58,7 +58,7 @@ public:
 	virtual void keyMenuClicked();
     
     //显示百分比
-    void showPer(const char* per, const char* ownPer);
+    void showPer(const char* per, const char* otherInfo, const char* ownPer, const char* ownInfo);
     
     //显示单机玩家信息
     void updateLocalUserData();
@@ -126,8 +126,11 @@ private:
     cocos2d::CCLayerColor *m_rightBorder;
     //整体或对手的百分比
     cocos2d::CCLabelTTF *m_per;
+    cocos2d::CCLabelTTF *m_otherInfo0;
     //自己的百分比
     cocos2d::CCLabelTTF *m_ownPer;
+    cocos2d::CCLabelTTF *m_ownInfo;
+    
     
     
     //左侧单机相关变量

@@ -31,6 +31,7 @@
 		013CD49D193895A600D931D1 /* Configs in Resources */ = {isa = PBXBuildFile; fileRef = 013CD49C193895A600D931D1 /* Configs */; };
 		0140E0B9190C91800071E6D3 /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0140E0B8190C91800071E6D3 /* GameController.cpp */; };
 		014AEC7618B6552200FFAB62 /* NetServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014AEC7418B6552200FFAB62 /* NetServer.cpp */; };
+		014D550819435BC9005F6741 /* OnLineUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014D550619435BC9005F6741 /* OnLineUser.cpp */; };
 		014F85B31930950D008805E4 /* LocalUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014F85B11930950D008805E4 /* LocalUser.cpp */; };
 		014F85B6193099FC008805E4 /* DBManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014F85B4193099FB008805E4 /* DBManager.cpp */; };
 		0155A0901916852B00A2A61E /* PomeloServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0155A08E1916852B00A2A61E /* PomeloServer.cpp */; };
@@ -358,6 +359,8 @@
 		0140E0B8190C91800071E6D3 /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
 		014AEC7418B6552200FFAB62 /* NetServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetServer.cpp; sourceTree = "<group>"; };
 		014AEC7518B6552200FFAB62 /* NetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetServer.h; sourceTree = "<group>"; };
+		014D550619435BC9005F6741 /* OnLineUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnLineUser.cpp; sourceTree = "<group>"; };
+		014D550719435BC9005F6741 /* OnLineUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnLineUser.h; sourceTree = "<group>"; };
 		014F85B11930950D008805E4 /* LocalUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalUser.cpp; sourceTree = "<group>"; };
 		014F85B21930950D008805E4 /* LocalUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalUser.h; sourceTree = "<group>"; };
 		014F85B4193099FB008805E4 /* DBManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DBManager.cpp; sourceTree = "<group>"; };
@@ -1115,6 +1118,8 @@
 				014F85B5193099FB008805E4 /* DBManager.h */,
 				012EB6A21939C879007AEB82 /* LocalUnLockLevel.cpp */,
 				012EB6A31939C87A007AEB82 /* LocalUnLockLevel.h */,
+				014D550619435BC9005F6741 /* OnLineUser.cpp */,
+				014D550719435BC9005F6741 /* OnLineUser.h */,
 			);
 			name = Data;
 			path = ../Classes/Data;
@@ -2456,6 +2461,7 @@
 				014F85B31930950D008805E4 /* LocalUser.cpp in Sources */,
 				014F85B6193099FC008805E4 /* DBManager.cpp in Sources */,
 				012EB6A41939C87A007AEB82 /* LocalUnLockLevel.cpp in Sources */,
+				014D550819435BC9005F6741 /* OnLineUser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

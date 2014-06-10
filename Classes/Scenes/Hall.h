@@ -108,6 +108,8 @@ private:
     void onCompetitiveGame(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onCooperationGame(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
+    void exitGame(CCObject* obj);
+    
     cocos2d::CCSprite* m_myCard;
 };
 

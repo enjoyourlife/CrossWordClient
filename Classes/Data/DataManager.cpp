@@ -37,13 +37,20 @@ void DataManager::init()
     
     initAnswerDic();
     
-    m_userUuid = "";
-    m_username = "";
     
-    
+    //单机相关
     initLocalUser();
     m_localBonusJson = Utilities::getJsonFromFile("Configs/localBonus.json");
     initLocalUnLockLevel();//在initLocalUser()之后
+    
+    
+    //联网相关
+    m_userUuid = "";
+    m_username = "";
+    initOwnOnLineUser();
+    
+    OnLineUser *temp = new OnLineUser();
+    m_otherOnLineUserVec.push_back(temp);
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -99,6 +106,11 @@ void DataManager::setIsLogin(bool isLogin)
 
 void DataManager::parseJson(json_t* gameDataJson)
 {
+    if (gameDataJson == NULL)
+    {
+        return;
+    }
+    
     json_t* wJson = json_object_get(gameDataJson, "w");
     json_t* hJson = json_object_get(gameDataJson, "h");
     m_col = json_integer_value(wJson);
@@ -516,6 +528,59 @@ string& DataManager::getUsername()
     return m_username;
 }
 
+void DataManager::initOwnOnLineUser()
+{
+    m_ownOnLineUser = new OnLineUser();
+    m_onLineUserJson = Utilities::getJsonFromFile("Configs/onlineLevelName.json");
+}
+
+int DataManager::parseOnLineUserInfo(json_t* userInfo)
+{
+    //{"code": 200, "info": {"gold": 1, "id": 2, "uid": 2, "exp": 1}} 或者 null
+    if (userInfo != NULL)
+    {
+        json_t *uidJson = json_object_get(userInfo, "uid");
+        int uid = json_integer_value(uidJson);
+        int gold = json_integer_value(json_object_get(userInfo, "gold"));
+        int exp = json_integer_value(json_object_get(userInfo, "exp"));
+        if (m_ownUid == uid)
+        {
+            m_ownOnLineUser->m_uid = uid;
+            m_ownOnLineUser->m_gold = gold;
+            m_ownOnLineUser->m_exp = exp;
+            m_ownOnLineUser->m_username = m_username;
+            
+            //是否升级 取称号等逻辑
+        }
+        else
+        {
+            //目前只有一个对手 如果有多个对手 此方法调用多次 也就增加多个对手了
+            OnLineUser *olu = new OnLineUser();
+            
+            olu->m_uid = uid;
+            olu->m_gold = gold;
+            olu->m_exp = exp;
+            
+            //是否升级 取称号等逻辑
+            
+            m_otherOnLineUserVec.push_back(olu);
+        }
+        
+        return uid;
+    }
+    return -1;
+}
+
+OnLineUser* DataManager::getOwnOnLineUser()
+{
+    return m_ownOnLineUser;
+}
+
+vector<OnLineUser*>& DataManager::getOtherOnLineUserVec()
+{
+    return m_otherOnLineUserVec;
+}
+
 //此处的uid尚未更改
 void DataManager::parseGameProcJson(json_t* gameProcJson)
 {
@@ -539,6 +604,12 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
         json_t *chessJson = json_object_get(userJson, "chess");
         size_t chessSize = json_array_size(chessJson);
         
+        json_t *rewardsJson = json_object_get(userJson, "rewards");
+        json_t *goldJson = json_object_get(rewardsJson, "gold");
+        json_t *expJson = json_object_get(rewardsJson, "exp");
+        int gold = json_integer_value(goldJson);
+        int exp = json_integer_value(expJson);
+        
         if (uidData == m_ownUid)//自己
         {
             for (int j = 0; j < chessSize; j++)
@@ -547,6 +618,9 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
                 int c = json_integer_value(cJson);
                 m_ownChessVec.push_back(c);
             }
+            
+            m_ownOnLineUser->m_gold = gold;
+            m_ownOnLineUser->m_exp = exp;
         }
         else//其他玩家 这里是2个玩家的情况 后期要修改
         {
@@ -556,6 +630,9 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
                 int c = json_integer_value(cJson);
                 m_chessVec.push_back(c);
             }
+            
+            m_otherOnLineUserVec.at(0)->m_gold = gold;
+            m_otherOnLineUserVec.at(0)->m_exp = exp;
         }
     }
     

@@ -105,7 +105,9 @@ void PomeloServer::request(const char* route, json_t *msg, pc_request_cb cb)
 
 void PomeloServer::reset()
 {
-    pc_client_destroy(m_client);
+    /* crash
+     pc_client_destroy(m_client);
+     */
     m_client = NULL;
     
     m_isInit = false;

@@ -58,6 +58,19 @@ public:
      */
 	virtual void keyMenuClicked();
     
+public:
+    /*!
+     * @brief		队列事件成功时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventSucceeded(Event* event);
+    
+    /*!
+     * @brief		队列事件失败时的回调。
+     * @param       event   事件
+     */
+    virtual void onEventFailed(Event* event);
+    
 private:
     
     virtual void registerWithTouchDispatcher(void);
@@ -110,6 +123,11 @@ private:
     void onEasy(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onNormal(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onHard(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    
+    //初始化自身信息 此时是联网取信息过后存储的信息
+    void initOwnInfo();
+    
+    cocos2d::CCLabelTTF *m_ownInfo;
     
 };
 

@@ -23,6 +23,8 @@ public:
     void initPomeloLogin();
     
     void login(const std::string username, const std::string password);
+    //通过uid获取玩家概况信息
+    void getInfo(int uid);
     
     //重置事件
     void resetLogin();
@@ -36,6 +38,7 @@ private:
     
     //本地请求方法的回调
     static void loginCallback(pc_request_t *req, int status, json_t *resp);
+    static void getInfoCallback(pc_request_t *req, int status, json_t *resp);
     
     
     

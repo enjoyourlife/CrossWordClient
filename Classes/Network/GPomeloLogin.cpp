@@ -71,8 +71,12 @@ void GPomeloLogin::login(const string username, const string password)
     else
     {
         //登录失败
+        Event* e = EventManager::sharedEventManager()->getEvent(EventTypeLogin);
+        if (e != NULL)
+        {
+            EventManager::sharedEventManager()->notifyEventFailed(e);
+        }
     }
-    
     
 }
 
@@ -107,10 +111,87 @@ void GPomeloLogin::loginCallback(pc_request_t *req, int status, json_t *resp)
             {
                 EventManager::sharedEventManager()->notifyEventSucceeded(e);
             }
+            
         }
         else
         {
             Event* e = EventManager::sharedEventManager()->getEvent(EventTypeLogin);
+            if (e != NULL)
+            {
+                EventManager::sharedEventManager()->notifyEventFailed(e);
+            }
+        }
+    }
+}
+
+void GPomeloLogin::getInfo(int uid)
+{
+    initPomeloLogin();
+    
+    if (m_isInit)//此时还不一定登录成功 需要在loginCallback里判断
+    {
+        const char *route = "connector.entryHandler.getinfo";
+        json_t *msg = json_object();
+        json_t *uidJson = json_integer(uid);
+        json_t *gid_str = json_string("crossword");
+        json_object_set(msg, "uid", uidJson);
+        json_object_set(msg, "gid", gid_str);
+        // decref for json object
+        json_decref(uidJson);
+        json_decref(gid_str);
+        
+        this->request(route, msg, GPomeloLogin::getInfoCallback);
+    }
+    
+}
+
+void GPomeloLogin::getInfoCallback(pc_request_t *req, int status, json_t *resp)
+{
+    char *json_str = json_dumps(resp, 0);
+    CCLOG("getInfoCallback resp is : %s \n", json_str);
+    
+    if(status == -1)
+    {
+        Event* e = EventManager::sharedEventManager()->getEvent(EventTypeGetInfo);
+        if (e != NULL)
+        {
+            EventManager::sharedEventManager()->notifyEventFailed(e);
+        }
+        //toast提示 取信息失败
+    }
+    else if(status == 0)
+    {
+        //resp应该是服务器端通过next方法传过来的json串
+        int code = json_integer_value(json_object_get(resp, "code"));
+        if (code == 200)
+        {
+            json_t *infoJson = json_object_get(resp, "info");
+            if (infoJson != NULL)
+            {
+                Event* e = EventManager::sharedEventManager()->getEvent(EventTypeGetInfo);
+                if (e != NULL)
+                {
+                    EventManager::sharedEventManager()->notifyEventSucceeded(e);
+                }
+                
+                int uid = DataManager::sharedDataManager()->parseOnLineUserInfo(infoJson);
+                //如果此方法调用多次 将增加多次事件
+                UpdateInfoEvent *uie = new UpdateInfoEvent(uid);
+                EventManager::sharedEventManager()->addEvent(uie);
+            }
+            else
+            {
+                Event* e = EventManager::sharedEventManager()->getEvent(EventTypeGetInfo);
+                if (e != NULL)
+                {
+                    EventManager::sharedEventManager()->notifyEventFailed(e);
+                }
+            }
+
+        }
+        else
+        {
+            Event* e = EventManager::sharedEventManager()->getEvent(EventTypeGetInfo);
             if (e != NULL)
             {
                 EventManager::sharedEventManager()->notifyEventFailed(e);

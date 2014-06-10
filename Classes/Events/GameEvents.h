@@ -370,6 +370,76 @@ private:
 };
 
 
+class GetInfoEvent : public Event
+{
+public:
+    
+    GetInfoEvent(int uid) : Event(EventTypeGetInfo)
+    {
+        m_uid = uid;
+    }
+    
+    virtual ~ GetInfoEvent()
+    {
+        
+    }
+    
+    int getUid() const
+    {
+        return m_uid;
+    }
+    
+private:
+    int m_uid;
+};
+
+
+class UpdateInfoEvent : public Event
+{
+public:
+    
+    UpdateInfoEvent(int uid) : Event(EventTypeUpdateInfo)
+    {
+        m_uid = uid;
+    }
+    
+    virtual ~ UpdateInfoEvent()
+    {
+        
+    }
+    
+    int getUid() const
+    {
+        return m_uid;
+    }
+    
+private:
+    int m_uid;
+};
+
+class UpdateInfoEventEx : public Event
+{
+public:
+    
+    UpdateInfoEventEx(int uid) : Event(EventTypeUpdateInfoEx)
+    {
+        m_uid = uid;
+    }
+    
+    virtual ~ UpdateInfoEventEx()
+    {
+        
+    }
+    
+    int getUid() const
+    {
+        return m_uid;
+    }
+    
+private:
+    int m_uid;
+};
+
 
 
 

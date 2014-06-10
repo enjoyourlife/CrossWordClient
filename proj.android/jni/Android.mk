@@ -35,6 +35,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Data/LocalUser.cpp \
                    ../../Classes/Data/DBManager.cpp \
                    ../../Classes/Data/LocalUnLockLevel.cpp \
+                   ../../Classes/Data/OnLineUser.cpp \
                    ../../Classes/Scenes/MainLayer.cpp \
                    ../../Classes/Scenes/LoadingLayer.cpp \
                    ../../Classes/Scenes/Hall.cpp \

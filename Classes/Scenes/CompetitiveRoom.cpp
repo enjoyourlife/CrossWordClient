@@ -20,13 +20,13 @@ using namespace std;
 
 CompetitiveRoom::CompetitiveRoom()
 {
-    //    m_myCard = NULL;
+    m_ownInfo = NULL;
     
 }
 
 CompetitiveRoom::~ CompetitiveRoom()
 {
-    //    CC_SAFE_RELEASE_NULL(m_myCard);
+    CC_SAFE_RELEASE_NULL(m_ownInfo);
     
     
 }
@@ -75,6 +75,8 @@ bool CompetitiveRoom::init()
     toast->playAction();
     this->addChild(toast);
     
+    initOwnInfo();
+    
     return true;
 }
 
@@ -91,10 +93,12 @@ void CompetitiveRoom::keyMenuClicked()
 void CompetitiveRoom::onEnter()
 {
     CCLayer::onEnter();
+    EventManager::sharedEventManager()->addObserver(this);
 }
 
 void CompetitiveRoom::onExit()
 {
+    EventManager::sharedEventManager()->removeObserver(this);
     CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
     CCLayer::onExit();
 }
@@ -115,7 +119,8 @@ SEL_CCControlHandler CompetitiveRoom::onResolveCCBCCControlSelector(CCObject * p
 
 bool CompetitiveRoom::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
-    //    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "myCard", CCSprite*, m_myCard);
+
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownInfo", CCLabelTTF*, m_ownInfo);
     return false;
 }
 
@@ -155,7 +160,7 @@ void CompetitiveRoom::onEasy(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 10;
+    int level = 0;
     DataManager::sharedDataManager()->setLevel(level);
     
     SitDownEvent *sde = new SitDownEvent(gameType, level);//1-竞技 2-合作
@@ -166,7 +171,7 @@ void CompetitiveRoom::onNormal(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 15;
+    int level = 1;
     DataManager::sharedDataManager()->setLevel(level);
     
     SitDownEvent *sde = new SitDownEvent(gameType, level);
@@ -177,9 +182,60 @@ void CompetitiveRoom::onHard(CCObject* pObject, CCControlEvent event)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     
-    int level = 20;
+    int level = 2;
     DataManager::sharedDataManager()->setLevel(level);
     
     SitDownEvent *sde = new SitDownEvent(gameType, level);
     EventManager::sharedEventManager()->addEvent(sde);
+}
+
+void CompetitiveRoom::onEventSucceeded(Event *event)
+{
+    int type = event->getType();
+    switch (type)
+    {
+        case EventTypeUpdateInfoEx:
+        {
+            UpdateInfoEventEx *e = (UpdateInfoEventEx*)event;
+            OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
+            if (e->getUid() == ownOnLineUser->m_uid)
+            {
+                char info[100];
+                sprintf(info, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+                m_ownInfo->setString(info);
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+void CompetitiveRoom::onEventFailed(Event *event)
+{
+    int type = event->getType();
+    switch (type)
+    {
+        case EventTypeGetInfo:
+        {
+            //TOAST获取信息失败
+            CCLog("get info fail.");
+            
+//            m_ownInfo->setVisible(false);
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+void CompetitiveRoom::initOwnInfo()
+{
+    OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
+    
+    char info[100];
+    sprintf(info, "info:[username:%s, gold:%d, exp:%d]", DataManager::sharedDataManager()->getUsername().c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+    m_ownInfo->setString(info);
 }

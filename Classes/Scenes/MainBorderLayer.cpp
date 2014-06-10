@@ -24,6 +24,8 @@ MainBorderLayer::MainBorderLayer()
     
     m_per = NULL;
     m_ownPer = NULL;
+    m_otherInfo0 = NULL;
+    m_ownInfo = NULL;
     
     m_localUserBg = NULL;
     m_localUserSilver = NULL;
@@ -40,6 +42,8 @@ MainBorderLayer::~ MainBorderLayer()
     
     CC_SAFE_RELEASE_NULL(m_per);
     CC_SAFE_RELEASE_NULL(m_ownPer);
+    CC_SAFE_RELEASE_NULL(m_otherInfo0);
+    CC_SAFE_RELEASE_NULL(m_ownInfo);
     
     CC_SAFE_RELEASE_NULL(m_localUserBg);
     CC_SAFE_RELEASE_NULL(m_localUserSilver);
@@ -135,6 +139,8 @@ bool MainBorderLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* p
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_rightBorder", CCLayerColor*, m_rightBorder);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_per", CCLabelTTF*, m_per);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownPer", CCLabelTTF*, m_ownPer);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherInfo0", CCLabelTTF*, m_otherInfo0);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownInfo", CCLabelTTF*, m_ownInfo);
     
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserBg", CCLayer*, m_localUserBg);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
@@ -208,10 +214,12 @@ void MainBorderLayer::onOk(CCObject* obj)
     
 }
 
-void MainBorderLayer::showPer(const char* per, const char* ownPer)
+void MainBorderLayer::showPer(const char* per, const char* otherInfo, const char* ownPer, const char* ownInfo)
 {
     m_per->setString(per);
     m_ownPer->setString(ownPer);
+    m_otherInfo0->setString(otherInfo);
+    m_ownInfo->setString(ownInfo);
 }
 
 void MainBorderLayer::updateLocalUserData()

@@ -19,6 +19,7 @@
 #include "Answer.h"
 #include "LocalUser.h"
 #include "LocalUnLockLevel.h"
+#include "OnLineUser.h"
 
 
 #define ANSWER_NUM 8 //答案的个数
@@ -119,6 +120,15 @@ public:
     void setUsername(const std::string& username);
     std::string& getUsername();
     
+    //初始化m_ownOnLineUser m_onLineUserJson
+    void initOwnOnLineUser();
+    //解析玩家信息 返回uid
+    int parseOnLineUserInfo(json_t* userInfo);
+    
+    OnLineUser* getOwnOnLineUser();
+    std::vector<OnLineUser*>& getOtherOnLineUserVec();
+    
+    
     //解析游戏实时数据
     void parseGameProcJson(json_t* gameProcJson);
     
@@ -209,6 +219,13 @@ private:
     int m_ownUid;
     //用户名
     std::string m_username;
+    //联网时候代表自己的变量 可以存储m_ownUid m_username 虽然冗余
+    OnLineUser* m_ownOnLineUser;
+    //联网时候代表其他玩家
+    std::vector<OnLineUser*> m_otherOnLineUserVec;
+    //与联网用户对应的json 等级 称号等
+    json_t* m_onLineUserJson;
+    
     
     //对手或整个棋盘数据
     std::vector<int> m_chessVec;

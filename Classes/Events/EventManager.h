@@ -48,6 +48,9 @@ typedef enum
     EventTypeUpdateMainEx,
     EventTypeSingleReset,//单机重置游戏事件
     EventTypeDisconnect,//联网断线事件
+    EventTypeGetInfo,//取联网玩家信息事件 没有起到实际作用 直接就取了
+    EventTypeUpdateInfo,//取玩家信息后 更新界面事件
+    EventTypeUpdateInfoEx,
     
     
     EventTypeRoll,//掷骰子

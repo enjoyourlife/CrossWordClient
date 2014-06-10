@@ -193,6 +193,26 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeGetInfo:
+        {
+            //在登录成功后 才开始取自己的信息
+            GetInfoEvent *gie = (GetInfoEvent*)event;
+            m_pomeloLogin->getInfo(gie->getUid());
+            break;
+        }
+            
+        case EventTypeUpdateInfo:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeUpdateInfoEx:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
         default:
             break;
             
@@ -255,6 +275,9 @@ void OnlineGameController::onEventSucceeded(Event* event)
                     break;
             }
             
+            //自己登录成功后 发送取自己信息的event 如果是直接进入到竞技界面 则显示之前取到的信息 不再发送取信息event
+            GetInfoEvent *getInfoEvent = new GetInfoEvent(DataManager::sharedDataManager()->getOwnUid());
+            EventManager::sharedEventManager()->addEvent(getInfoEvent);
             break;
         }
             
@@ -265,7 +288,7 @@ void OnlineGameController::onEventSucceeded(Event* event)
             int level = sde->getLevel();
             
 //            NetServerEx::sharedNetServerEx()->sitDownOrUp(0, type, level);
-            m_pomeloGame->userEnter(gameType, level);
+            m_pomeloGame->userEnter(gameType, level);//需要改一下 坐下成功与失败应该在回调函数里判断
             break;
         }
             
@@ -290,6 +313,7 @@ void OnlineGameController::onEventSucceeded(Event* event)
         case EventTypeGameStartEx:
         {
             SceneManager::sharedSceneManager()->changeScene(SceneTypeMainLayer);
+            
             break;
         }
             
@@ -297,6 +321,15 @@ void OnlineGameController::onEventSucceeded(Event* event)
         {
             Event *e = new Event(EventTypeUpdateMainEx);
             EventManager::sharedEventManager()->addEvent(e);
+            break;
+        }
+            
+        case EventTypeUpdateInfo:
+        {
+            UpdateInfoEvent *updateInfoEvent = (UpdateInfoEvent*)event;
+            
+            UpdateInfoEventEx *updateInfoEventEx = new UpdateInfoEventEx(updateInfoEvent->getUid());
+            EventManager::sharedEventManager()->addEvent(updateInfoEventEx);
             break;
         }
     }

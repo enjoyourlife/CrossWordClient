@@ -11,6 +11,7 @@
 #include "../Events/EventManager.h"
 #include "../Events/GameEvents.h"
 #include "../Data/DataManager.h"
+#include "../CommonUI/CGDialog.h"
 #include "SceneManager.h"
 
 USING_NS_CC;
@@ -74,12 +75,12 @@ bool Hall::init()
 
 void Hall::keyBackClicked()
 {
-	CCLog("Hall::keyBackClicked()~~~");
+	CGDialog::show(GameOKCancelButtonType, "exit_game", this, menu_selector(Hall::exitGame), NULL);
 }
 
 void Hall::keyMenuClicked()
 {
-    CCLog("Hall::keyMenuClicked()~~~");
+    
 }
 
 void Hall::onEnter()
@@ -162,4 +163,9 @@ void Hall::onCooperationGame(CCObject* pObject, CCControlEvent event)
     Event *e = new Event(EventTypeEnterCooperationGame);
     EventManager::sharedEventManager()->addEvent(e);
     
+}
+
+void Hall::exitGame(CCObject* obj)
+{
+    CCDirector::sharedDirector()->end();
 }

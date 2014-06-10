@@ -186,6 +186,9 @@ void GPomeloGame::onGameStart(pc_client_t *client, const char *event, void *data
 {
     CCLog("onGameStart~~~~~~~~~~");
     
+    char *json_str = json_dumps((json_t* )data, 0);
+    CCLOG("onGameStart data is : %s \n", json_str);
+    
     Event *e = new Event(EventTypeGameStart);
     EventManager::sharedEventManager()->addEvent(e);
     
@@ -204,6 +207,8 @@ void GPomeloGame::onGameStop(pc_client_t *client, const char *event, void *data)
 void GPomeloGame::onGameReady(pc_client_t *client, const char *event, void *data)
 {
     CCLog("onGameReady~~~~~~~~~~");
+    char *json_str = json_dumps((json_t* )data, 0);
+    CCLOG("onGameReady data is : %s \n", json_str);
 
 }
 
