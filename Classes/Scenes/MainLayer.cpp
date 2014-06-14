@@ -156,6 +156,8 @@ bool MainLayer::init()
     }
     
     CCNodeLoaderLibrary *ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    ccNodeLoaderLibrary->registerCCNodeLoader("CGClipLayer", CGClipLayerLoader::loader());
+    
     CGCCBReader reader(ccNodeLoaderLibrary);
     CCNode* node = reader.readCCBFile("main.ccbi", this);
     addChild(node);
@@ -191,6 +193,7 @@ bool MainLayer::init()
     
     loadSingleSelectAnswer();
     
+    
     return true;
 }
 
@@ -224,7 +227,7 @@ SEL_MenuHandler MainLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarget, co
 
 SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
-//   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", MainLayer::onStart);
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onAnswer0", MainLayer::onAnswer0);
     
     return NULL;
 }
@@ -233,13 +236,13 @@ SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget
 bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode)
 {
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_topLayer", CCLayerColor*, m_topLayer);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bottomLayer", CCLayerColor*, m_bottomLayer);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_letterGroove", CCLayerColor*, m_letterGroove);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bottomLayer", CCLayer*, m_bottomLayer);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_letterGroove", CGClipLayer*, m_letterGroove);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_letterLayer", CCLayerColor*, m_letterLayer);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_numberGroove", CCLayerColor*, m_numberGroove);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_numberGroove", CGClipLayer*, m_numberGroove);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_numberLayer", CCLayerColor*, m_numberLayer);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridGroove", CCLayerColor*, m_gridGroove);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridLayer", CCLayerColor*, m_gridLayer);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridGroove", CGClipLayer*, m_gridGroove);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_gridLayer", CCLayer*, m_gridLayer);
     
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tipsBg", CCLayer*, m_tipsBg);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip1Bg", CCLayer*, m_tip1Bg);
@@ -461,11 +464,11 @@ void MainLayer::initGridButtons()
         CCSpriteFrame* gridFrame = NULL;
         if (type == -1 && type2 == -1)
         {
-            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("block.png");
+            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_grid0.png");
         }
         else
         {
-            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("blank.png");
+            gridFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_grid1.png");
         }
         CCSprite *button = CCSprite::createWithSpriteFrame(gridFrame);
 
@@ -587,10 +590,12 @@ bool MainLayer::isInMoveArea(CCPoint point)
     bool flag = false;
     
     //即m_numberGroove左下角在this中的坐标
-    float beginX = m_size.width * 0.125f;
-    float beginY = m_size.height * 0.15f;
-    
-    CCRect rect = CCRect(beginX, beginY, m_size.width * 0.75f, m_size.height * 0.7f);
+//    float beginX = m_size.width * 0.125f;
+//    float beginY = m_size.height * 0.15f;
+    float beginX = m_size.width * 0.0198f;
+    float beginY = m_size.height * 0.0144f;
+
+    CCRect rect = CCRect(beginX, beginY, m_size.width * 0.9604f, m_size.height * 0.7372f);
 	if (rect.containsPoint(point))
     {
         flag = true;
@@ -674,7 +679,8 @@ CCRect MainLayer::changeGridToThisCoordRect(int index)
 {
     //m_gridLayer的锚点在m_gridGroove中的位置 把它转换成在this坐标系下的位置 然后以这个位置为定点算grid的rect
     CCPoint gridLayerLoc = m_gridLayer->getPosition();
-    CCPoint gridLayerLocInThis = ccp(gridLayerLoc.x + m_size.width * 0.175f, gridLayerLoc.y + m_size.height * 0.15f);
+//    CCPoint gridLayerLocInThis = ccp(gridLayerLoc.x + m_size.width * 0.175f, gridLayerLoc.y + m_size.height * 0.15f);
+    CCPoint gridLayerLocInThis = ccp(gridLayerLoc.x + m_size.width * 0.0541f, gridLayerLoc.y + m_size.height * 0.0144f);
     
     int gridLine = index / m_col;
     int gridCol = index % m_col;
@@ -821,6 +827,7 @@ void MainLayer::showCountDownBonus(Words *words, bool isH)
 
 void MainLayer::initTouchGridActionSprite()
 {
+    /*
     CCSpriteFrame* frame = NULL;
     frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("wait01.png");
     m_touchGridActionSprite = CCSprite::createWithSpriteFrame(frame);
@@ -830,11 +837,41 @@ void MainLayer::initTouchGridActionSprite()
     
     m_touchGridActionSprite->setVisible(false);
     m_touchGridActionSprite->setColor(ccRED);
-    
+    */
 }
 
 void MainLayer::showTouchAction(Event *event)
 {
+    //先清除上一次的点击效果
+    hideTouchAction();
+    
+    TouchGridEvent* touchGridEvent = (TouchGridEvent*)event;
+    
+    int index = touchGridEvent->getIndex();
+    vector<int> wordsIndexVector = touchGridEvent->getWordsIndexVector();
+    
+    //点击的grid button
+    CCSprite *button = m_gridButtons.at(index);
+    CCSpriteFrame *touchFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_grid3.png");
+    button->setDisplayFrame(touchFrame);
+    
+    
+    //显示横竖动画
+    CCSpriteFrame* otherFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_grid2.png");
+    for (vector<int>::iterator it = wordsIndexVector.begin(); it != wordsIndexVector.end(); it++)
+    {
+        int wordsIndex = *it;
+        
+        if (wordsIndex != index)//点击grid播放上面的动画
+        {
+            CCSprite *button = m_gridButtons.at(wordsIndex);
+            button->setDisplayFrame(otherFrame);
+        }
+        //所有的 包括点击button的索引
+        m_touchActionIndexV.push_back(wordsIndex);
+    }
+    
+    /*
     TouchGridEvent* touchGridEvent = (TouchGridEvent*)event;
     
     int index = touchGridEvent->getIndex();
@@ -879,11 +916,24 @@ void MainLayer::showTouchAction(Event *event)
             m_wordsActionSpriteV.push_back(sprite);
         }
     }
-    
+    */
 }
 
 void MainLayer::hideTouchAction()
 {
+    int size = m_touchActionIndexV.size();
+    if (size > 0)
+    {
+        CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_grid1.png");
+        for (vector<int>::iterator it = m_touchActionIndexV.begin(); it != m_touchActionIndexV.end(); it++) {
+            int index = *it;
+            CCSprite *button = m_gridButtons.at(index);
+            button->setDisplayFrame(frame);
+        }
+        m_touchActionIndexV.clear();
+    }
+    
+    /*
     m_touchGridActionSprite->setVisible(false);
     
     int size = m_wordsActionSpriteV.size();
@@ -894,7 +944,7 @@ void MainLayer::hideTouchAction()
             sprite->removeFromParentAndCleanup(true);
         }
         m_wordsActionSpriteV.clear();
-    }
+    }*/
 }
 
 void MainLayer::setAnswers(bool isShow)
@@ -970,6 +1020,11 @@ int MainLayer::touchAnswerBg(CCPoint beginTouch, CCPoint endTouch)
     return index;
 }
 
+void MainLayer::onAnswer0(CCObject* pObject, CCControlEvent event)
+{
+    CCControlButton *cb = (CCControlButton*)pObject;
+    CCLog("%s......", cb->getTitleForState(CCControlStateHighlighted)->getCString());
+}
 
 void MainLayer::showChooseAnswer(Event *event)
 {
@@ -984,6 +1039,11 @@ void MainLayer::showChooseAnswer(Event *event)
     if (wordLabel != NULL)
     {
         wordLabel->setString(answer.c_str());
+        CCLog("gridIndex %d wordLabel is not NULL......", gridIndex);
+    }
+    else
+    {
+        CCLog("gridIndex %d wordLabel is NULL......", gridIndex);
     }
 }
 

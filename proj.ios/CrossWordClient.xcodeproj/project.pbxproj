@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */; };
+		010F19EE194BF9C600EC1CCA /* CGClipLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010F19EC194BF9C600EC1CCA /* CGClipLayer.cpp */; };
 		011259AC18C04624002F5063 /* Hall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AA18C04624002F5063 /* Hall.cpp */; };
 		011259B018C04C37002F5063 /* DataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AE18C04C37002F5063 /* DataManager.cpp */; };
 		011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259B118C051B0002F5063 /* SingleRoom.cpp */; };
@@ -321,6 +322,8 @@
 /* Begin PBXFileReference section */
 		010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SingleSubRoom.cpp; sourceTree = "<group>"; };
 		010397F718BE2BCA00453BB1 /* SingleSubRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSubRoom.h; sourceTree = "<group>"; };
+		010F19EC194BF9C600EC1CCA /* CGClipLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGClipLayer.cpp; sourceTree = "<group>"; };
+		010F19ED194BF9C600EC1CCA /* CGClipLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGClipLayer.h; sourceTree = "<group>"; };
 		011259AA18C04624002F5063 /* Hall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hall.cpp; sourceTree = "<group>"; };
 		011259AB18C04624002F5063 /* Hall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hall.h; sourceTree = "<group>"; };
 		011259AE18C04C37002F5063 /* DataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataManager.cpp; sourceTree = "<group>"; };
@@ -1000,6 +1003,8 @@
 				01BA774018C57A1100A40B37 /* CGWaiting.h */,
 				01D25B7418F1955D0024C6E3 /* CGDialog.cpp */,
 				01D25B7518F1955D0024C6E3 /* CGDialog.h */,
+				010F19EC194BF9C600EC1CCA /* CGClipLayer.cpp */,
+				010F19ED194BF9C600EC1CCA /* CGClipLayer.h */,
 			);
 			name = CommonUI;
 			path = ../Classes/CommonUI;
@@ -2462,6 +2467,7 @@
 				014F85B6193099FC008805E4 /* DBManager.cpp in Sources */,
 				012EB6A41939C87A007AEB82 /* LocalUnLockLevel.cpp in Sources */,
 				014D550819435BC9005F6741 /* OnLineUser.cpp in Sources */,
+				010F19EE194BF9C600EC1CCA /* CGClipLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

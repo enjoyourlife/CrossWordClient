@@ -16,6 +16,7 @@
 #include "easySQLite/SqlField.h"
 #include "Data/LocalUser.h"
 #include "Data/DataManager.h"
+#include "CommonUI/CGClipLayer.h"
 
 USING_NS_CC;
 using namespace sql;
@@ -185,13 +186,21 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 //    testSql();
     
     
-    LocalUser* lc = DataManager::sharedDataManager()->getLocalUser();
-    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
-    
-    DataManager::sharedDataManager()->updateLocalUser(10000);
-    DataManager::sharedDataManager()->updateLocalUserSilver(10000);
-    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
+//    LocalUser* lc = DataManager::sharedDataManager()->getLocalUser();
+//    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
+//    
+//    DataManager::sharedDataManager()->updateLocalUser(10000);
+//    DataManager::sharedDataManager()->updateLocalUserSilver(10000);
+//    CCLog("%s %s %d %d %d", lc->m_username.c_str(), lc->m_name.c_str(), lc->m_exp, lc->m_lv, lc->m_silver);
 
+    CGClipLayer *cgcl = CGClipLayer::create();
+    cgcl->setContentSize(CCSize(200.0f, 200.0f));
+    
+    CCSprite *s = CCSprite::create("HelloWorld.png");
+    s->setPosition(ccp(100.0f, 100.0f));
+    cgcl->addChild(s);
+    
+    this->addChild(cgcl);
 }
 
 void HelloWorld::onToast(CCObject* obj)

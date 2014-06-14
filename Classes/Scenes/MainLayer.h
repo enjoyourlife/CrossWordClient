@@ -17,6 +17,7 @@
 #include "../Events/EventObserver.h"
 #include "MainBorderLayer.h"
 #include "../Data/Words.h"
+#include "../CommonUI/CGClipLayer.h"
 
 
 class MainLayer : public cocos2d::CCLayer, public cocos2d::extension::CCBSelectorResolver, public cocos2d::extension::CCBMemberVariableAssigner, public EventObserver
@@ -168,6 +169,8 @@ private:
      */
     int touchAnswerBg(cocos2d::CCPoint beginTouch, cocos2d::CCPoint endTouch);
     
+    void onAnswer0(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    
     //在Grid中显示玩家选择的答案
     void showChooseAnswer(Event *event);
     
@@ -205,13 +208,13 @@ private:
     int m_col;
     
     cocos2d::CCLayerColor *m_topLayer;
-    cocos2d::CCLayerColor *m_bottomLayer;
-    cocos2d::CCLayerColor *m_letterGroove;
+    cocos2d::CCLayer *m_bottomLayer;
+    CGClipLayer *m_letterGroove;
     cocos2d::CCLayerColor *m_letterLayer;
-    cocos2d::CCLayerColor *m_numberGroove;
+    CGClipLayer *m_numberGroove;
     cocos2d::CCLayerColor *m_numberLayer;
-    cocos2d::CCLayerColor *m_gridGroove;
-    cocos2d::CCLayerColor *m_gridLayer;
+    CGClipLayer *m_gridGroove;
+    cocos2d::CCLayer *m_gridLayer;
     
     //格子精灵
 //    std::vector<CGControlButton*> m_gridButtons;
@@ -276,6 +279,8 @@ private:
     //这里是播放 touch grid 动画需要的精灵  和  对应播放对应横竖成语背景动画需要的精灵
     cocos2d::CCSprite *m_touchGridActionSprite;
     std::vector<cocos2d::CCSprite*> m_wordsActionSpriteV;
+    //存放显示点击精灵的button的index
+    std::vector<int> m_touchActionIndexV;
     
     
     //候选答案的父结点 接收点击用
