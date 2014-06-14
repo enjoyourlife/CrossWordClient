@@ -82,7 +82,7 @@ MainLayer::MainLayer()
     
     for (int i = 0; i < ANSWER_NUM; i++)
     {
-        m_answersV.push_back(CCLabelTTF::create());
+        m_answersV.push_back(CCControlButton::create());
         m_answersBgV.push_back(CCSprite::create());
     }
 }
@@ -108,11 +108,11 @@ MainLayer::~ MainLayer()
     CC_SAFE_RELEASE_NULL(m_bonusSpriteV);
     CC_SAFE_RELEASE_NULL(m_bonusBMFontV);
     
-    vector<CCLabelTTF*>::iterator it;
+    vector<CCControlButton*>::iterator it;
     for (it = m_answersV.begin(); it != m_answersV.end(); it++)
     {
-        CCLabelTTF* label = *it;
-        CC_SAFE_RELEASE_NULL(label);
+        CCControlButton* controlButton = *it;
+        CC_SAFE_RELEASE_NULL(controlButton);
     }
     
     vector<CCSprite*>::iterator itSprite;
@@ -227,7 +227,7 @@ SEL_MenuHandler MainLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarget, co
 
 SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
-   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onAnswer0", MainLayer::onAnswer0);
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onChooseAnswer", MainLayer::onChooseAnswer);
     
     return NULL;
 }
@@ -259,7 +259,7 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     for (int i = 0; i < ANSWER_NUM; i++)
     {
         sprintf(name, "m_answer%d", i);
-        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCLabelTTF*, m_answersV.at(i));
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCControlButton*, m_answersV.at(i));
         
         sprintf(name, "m_answer%dBg", i);
         CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCSprite*, m_answersBgV.at(i));
@@ -337,7 +337,7 @@ void MainLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
     m_endTouch = pTouch->getLocation();
     
     CCLog("TOUCH GRID INDEX IS %d", this->touchGrid(m_beginTouch, m_endTouch));
-    CCLog("TOUCH ANSWERBG INDEX IS %d", this->touchAnswerBg(m_beginTouchTemp, m_endTouch));
+//    CCLog("TOUCH ANSWERBG INDEX IS %d", this->touchAnswerBg(m_beginTouchTemp, m_endTouch));
 }
 
 void MainLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
@@ -949,12 +949,21 @@ void MainLayer::hideTouchAction()
 
 void MainLayer::setAnswers(bool isShow)
 {
+    vector<CCControlButton*>::iterator it;
+    for (it = m_answersV.begin(); it != m_answersV.end(); it++)
+    {
+        CCControlButton* button = *it;
+        button->setVisible(isShow);
+    }
+    
+    /*
     vector<CCSprite*>::iterator it;
     for (it = m_answersBgV.begin(); it != m_answersBgV.end(); it++)
     {
         CCSprite* bg = *it;
         bg->setVisible(isShow);
     }
+     */
 }
 
 void MainLayer::showAnswers()
@@ -963,11 +972,21 @@ void MainLayer::showAnswers()
     int size = answers.size();
     for (int i = 0; i < size; i++)
     {
+        CCControlButton *button =  m_answersV.at(i);
+        button->setVisible(true);
+        button->setTitleForState(CCString::create(answers.at(i)), CCControlStateNormal);
+    }
+    
+    /*
+    vector<string> answers = DataManager::sharedDataManager()->getAnswers();
+    int size = answers.size();
+    for (int i = 0; i < size; i++)
+    {
         m_answersBgV.at(i)->setVisible(true);
         
         m_answersV.at(i)->setVisible(true);
         m_answersV.at(i)->setString(answers.at(i).c_str());
-    }
+    }*/
 }
 
 CCRect MainLayer::changeAnswerBgToThisCoordRect(int index)
@@ -1020,10 +1039,18 @@ int MainLayer::touchAnswerBg(CCPoint beginTouch, CCPoint endTouch)
     return index;
 }
 
-void MainLayer::onAnswer0(CCObject* pObject, CCControlEvent event)
+void MainLayer::onChooseAnswer(CCObject* pObject, CCControlEvent event)
 {
+    int index = -1;
     CCControlButton *cb = (CCControlButton*)pObject;
-    CCLog("%s......", cb->getTitleForState(CCControlStateHighlighted)->getCString());
+    index = cb->getTag();
+    
+    if (index != -1)
+    {
+        ChooseAnswerEvent *cae = new ChooseAnswerEvent();
+        cae->setIndex(index);
+        EventManager::sharedEventManager()->addEvent(cae);
+    }
 }
 
 void MainLayer::showChooseAnswer(Event *event)

@@ -169,7 +169,7 @@ private:
      */
     int touchAnswerBg(cocos2d::CCPoint beginTouch, cocos2d::CCPoint endTouch);
     
-    void onAnswer0(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    void onChooseAnswer(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
     //在Grid中显示玩家选择的答案
     void showChooseAnswer(Event *event);
@@ -286,7 +286,7 @@ private:
     //候选答案的父结点 接收点击用
     std::vector<cocos2d::CCSprite*> m_answersBgV;
     //下方候选答案精灵
-    std::vector<cocos2d::CCLabelTTF*> m_answersV;
+    std::vector<cocos2d::extension::CCControlButton*> m_answersV;
     
     //mainBorder
     MainBorderLayer *m_mainBorderLayer;
