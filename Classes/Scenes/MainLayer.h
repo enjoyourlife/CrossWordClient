@@ -150,7 +150,6 @@ private:
     //显示词语前面的倒计时奖励精灵 isH true-横 false-竖
     void showCountDownBonus(Words *words, bool isH);
     
-    void initTouchGridActionSprite();
     //显示触摸动画
     void showTouchAction(Event *event);
     //隐藏触摸动画
@@ -161,14 +160,7 @@ private:
     //显示候选答案
     void showAnswers();
     
-    //把AnswerBg的rect转换为this坐标下的rect
-    cocos2d::CCRect changeAnswerBgToThisCoordRect(int index);
-    /*
-     是否点击到一个候选AnswerBg 没有的话返回-1
-     beginTouch和endTouch在同一个AnswerBg的rect内算是点击了该AnswerBg
-     */
-    int touchAnswerBg(cocos2d::CCPoint beginTouch, cocos2d::CCPoint endTouch);
-    
+    //点击下方答案响应事件
     void onChooseAnswer(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
     //在Grid中显示玩家选择的答案
@@ -253,8 +245,6 @@ private:
     float m_ignoreDis;
     //点击的起始点 和 抬起点 如果这两个点在同一个格子精灵之间 将视为点击了该格子精灵
     cocos2d::CCPoint m_beginTouch;
-    //只是点击answerBg时用
-    cocos2d::CCPoint m_beginTouchTemp;
     cocos2d::CCPoint m_endTouch;
     
     
@@ -276,15 +266,10 @@ private:
     cocos2d::CCLabelBMFont *m_bonusBMFontV;
     
     
-    //这里是播放 touch grid 动画需要的精灵  和  对应播放对应横竖成语背景动画需要的精灵
-    cocos2d::CCSprite *m_touchGridActionSprite;
-    std::vector<cocos2d::CCSprite*> m_wordsActionSpriteV;
     //存放显示点击精灵的button的index
     std::vector<int> m_touchActionIndexV;
     
-    
-    //候选答案的父结点 接收点击用
-    std::vector<cocos2d::CCSprite*> m_answersBgV;
+
     //下方候选答案精灵
     std::vector<cocos2d::extension::CCControlButton*> m_answersV;
     

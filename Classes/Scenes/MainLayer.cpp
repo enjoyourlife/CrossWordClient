@@ -43,7 +43,6 @@ MainLayer::MainLayer()
     m_moveV = 9.0f;
     m_location = CCPointZero;
     m_beginTouch = CCPointZero;
-    m_beginTouchTemp = CCPointZero;
     m_endTouch = CCPointZero;
     
     m_letters[0] = 'A';
@@ -78,12 +77,10 @@ MainLayer::MainLayer()
     m_bonusSpriteV = NULL;
     m_bonusBMFontV = NULL;
     
-    m_touchGridActionSprite = NULL;
     
     for (int i = 0; i < ANSWER_NUM; i++)
     {
         m_answersV.push_back(CCControlButton::create());
-        m_answersBgV.push_back(CCSprite::create());
     }
 }
 
@@ -115,12 +112,6 @@ MainLayer::~ MainLayer()
         CC_SAFE_RELEASE_NULL(controlButton);
     }
     
-    vector<CCSprite*>::iterator itSprite;
-    for (itSprite = m_answersBgV.begin(); itSprite != m_answersBgV.end(); itSprite++)
-    {
-        CCSprite* sprite = *itSprite;
-        CC_SAFE_RELEASE_NULL(sprite);
-    }
 }
 
 CCScene* MainLayer::scene()
@@ -186,8 +177,7 @@ bool MainLayer::init()
     initXYRange();
     
     initTipsBg();
-    
-    initTouchGridActionSprite();
+
     
     setAnswers(false);
     
@@ -260,9 +250,6 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     {
         sprintf(name, "m_answer%d", i);
         CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCControlButton*, m_answersV.at(i));
-        
-        sprintf(name, "m_answer%dBg", i);
-        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCSprite*, m_answersBgV.at(i));
     }
     
     return false;
@@ -282,7 +269,6 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
         //放在里面才能防止在外面点到grid 但是不能防止在字母和数字边上点击grid 后面修改一下
         m_beginTouch = pTouch->getLocation();
     }
-    m_beginTouchTemp = pTouch->getLocation();
 
     return true;
 }
@@ -337,7 +323,6 @@ void MainLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
     m_endTouch = pTouch->getLocation();
     
     CCLog("TOUCH GRID INDEX IS %d", this->touchGrid(m_beginTouch, m_endTouch));
-//    CCLog("TOUCH ANSWERBG INDEX IS %d", this->touchAnswerBg(m_beginTouchTemp, m_endTouch));
 }
 
 void MainLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
@@ -825,21 +810,6 @@ void MainLayer::showCountDownBonus(Words *words, bool isH)
     }
 }
 
-void MainLayer::initTouchGridActionSprite()
-{
-    /*
-    CCSpriteFrame* frame = NULL;
-    frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("wait01.png");
-    m_touchGridActionSprite = CCSprite::createWithSpriteFrame(frame);
-
-    CCAnimate* animate = Utilities::createAnimate("wait", 14, 0.1f);
-    m_touchGridActionSprite->runAction(CCRepeatForever::create(animate));
-    
-    m_touchGridActionSprite->setVisible(false);
-    m_touchGridActionSprite->setColor(ccRED);
-    */
-}
-
 void MainLayer::showTouchAction(Event *event)
 {
     //先清除上一次的点击效果
@@ -870,53 +840,6 @@ void MainLayer::showTouchAction(Event *event)
         //所有的 包括点击button的索引
         m_touchActionIndexV.push_back(wordsIndex);
     }
-    
-    /*
-    TouchGridEvent* touchGridEvent = (TouchGridEvent*)event;
-    
-    int index = touchGridEvent->getIndex();
-    vector<int> wordsIndexVector = touchGridEvent->getWordsIndexVector();
-    
-    m_touchGridActionSprite->setVisible(true);
-    m_touchGridActionSprite->removeFromParentAndCleanup(false);
-    
-    CCSprite *button = m_gridButtons.at(index);
-    m_touchGridActionSprite->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
-    button->addChild(m_touchGridActionSprite);
-    
-    
-    //显示横竖动画
-    int size = m_wordsActionSpriteV.size();
-    if (size > 0)
-    {
-        for (vector<CCSprite*>::iterator it = m_wordsActionSpriteV.begin(); it != m_wordsActionSpriteV.end(); it++) {
-            CCSprite *sprite = *it;
-            sprite->removeFromParentAndCleanup(true);
-        }
-        m_wordsActionSpriteV.clear();
-    }
-    
-    CCSpriteFrame* frame = NULL;
-    frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("wait01.png");
-    for (vector<int>::iterator it = wordsIndexVector.begin(); it != wordsIndexVector.end(); it++)
-    {
-        int wordsIndex = *it;
-        
-        if (wordsIndex != index)//点击grid播放上面的动画
-        {
-            CCSprite *sprite = CCSprite::createWithSpriteFrame(frame);
-            CCAnimate* animate = Utilities::createAnimate("wait", 14, 0.1f);
-            sprite->runAction(CCRepeatForever::create(animate));
-            
-            
-            CCSprite *button = m_gridButtons.at(wordsIndex);
-            sprite->setPosition(ccp(button->getContentSize().width * 0.5f, button->getContentSize().height * 0.5f));
-            button->addChild(sprite);
-            
-            m_wordsActionSpriteV.push_back(sprite);
-        }
-    }
-    */
 }
 
 void MainLayer::hideTouchAction()
@@ -932,19 +855,6 @@ void MainLayer::hideTouchAction()
         }
         m_touchActionIndexV.clear();
     }
-    
-    /*
-    m_touchGridActionSprite->setVisible(false);
-    
-    int size = m_wordsActionSpriteV.size();
-    if (size > 0)
-    {
-        for (vector<CCSprite*>::iterator it = m_wordsActionSpriteV.begin(); it != m_wordsActionSpriteV.end(); it++) {
-            CCSprite *sprite = *it;
-            sprite->removeFromParentAndCleanup(true);
-        }
-        m_wordsActionSpriteV.clear();
-    }*/
 }
 
 void MainLayer::setAnswers(bool isShow)
@@ -955,15 +865,6 @@ void MainLayer::setAnswers(bool isShow)
         CCControlButton* button = *it;
         button->setVisible(isShow);
     }
-    
-    /*
-    vector<CCSprite*>::iterator it;
-    for (it = m_answersBgV.begin(); it != m_answersBgV.end(); it++)
-    {
-        CCSprite* bg = *it;
-        bg->setVisible(isShow);
-    }
-     */
 }
 
 void MainLayer::showAnswers()
@@ -976,67 +877,6 @@ void MainLayer::showAnswers()
         button->setVisible(true);
         button->setTitleForState(CCString::create(answers.at(i)), CCControlStateNormal);
     }
-    
-    /*
-    vector<string> answers = DataManager::sharedDataManager()->getAnswers();
-    int size = answers.size();
-    for (int i = 0; i < size; i++)
-    {
-        m_answersBgV.at(i)->setVisible(true);
-        
-        m_answersV.at(i)->setVisible(true);
-        m_answersV.at(i)->setString(answers.at(i).c_str());
-    }*/
-}
-
-CCRect MainLayer::changeAnswerBgToThisCoordRect(int index)
-{
-    float bottomLayerWidth = m_bottomLayer->getContentSize().width;//在其他分辨率手机上已经自动缩放了 看ccb我也不知道为什么
-    float bottomLayerHeight = m_bottomLayer->getContentSize().height;
-    
-    CCSize answerBgSize = m_answersBgV.at(0)->getContentSize();
-    float answerBgWidth = answerBgSize.width * m_ccbScale;//需要乘以m_ccbScale 否则在其他分辨率的手机上不准
-    float answerBgHeight = answerBgSize.height * m_ccbScale;
-    
-    //m_bottomLayer左下角的坐标
-    CCPoint bottomPosLocInThis = ccp(m_size.width * 0.125f, 0);
-    
-    //answerBg左下角坐标在this中的位置
-    float answerBgX = bottomPosLocInThis.x + bottomLayerWidth * 0.02f + index * bottomLayerWidth * 0.12f;
-    float answerBgY = (bottomLayerHeight - answerBgHeight) * 0.5f;
-    
-    return CCRectMake(answerBgX, answerBgY, answerBgWidth, answerBgHeight);
-}
-
-int MainLayer::touchAnswerBg(CCPoint beginTouch, CCPoint endTouch)
-{
-    int index = -1;
-    for (vector<CCSprite*>::iterator it = m_answersBgV.begin(); it != m_answersBgV.end(); ++it)
-    {
-        CCSprite *answerBg = *it;
-        
-        if (!answerBg->isVisible())
-        {
-            break;
-        }
-        
-        int tag = answerBg->getTag();
-        CCRect answerBgRect = this->changeAnswerBgToThisCoordRect(tag);
-        if (answerBgRect.containsPoint(beginTouch) && answerBgRect.containsPoint(endTouch))
-        {
-            index = tag;
-            break;
-        }
-    }
-    
-    if (index != -1)
-    {
-        ChooseAnswerEvent *cae = new ChooseAnswerEvent();
-        cae->setIndex(index);
-        EventManager::sharedEventManager()->addEvent(cae);
-    }
-    
-    return index;
 }
 
 void MainLayer::onChooseAnswer(CCObject* pObject, CCControlEvent event)
@@ -1066,12 +906,8 @@ void MainLayer::showChooseAnswer(Event *event)
     if (wordLabel != NULL)
     {
         wordLabel->setString(answer.c_str());
-        CCLog("gridIndex %d wordLabel is not NULL......", gridIndex);
     }
-    else
-    {
-        CCLog("gridIndex %d wordLabel is NULL......", gridIndex);
-    }
+   
 }
 
 void MainLayer::setFixGridLabel(Event *event)
