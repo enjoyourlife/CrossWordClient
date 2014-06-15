@@ -172,17 +172,29 @@ private:
     //检查点击的grid是否已经是fix
     bool checkGridIndexIsFix(int gridIndex);
     
+    //初始化本地玩家经验进度条
+    void initLocalUserProTimer();
+    //更新本地玩家信息  这个操作每次都解析json数据 稍慢  后期改进!
+    void updateLocalUserMsg();
     //显示本地玩家的奖励动画 或者 弹出本地玩家的结算框
     void showLocalUserRewardOrWinLayer(Event *event);
     void blinkDone(CCNode* parent);
     
     //cgdialog的回调 暂时
     void onOk(CCObject* obj);
+    
+    //返回按钮及自身回调
+    void onBackOk(CCObject* obj);
+    void onBack(CCObject* pObject, cocos2d::extension::CCControlEvent event);
 
     //加载单机游戏上一局的信息
     void loadSingleSelectAnswer();
     //重置清空已选的答案
     void clearSingleSelectAnswer();
+    
+    //点击道具响应事件
+    void onChooseTool(CCObject* pObject, cocos2d::extension::CCControlEvent event);
+    
     
 private:
     //-- 联网相关的方法
@@ -259,6 +271,15 @@ private:
     cocos2d::CCLabelTTF *m_tip1;
     cocos2d::CCLayer *m_tip2Bg;
     cocos2d::CCLabelTTF *m_tip2;
+    
+    //这里视m_userMsgLayer层相关的变量
+    cocos2d::CCLabelTTF *m_localUserSilver;
+    cocos2d::CCLabelTTF *m_localUserLevel;
+    cocos2d::CCLabelTTF *m_localUserExp;
+    cocos2d::CCSprite *m_localUserExpProBg;
+    cocos2d::CCSprite *m_localUserExpPro;
+    cocos2d::CCProgressTimer* m_localUserExpProTimer;
+    
     //奖励相关变量
     cocos2d::CCSprite *m_bonusSpriteH;
     cocos2d::CCLabelBMFont *m_bonusBMFontH;

@@ -35,7 +35,7 @@ public:
     
     //根据username查询LocalUser
     LocalUser* getLocalUserByUsername(const std::string& username);
-    void updateLocalUserByUsername(const std::string& username, int sex, int exp, int lv, const std::string& name, int silver, int version);
+    void updateLocalUserByUsername(const std::string& username, int sex, int exp, int nextLvExp, int lv, const std::string& name, int silver, int version);
     //只更新单机玩家的银币
     void updateLocalUserSilver(const std::string& username, int silver);
 

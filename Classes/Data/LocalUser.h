@@ -28,6 +28,8 @@ public:
     int m_sex;
     //经验
     int m_exp;
+    //下一级的经验
+    int m_nextLvExp;
     //等级
     int m_lv;
     //称号

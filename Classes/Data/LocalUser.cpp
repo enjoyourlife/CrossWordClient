@@ -16,6 +16,7 @@ LocalUser::LocalUser()
     m_sex = 1;
     m_isLevelUp = false;
     m_version = 0;
+    m_nextLvExp = 1;
 }
 
 LocalUser::~ LocalUser()

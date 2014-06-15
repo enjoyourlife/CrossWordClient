@@ -688,19 +688,24 @@ void DataManager::updateLocalUser(int exp)
         if (nowLevel == levelsSize)//满级
         {
             nowLocalUserExp = nextExp;//经验设为最大值
+            m_localUser->m_nextLvExp = nextExp;//满级 下一级经验为当前级别的经验
         }
         m_localUser->m_exp = nowLocalUserExp;
         
         json_t* nextNameJson = json_object_get(nextLevelJson, "name");
         m_localUser->m_name = json_string_value(nextNameJson);
+        
+        //没有满级
+        m_localUser->m_nextLvExp = json_integer_value(json_object_get(json_array_get(levelsJson, nowLevel), "experience"));;
     }
     else
     {
         m_localUser->m_exp = nowLocalUserExp;
+        m_localUser->m_nextLvExp = nextExp;
     }
     
     //更新数据库
-    DBManager::sharedDBManager()->updateLocalUserByUsername("user", m_localUser->m_sex, m_localUser->m_exp, m_localUser->m_lv, m_localUser->m_name, m_localUser->m_silver, m_localUser->m_version);
+    DBManager::sharedDBManager()->updateLocalUserByUsername("user", m_localUser->m_sex, m_localUser->m_exp, m_localUser->m_nextLvExp, m_localUser->m_lv, m_localUser->m_name, m_localUser->m_silver, m_localUser->m_version);
     
     //连升两级 避免这种情况出现 则上面算法可以用
     /*
@@ -814,6 +819,72 @@ vector<int>& DataManager::getLocalEveryBonus()
         return m_localEveryBonus;
     }
     
+}
+
+int DataManager::getLocalUserExpBase(int level)
+{
+    int expBase = 100;
+    
+    json_t* levelsJson = json_object_get(m_localUser->m_localUserJson, "levels");
+    size_t levelsSize = json_array_size(levelsJson);
+    
+    if (levelsSize == level)//满级
+    {
+        json_t* lastLevelJson = json_array_get(levelsJson, level - 1);
+        json_t* lastExpJson = json_object_get(lastLevelJson, "experience");
+        int lastExp = json_integer_value(lastExpJson);
+        
+        json_t* preLevelJson = json_array_get(levelsJson, level - 2);
+        json_t* preExpJson = json_object_get(preLevelJson, "experience");
+        int preExp = json_integer_value(preExpJson);
+        
+        expBase = lastExp - preExp;
+    }
+    else if (level >= 1 && level < levelsSize)
+    {
+        json_t* lastLevelJson = json_array_get(levelsJson, level);
+        json_t* lastExpJson = json_object_get(lastLevelJson, "experience");
+        int lastExp = json_integer_value(lastExpJson);
+        
+        json_t* preLevelJson = json_array_get(levelsJson, level - 1);
+        json_t* preExpJson = json_object_get(preLevelJson, "experience");
+        int preExp = json_integer_value(preExpJson);
+        
+        expBase = lastExp - preExp;
+    }
+    
+    return expBase;
+}
+
+int DataManager::getLocalUserNumerator(int userNowExp, int level)
+{
+    int numerator = 0;
+    
+    json_t* levelsJson = json_object_get(m_localUser->m_localUserJson, "levels");
+    size_t levelsSize = json_array_size(levelsJson);
+    
+    if (levelsSize == level)//满级
+    {
+        json_t* lastLevelJson = json_array_get(levelsJson, level - 1);
+        json_t* lastExpJson = json_object_get(lastLevelJson, "experience");
+        int lastExp = json_integer_value(lastExpJson);
+        
+        json_t* preLevelJson = json_array_get(levelsJson, level - 2);
+        json_t* preExpJson = json_object_get(preLevelJson, "experience");
+        int preExp = json_integer_value(preExpJson);
+        
+        numerator = lastExp - preExp;
+    }
+    else if (level >= 1 && level < levelsSize)
+    {
+        json_t* preLevelJson = json_array_get(levelsJson, level - 1);
+        json_t* preExpJson = json_object_get(preLevelJson, "experience");
+        int preExp = json_integer_value(preExpJson);
+        
+        numerator = userNowExp - preExp;
+    }
+    
+    return numerator;
 }
 
 void DataManager::initLocalUnLockLevel()

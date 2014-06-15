@@ -150,6 +150,10 @@ public:
     std::vector<int>& getLocalPassBonus();
     std::vector<int>& getLocalEveryBonus();
     
+    //获取本地玩家经验条比例
+    int getLocalUserExpBase(int level);
+    int getLocalUserNumerator(int userNowExp, int level);
+    
     //设置关卡解锁信息
     void initLocalUnLockLevel();
     LocalUnLockLevel* getLocalUnLockLevel();

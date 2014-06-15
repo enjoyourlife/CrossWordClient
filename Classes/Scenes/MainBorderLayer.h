@@ -117,7 +117,7 @@ private:
     void onOk(CCObject* obj);
     void onBack(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
-    //单机重置事件
+    //单机重置事件  单机重置功能放到关卡选择页面 当过关的时候 点击提示框 问是否需要重置
     void onSingleReset(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     //重置确认 发送重置事件
     void onResetOk(CCObject* obj);

@@ -72,6 +72,13 @@ MainLayer::MainLayer()
     m_tip1 = NULL;
     m_tip2Bg = NULL;
     m_tip2 = NULL;
+    
+    m_localUserSilver = NULL;
+    m_localUserLevel = NULL;
+    m_localUserExp = NULL;
+    m_localUserExpProBg = NULL;
+    m_localUserExpPro = NULL;
+    
     m_bonusSpriteH = NULL;
     m_bonusBMFontH = NULL;
     m_bonusSpriteV = NULL;
@@ -100,6 +107,13 @@ MainLayer::~ MainLayer()
     CC_SAFE_RELEASE_NULL(m_tip1);
     CC_SAFE_RELEASE_NULL(m_tip2Bg);
     CC_SAFE_RELEASE_NULL(m_tip2);
+    
+    CC_SAFE_RELEASE_NULL(m_localUserSilver);
+    CC_SAFE_RELEASE_NULL(m_localUserLevel);
+    CC_SAFE_RELEASE_NULL(m_localUserExp);
+    CC_SAFE_RELEASE_NULL(m_localUserExpProBg);
+    CC_SAFE_RELEASE_NULL(m_localUserExpPro);
+    
     CC_SAFE_RELEASE_NULL(m_bonusSpriteH);
     CC_SAFE_RELEASE_NULL(m_bonusBMFontH);
     CC_SAFE_RELEASE_NULL(m_bonusSpriteV);
@@ -158,8 +172,8 @@ bool MainLayer::init()
     this->setTouchEnabled(true);
     this->setKeypadEnabled(true);
     
-    m_mainBorderLayer = MainBorderLayer::create();
-    this->addChild(m_mainBorderLayer);
+//    m_mainBorderLayer = MainBorderLayer::create();
+//    this->addChild(m_mainBorderLayer);
     
     
     m_size = this->getContentSize();
@@ -183,6 +197,8 @@ bool MainLayer::init()
     
     loadSingleSelectAnswer();
     
+    initLocalUserProTimer();
+    updateLocalUserMsg();
     
     return true;
 }
@@ -217,7 +233,10 @@ SEL_MenuHandler MainLayer::onResolveCCBCCMenuItemSelector(CCObject * pTarget, co
 
 SEL_CCControlHandler MainLayer::onResolveCCBCCControlSelector(CCObject * pTarget, const char* pSelectorName)
 {
-   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onChooseAnswer", MainLayer::onChooseAnswer);
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onBack", MainLayer::onBack);
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onChooseAnswer", MainLayer::onChooseAnswer);
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onChooseTool", MainLayer::onChooseTool);
+    
     
     return NULL;
 }
@@ -239,6 +258,14 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip1", CCLabelTTF*, m_tip1);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2Bg", CCLayer*, m_tip2Bg);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2", CCLabelTTF*, m_tip2);
+    
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserLevel", CCLabelTTF*, m_localUserLevel);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExp", CCLabelTTF*, m_localUserExp);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpProBg", CCSprite*, m_localUserExpProBg);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpPro", CCSprite*, m_localUserExpPro);
+    
+    
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusSpriteH", CCSprite*, m_bonusSpriteH);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusBMFontH", CCLabelBMFont*, m_bonusBMFontH);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusSpriteV", CCSprite*, m_bonusSpriteV);
@@ -385,7 +412,10 @@ void MainLayer::onEventSucceeded(Event *event)
             if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
             {
                 showLocalUserRewardOrWinLayer(event);
-                m_mainBorderLayer->updateLocalUserData();
+                updateLocalUserMsg();
+//                m_mainBorderLayer->updateLocalUserData();
+                
+                
             }
             
             break;
@@ -503,9 +533,9 @@ void MainLayer::initGridButtons()
     for (int i = 0; i < m_col; i++)
     {
         sprintf(letter, "%c", m_letters[i]);
-        CCLabelTTF *label = CCLabelTTF::create(letter, "Cochin", 20);
+        CCLabelTTF *label = CCLabelTTF::create(letter, "TrebuchetMS-Bold", 20);
         label->setPosition(ccp(letterBeginPosX + i * m_btnWidth, letterPosY));
-        label->setColor(ccBLUE);
+        label->setColor(ccc3(58, 118, 132));
         m_letterLayer->addChild(label);
     }
     
@@ -517,9 +547,9 @@ void MainLayer::initGridButtons()
     for (int i = 0; i < m_line; i++)
     {
         sprintf(number, "%d", (i + 1));
-        CCLabelTTF *label = CCLabelTTF::create(number, "Cochin", 20);
+        CCLabelTTF *label = CCLabelTTF::create(number, "TrebuchetMS-Bold", 20);
         label->setPosition(ccp(numberPosX, numberBeginPosY - i * m_btnHeight));
-        label->setColor(ccBLUE);
+        label->setColor(ccc3(58, 118, 132));
         m_numberLayer->addChild(label);
     }
 }
@@ -975,8 +1005,51 @@ bool MainLayer::checkGridIndexIsFix(int gridIndex)
     return flag;
 }
 
+void MainLayer::initLocalUserProTimer()
+{
+    m_localUserExpPro->setVisible(false);
+	m_localUserExpProTimer = CCProgressTimer::create(m_localUserExpPro);
+	m_localUserExpProTimer->setType(kCCProgressTimerTypeBar);
+	m_localUserExpProTimer->setMidpoint(ccp(0, 0));
+	m_localUserExpProTimer->setBarChangeRate(ccp(1, 0));
+	m_localUserExpProTimer->setPosition(ccp(m_localUserExpProBg->getContentSize().width / 2, m_localUserExpProBg->getContentSize().height/2));
+	m_localUserExpProTimer->setPercentage(0.0f);
+	m_localUserExpProBg->addChild(m_localUserExpProTimer);
+}
+
+
+void MainLayer::updateLocalUserMsg()
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        LocalUser *lc = DataManager::sharedDataManager()->getLocalUser();
+        int silver = lc->m_silver;
+        int lv = lc->m_lv;
+        int exp = lc->m_exp;
+        
+        char data[15];
+        
+        sprintf(data, "%d", silver);
+        m_localUserSilver->setString(data);
+        
+        sprintf(data, "LV.%d", lv);
+        m_localUserLevel->setString(data);
+        
+        int expBase = DataManager::sharedDataManager()->getLocalUserExpBase(lv);
+        int numerator = DataManager::sharedDataManager()->getLocalUserNumerator(exp, lv);
+        sprintf(data, "%d/%d", numerator, expBase);
+        m_localUserExp->setString(data);
+        
+        float progress = numerator * 100.0f / expBase;
+        m_localUserExpProTimer->setPercentage(progress);
+        
+    }
+    
+    
+}
+
 /*
- 暂时只在中间弹出银币动画 和 经验动画 
+ 暂时只在中间弹出银币动画 和 经验动画
  不在每个词语的位置弹
  后期需要优化这个方法 太长了
  */
@@ -1355,4 +1428,50 @@ void MainLayer::showPartnerFixAnswer(int fixIndex)
     //3 
     DataManager::sharedDataManager()->setRightWordsIndexVec(fixIndex);
     
+}
+
+void MainLayer::onBackOk(CCObject* obj)
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    int level = DataManager::sharedDataManager()->getLevel();
+    
+    //先站起然后回到对应的界面
+    if (gameType == GameTypeSingle)
+    {
+        Event *e = new Event(EventTypeEnterSingleSubGame);
+        EventManager::sharedEventManager()->addEvent(e);
+        
+        //单机游戏玩家退出时 需要保存玩家所选的答案
+        DataManager::sharedDataManager()->saveSelectAnswerVec();
+    }
+    else if (gameType == GameTypeCompetitive)
+    {
+        //sit up
+        SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+        EventManager::sharedEventManager()->addEvent(sue);
+        
+        Event *e = new Event(EventTypeEnterCompetitiveGame);
+        EventManager::sharedEventManager()->addEvent(e);
+    }
+    else if (gameType == GameTypeCooperation)
+    {
+        
+    }
+}
+
+void MainLayer::onBack(CCObject* pObject, CCControlEvent event)
+{
+    CGDialog::show(GameOKCancelButtonType, "dialog_txt", this, menu_selector(MainLayer::onBackOk), NULL);
+}
+
+void MainLayer::onChooseTool(CCObject* pObject, CCControlEvent event)
+{
+    int index = -1;
+    CCControlButton *cb = (CCControlButton*)pObject;
+    index = cb->getTag();
+    
+    if (index != -1)
+    {
+        CCLog("I AM TOOL %d", index);//58 118 132
+    }
 }

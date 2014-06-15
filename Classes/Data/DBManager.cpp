@@ -15,12 +15,13 @@ using namespace sql;
 
 static DBManager* s_DBManager = NULL;
 
-Field tbLocalUser[9] =
+Field tbLocalUser[10] =
 {
     Field(FIELD_KEY),
     Field("m_username", type_text),
     Field("m_sex", type_int),
     Field("m_exp", type_int),
+    Field("m_nextLvExp", type_int),
     Field("m_lv", type_int),
     Field("m_name", type_text),
     Field("m_silver", type_int),
@@ -109,6 +110,7 @@ void DBManager::createDefaultTables()
         record.setString("m_username", "user");
         record.setInteger("m_sex", 1);
         record.setInteger("m_exp", 0);
+        record.setInteger("m_nextLvExp", 15);
         record.setInteger("m_lv", 1);
         record.setString("m_name", "帝王");
         record.setInteger("m_silver", 1000);
@@ -159,6 +161,7 @@ LocalUser* DBManager::getLocalUserByUsername(const string& username)
         localUser->m_username = record->getValue("m_username")->asString();
         localUser->m_sex = record->getValue("m_sex")->asInteger();
         localUser->m_exp = record->getValue("m_exp")->asInteger();
+        localUser->m_nextLvExp = record->getValue("m_nextLvExp")->asInteger();
         localUser->m_lv = record->getValue("m_lv")->asInteger();
         localUser->m_name = record->getValue("m_name")->asString();
         localUser->m_silver = record->getValue("m_silver")->asInteger();
@@ -169,7 +172,7 @@ LocalUser* DBManager::getLocalUserByUsername(const string& username)
     return NULL;
 }
 
-void DBManager::updateLocalUserByUsername(const string& username, int sex, int exp, int lv, const string& name, int silver, int version)
+void DBManager::updateLocalUserByUsername(const string& username, int sex, int exp, int nextLvExp, int lv, const string& name, int silver, int version)
 {
     ostringstream oss;
     oss << "m_username == '" << username << "'";
@@ -181,6 +184,7 @@ void DBManager::updateLocalUserByUsername(const string& username, int sex, int e
     {
         record->setInteger("m_sex", sex);
         record->setInteger("m_exp", exp);
+        record->setInteger("m_nextLvExp", nextLvExp);
         record->setInteger("m_lv", lv);
         record->setString("m_name", name);
         record->setInteger("m_silver", silver);
