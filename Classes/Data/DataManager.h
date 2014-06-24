@@ -136,6 +136,7 @@ public:
     std::vector<int>& getOwnChessVec();
     
     
+    
 public:
     // -- 和策划数值有关的方法 会随着玩家的游戏而发生动态变化  比如本地玩家信息 联网玩家信息 成就等等
     

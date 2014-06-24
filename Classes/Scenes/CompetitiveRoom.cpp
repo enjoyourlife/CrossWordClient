@@ -21,13 +21,13 @@ using namespace std;
 CompetitiveRoom::CompetitiveRoom()
 {
     m_ownInfo = NULL;
-    
+    m_roomName = NULL;
 }
 
 CompetitiveRoom::~ CompetitiveRoom()
 {
     CC_SAFE_RELEASE_NULL(m_ownInfo);
-    
+    CC_SAFE_RELEASE_NULL(m_roomName);
     
 }
 
@@ -77,6 +77,8 @@ bool CompetitiveRoom::init()
     
     initOwnInfo();
     
+    initIntro();
+    
     return true;
 }
 
@@ -121,6 +123,7 @@ bool CompetitiveRoom::onAssignCCBMemberVariable(CCObject* pTarget, const char* p
 {
 
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownInfo", CCLabelTTF*, m_ownInfo);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_roomName", CCLabelTTF*, m_roomName);
     return false;
 }
 
@@ -228,6 +231,19 @@ void CompetitiveRoom::onEventFailed(Event *event)
             
         default:
             break;
+    }
+}
+
+void CompetitiveRoom::initIntro()
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    if (gameType == GameTypeCompetitive)
+    {
+        m_roomName->setString("This is competitive");
+    }
+    else if (gameType == GameTypeCooperation)
+    {
+        m_roomName->setString("This is cooperation");
     }
 }
 

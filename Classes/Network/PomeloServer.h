@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "pomelo.h"
 
+//#define HOST "http://127.0.0.1:1337/getip"
 #define HOST "http://192.168.0.2:1337/getip"
 //#define HOST "http://gamepans.wicp.net:1337/getip"
 #define PORT 3010

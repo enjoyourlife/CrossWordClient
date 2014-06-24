@@ -174,6 +174,34 @@ void GPomeloGame::onUserEnter(pc_client_t *client, const char *event, void *data
     char *json_str = json_dumps((json_t* )data, 0);
     CCLOG("onUserEnter data is : %s \n", json_str);
     
+    //目前只有两个玩家 在此函数里判读 取得对手玩家的uid然后发送取信息事件 获取对手的信息
+    /*
+     onUserEnter data is : {"users": [{"idx": 0, "uid": 2}, {"idx": 1, "uid": 1}], "route": "onUserEnter", "uid": 1, "cid": "channel0"} 
+     只有一个玩家的时候 其中一个uid为null
+     */
+    json_t* json = (json_t* )data;
+    json_t* usersJson = json_object_get(json, "users");
+    size_t usersSize = json_array_size(usersJson);
+    
+    for (int i = 0; i < usersSize; i++)
+    {
+        json_t *userJson = json_array_get(usersJson, i);
+        
+        json_t* uidJson = json_object_get(userJson, "uid");
+        if (uidJson != NULL)
+        {
+            int uid = json_integer_value(uidJson);
+            int ownUid = DataManager::sharedDataManager()->getOwnOnLineUser()->m_uid;
+            if (ownUid != uid && uid != 0)
+            {
+                GetInfoEvent *getInfoEvent = new GetInfoEvent(uid);
+                EventManager::sharedEventManager()->addEvent(getInfoEvent);
+                CCLog("ownUid is %d and uid is %d~~~~~~~~~~~~~", ownUid, uid);
+                break;
+            }
+        }
+    }
+
 }
 
 void GPomeloGame::onUserExit(pc_client_t *client, const char *event, void *data)
@@ -201,6 +229,91 @@ void GPomeloGame::onGameStart(pc_client_t *client, const char *event, void *data
 void GPomeloGame::onGameStop(pc_client_t *client, const char *event, void *data)
 {
     CCLog("onGameStop~~~~~~~~~~");
+    char *json_str = json_dumps((json_t* )data, 0);
+    CCLOG("onGameStop data is : %s \n", json_str);
+    /*
+     flags 有特殊奖励的词语
+     flag GameStop的各种情况
+     0 － 一个人或者两个人赢了
+     1 － 合作模式时间到
+     2 － 游戏中途对手退出 游戏停止
+     
+     竞技模式 onGameStop data is : {"users": [{"idx": 0, "chess": [0, 0, 0, 0, 0, 0, 0, 0, 0], "rewards": {"gold": 0, "exp": 0}, "uid": 2, "flags": [1, 0, 0, 0, 0, 0, 0, 0, 0]}, {"idx": 1, "chess": [1, 1, 1, 1, 1, 1, 1, 1, 1], "rewards": {"gold": 38, "exp": 43}, "uid": 1, "flags": [1, 0, 0, 0, 0, 0, 0, 0, 0]}], "route": "onGameStop", "flag": 0} 
+     */
+    json_t* json = (json_t* )data;
+    json_t* flagJson = json_object_get(json, "flag");
+    int flag = json_integer_value(flagJson);
+    switch (flag)
+    {
+        case 0:
+        {
+            json_t* usersJson = json_object_get(json, "users");
+            size_t usersSize = json_array_size(usersJson);
+            
+            //只需要考虑自己的情况 对方玩家有自己的结算框
+            for (int i = 0; i < usersSize; i++)
+            {
+                json_t *userJson = json_array_get(usersJson, i);
+                
+                //这里变成uid后 应该是数字
+                json_t *uidJson = json_object_get(userJson, "uid");
+                int uidData = json_integer_value(uidJson);
+                
+                if (uidData == DataManager::sharedDataManager()->getOwnUid())//自己
+                {
+                    json_t *chessJson = json_object_get(userJson, "chess");
+                    size_t chessSize = json_array_size(chessJson);
+                    
+                    json_t *rewardsJson = json_object_get(userJson, "rewards");
+                    json_t *goldJson = json_object_get(rewardsJson, "gold");
+                    json_t *expJson = json_object_get(rewardsJson, "exp");
+                    int gold = json_integer_value(goldJson);
+                    int exp = json_integer_value(expJson);
+                    
+                    bool isWin = true;
+                    for (int j = 0; j < chessSize; j++)
+                    {
+                        json_t *cJson = json_array_get(chessJson, j);
+                        int c = json_integer_value(cJson);
+                        if (c == 0)
+                        {
+                            isWin = false;
+                            break;
+                        }
+                    }
+                    
+                    //这里是总的奖励 显示就行了
+                    DataManager::sharedDataManager()->getOwnOnLineUser()->m_rewardGold = gold;
+                    DataManager::sharedDataManager()->getOwnOnLineUser()->m_rewardExp = exp;
+                    
+                    //发送游戏停止消息
+                    GameStopEvent *gameStopEvent = new GameStopEvent(flag);
+                    gameStopEvent->setIsWin(isWin);
+                    EventManager::sharedEventManager()->addEvent(gameStopEvent);
+                }
+                
+                            
+            }
+            
+            break;
+        }
+            
+        case 1:
+        {
+            GameStopEvent *gameStopEvent = new GameStopEvent(flag);
+            gameStopEvent->setIsWin(false);//两个玩家都输了
+            EventManager::sharedEventManager()->addEvent(gameStopEvent);
+            break;
+        }
+            
+        case 2:
+        {
+            break;
+        }
+            
+        default:
+            break;
+    }
 
 }
 
@@ -233,6 +346,9 @@ void GPomeloGame::onGameProc(pc_client_t *client, const char *event, void *data)
 void GPomeloGame::onGameTime(pc_client_t *client, const char *event, void *data)
 {
     CCLog("onGameTime~~~~~~~~~~");
+    
+    char *json_str = json_dumps((json_t* )data, 0);
+    CCLOG("onGameTime data is : %s \n", json_str);
 
 }
 

@@ -49,7 +49,7 @@ void PomeloServer::getIpByHost(const char* host)
 		if(res!=CURLE_OK)
 		{
             m_ip = "";
-			CCLog("http request error: %i",res);
+			CCLog("http request error: %i",res);//http request error: 7错误
 			return;
 		}
         
@@ -65,6 +65,7 @@ void PomeloServer::getIpByHost(const char* host)
 bool PomeloServer::init(const char* host, u_short port)
 {
     this->getIpByHost(host);//只要调用一次即可
+//    m_ip = "192.168.0.2";
     if (m_ip.compare("") != 0)
     {
         m_client = pc_client_new();
@@ -111,5 +112,6 @@ void PomeloServer::reset()
     m_client = NULL;
     
     m_isInit = false;
-//    m_ip = "";//不需要
+    m_ip = "";//需要 否则m_ip is : 192.168.0.2192.168.0.2192.168.0.2192.168.0.2192.168.0.2 就重叠了
+
 }

@@ -345,6 +345,105 @@ private:
     
 };
 
+/*
+ 联网的游戏停止消息  相当于单机的RewardEvent消息m_bonusType为4的情况
+ 对于联网的游戏停止消息 客户端只需要执行显示逻辑 不需要进行例如加金币经验等逻辑
+ flag 
+ 0 － 一个人或者两个人赢了
+ 1 － 合作模式时间到
+ 2 － 游戏中途对手退出 游戏停止
+ 
+ 0 1 种情况  弹出结算框   提示谁赢谁输   点击确定进入下一次等待  取消回到对应的竞技合作难度选择界面
+ 
+ 2 种情况 （需要知道谁退出）
+ 对于非退出方  如果是竞技模式 弹出结算框 提示对手逃跑取得胜利  给目前取得的奖励
+ 如果是合作模式  弹出提示框  是否需要继续 如果继续 胜利则给过关奖励 不过关只给当前奖励    如果不继续  只给当前奖励   （或者是不弹出提示框 ， 只是告知伙伴逃跑 ，然后等流程结束再按正常流程走）
+ 
+ 对于退出方  需要根据不同情况进行处理
+ 1）主动退出 则回到难度选择界面
+ 2）掉线退出 ？？？
+ */
+class GameStopEvent : public Event
+{
+public:
+    GameStopEvent(int flag) : Event(EventTypeGameStop)
+    {
+        m_flag = flag;
+        
+        m_isWin = false;
+    }
+    
+    virtual ~ GameStopEvent()
+    {
+        
+    }
+    
+    bool getIsWin() const
+    {
+        return m_isWin;
+    }
+    
+    int getFlag() const
+    {
+        return m_flag;
+    }
+    
+    void setIsWin(bool isWin)
+    {
+        m_isWin = isWin;
+    }
+    
+    void setFlag(int flag)
+    {
+        m_flag = flag;
+    }
+    
+private:
+    bool m_isWin;
+    int m_flag;
+    
+};
+
+class GameStopEventEx : public Event
+{
+public:
+    GameStopEventEx(int flag, bool isWin = false) : Event(EventTypeGameStopEx)
+    {
+        m_flag = flag;
+        m_isWin = isWin;
+    }
+    
+    virtual ~ GameStopEventEx()
+    {
+        
+    }
+    
+    bool getIsWin() const
+    {
+        return m_isWin;
+    }
+    
+    int getFlag() const
+    {
+        return m_flag;
+    }
+    
+    void setIsWin(bool isWin)
+    {
+        m_isWin = isWin;
+    }
+    
+    void setFlag(int flag)
+    {
+        m_flag = flag;
+    }
+    
+private:
+    bool m_isWin;
+    int m_flag;
+    
+};
+
 
 class DisconnectEvent : public Event
 {

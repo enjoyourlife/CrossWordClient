@@ -48,9 +48,7 @@ void DataManager::init()
     m_userUuid = "";
     m_username = "";
     initOwnOnLineUser();
-    
-    OnLineUser *temp = new OnLineUser();
-    m_otherOnLineUserVec.push_back(temp);
+   
 }
 
 DataManager* DataManager::sharedDataManager()
@@ -563,7 +561,10 @@ int DataManager::parseOnLineUserInfo(json_t* userInfo)
             
             //是否升级 取称号等逻辑
             
+            //目前只有两个玩家  先清一下 后期多个玩家 可以预先置入10个玩家
+            m_otherOnLineUserVec.clear();
             m_otherOnLineUserVec.push_back(olu);
+
         }
         
         return uid;
@@ -619,8 +620,8 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
                 m_ownChessVec.push_back(c);
             }
             
-            m_ownOnLineUser->m_gold = gold;
-            m_ownOnLineUser->m_exp = exp;
+            m_ownOnLineUser->m_rewardGold = gold;
+            m_ownOnLineUser->m_rewardExp = exp;
         }
         else//其他玩家 这里是2个玩家的情况 后期要修改
         {
@@ -631,8 +632,8 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
                 m_chessVec.push_back(c);
             }
             
-            m_otherOnLineUserVec.at(0)->m_gold = gold;
-            m_otherOnLineUserVec.at(0)->m_exp = exp;
+            m_otherOnLineUserVec.at(0)->m_rewardGold = gold;
+            m_otherOnLineUserVec.at(0)->m_rewardExp = exp;
         }
     }
     

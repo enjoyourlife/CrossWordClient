@@ -37,6 +37,10 @@ public:
     int m_gold;
     //是否升级了
     bool m_isLevelUp;
+    
+    //联网的时候 存放暂时奖励的经验和金币
+    int m_rewardGold;
+    int m_rewardExp;
 };
 
 #endif /* defined(__CrossWordClient__OnLineUser__) */

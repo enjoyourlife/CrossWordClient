@@ -44,6 +44,8 @@ typedef enum
     EventTypeChooseAnswer,//选择答案
     EventTypeFixAnswer,//一个词语适配事件
     EventTypeReward,//游戏中的奖励事件
+    EventTypeGameStop,//联网游戏停止消息
+    EventTypeGameStopEx,
     EventTypeUpdateMain,//联网游戏过程中刷新主界面
     EventTypeUpdateMainEx,
     EventTypeSingleReset,//单机重置游戏事件

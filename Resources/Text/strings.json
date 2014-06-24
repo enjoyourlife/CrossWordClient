@@ -15,5 +15,9 @@
     "exit_game" : "您确定退出游戏吗？",
     "reward_txt" : "恭喜您过关！下一关？",
     "dialog_txt" : "您确定要退出吗？",
-    "dialog_reset_txt" : "您确定重置吗？"
+    "dialog_reset_txt" : "您确定重置吗？",
+    "dialog_coop_win" : "恭喜您合作胜利，继续新的游戏？",
+    "dialog_coop_lose" : "真可惜，合作失败，继续新的游戏？",
+    "dialog_comp_win" : "恭喜您竞技胜利，继续新的游戏？",
+    "dialog_comp_lose" : "真可惜，竞技失败，继续新的游戏？"
 }

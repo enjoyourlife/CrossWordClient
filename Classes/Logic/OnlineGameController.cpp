@@ -162,9 +162,14 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
-        case EventTypeReward:
+        case EventTypeGameStop:
         {
-            //暂时
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeGameStopEx:
+        {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -330,6 +335,15 @@ void OnlineGameController::onEventSucceeded(Event* event)
             
             UpdateInfoEventEx *updateInfoEventEx = new UpdateInfoEventEx(updateInfoEvent->getUid());
             EventManager::sharedEventManager()->addEvent(updateInfoEventEx);
+            break;
+        }
+            
+        case EventTypeGameStop:
+        {
+            GameStopEvent *gameStopEvent = (GameStopEvent*)event;
+            
+            GameStopEventEx *gameStopEventEx = new GameStopEventEx(gameStopEvent->getFlag(), gameStopEvent->getIsWin());
+            EventManager::sharedEventManager()->addEvent(gameStopEventEx);
             break;
         }
     }

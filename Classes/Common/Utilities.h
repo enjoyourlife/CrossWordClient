@@ -41,6 +41,9 @@ public:
     static void random_permute(std::vector<std::string>& array, int start, int end);
     // 对vector中所有元素进行随机排列
     static void random_permute(std::vector<std::string>& array);
+    
+    //根据传入的秒数 返回00:00:00这样的格式
+    static const char* getTimeString(int seconds);
 
 };
 

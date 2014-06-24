@@ -324,6 +324,12 @@ const char* EventManager::getEventName(int type) const
         case EventTypeReward:
             return "EventTypeReward";
             
+        case EventTypeGameStopEx:
+            return "EventTypeGameStopEx";
+            
+        case EventTypeGameStop:
+            return "EventTypeGameStop";
+            
         case EventTypeUpdateMain:
             return "EventTypeUpdateMain";
             

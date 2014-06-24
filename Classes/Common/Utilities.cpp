@@ -176,3 +176,19 @@ void Utilities::random_permute(vector<string>& array)
 {
 	random_permute(array, 0, array.size());
 }
+
+const char* Utilities::getTimeString(int seconds)
+{
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
+    
+    second = seconds % 60;
+    int leftMinutes = seconds / 60;
+    
+    minute = leftMinutes % 60;
+    hour = leftMinutes / 60;
+    
+    CCString* timeString = CCString::createWithFormat("%02d:%02d:%02d", hour, minute, second);
+    return timeString->getCString();
+}

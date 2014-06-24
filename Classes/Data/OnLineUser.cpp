@@ -19,6 +19,9 @@ OnLineUser::OnLineUser()
     m_achievement = "";
     m_gold = 0;
     m_isLevelUp = false;
+    
+    m_rewardGold = 0;//没有存到数据库中
+    m_rewardExp = 0;
 }
 
 OnLineUser::~ OnLineUser()

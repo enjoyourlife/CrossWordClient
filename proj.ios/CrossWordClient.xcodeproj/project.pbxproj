@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		010397F818BE2BCA00453BB1 /* SingleSubRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010397F618BE2BCA00453BB1 /* SingleSubRoom.cpp */; };
 		010F19EE194BF9C600EC1CCA /* CGClipLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010F19EC194BF9C600EC1CCA /* CGClipLayer.cpp */; };
+		0110F2CC194DF394006A9CED /* CCB-960X640 in Resources */ = {isa = PBXBuildFile; fileRef = 0110F2CB194DF394006A9CED /* CCB-960X640 */; };
 		011259AC18C04624002F5063 /* Hall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AA18C04624002F5063 /* Hall.cpp */; };
 		011259B018C04C37002F5063 /* DataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259AE18C04C37002F5063 /* DataManager.cpp */; };
 		011259B318C051B1002F5063 /* SingleRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011259B118C051B0002F5063 /* SingleRoom.cpp */; };
@@ -324,6 +325,7 @@
 		010397F718BE2BCA00453BB1 /* SingleSubRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSubRoom.h; sourceTree = "<group>"; };
 		010F19EC194BF9C600EC1CCA /* CGClipLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGClipLayer.cpp; sourceTree = "<group>"; };
 		010F19ED194BF9C600EC1CCA /* CGClipLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGClipLayer.h; sourceTree = "<group>"; };
+		0110F2CB194DF394006A9CED /* CCB-960X640 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "CCB-960X640"; sourceTree = "<group>"; };
 		011259AA18C04624002F5063 /* Hall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hall.cpp; sourceTree = "<group>"; };
 		011259AB18C04624002F5063 /* Hall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hall.h; sourceTree = "<group>"; };
 		011259AE18C04C37002F5063 /* DataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataManager.cpp; sourceTree = "<group>"; };
@@ -2091,6 +2093,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0110F2CB194DF394006A9CED /* CCB-960X640 */,
 				013CD49C193895A600D931D1 /* Configs */,
 				01B10EBA18C34AC600649A17 /* Text */,
 				012AA3D918B98BBD00A4910E /* CCB-1024X768 */,
@@ -2198,6 +2201,7 @@
 				0130776F19303B4B00897B3E /* _ReadMe.html in Resources */,
 				0130777019303B4B00897B3E /* _VERSION.TXT in Resources */,
 				013CD49D193895A600D931D1 /* Configs in Resources */,
+				0110F2CC194DF394006A9CED /* CCB-960X640 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2486,8 +2490,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: YU CHEN (5DUB5VVR2C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: YU CHEN (5DUB5VVR2C)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -2543,8 +2547,8 @@
 					"-lpomelo",
 				);
 				PRODUCT_NAME = CrossWordClient;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "8359588D-B53B-4F23-8669-FE1BBCE580AC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8359588D-B53B-4F23-8669-FE1BBCE580AC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

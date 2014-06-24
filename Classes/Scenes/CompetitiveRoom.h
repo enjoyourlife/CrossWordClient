@@ -124,10 +124,15 @@ private:
     void onNormal(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     void onHard(CCObject* pObject, cocos2d::extension::CCControlEvent event);
     
+    //根据不同的模式初始化说明
+    void initIntro();
+    
     //初始化自身信息 此时是联网取信息过后存储的信息
     void initOwnInfo();
     
     cocos2d::CCLabelTTF *m_ownInfo;
+    
+    cocos2d::CCLabelTTF *m_roomName;
     
 };
 

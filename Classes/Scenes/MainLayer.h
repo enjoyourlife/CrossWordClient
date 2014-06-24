@@ -202,6 +202,22 @@ private:
     //以很绚的动画显示合作玩家完成的答案
     void showPartnerFixAnswer(int fixIndex);
     
+    
+    //初始化竞技模式完成度进度条
+    void initCompCompleteProTimer();
+    //初始化竞技模式和合作模式玩家信息  
+    void initCompCoopUserMsg();
+    
+    
+    //初始化合作模式时间进度条
+    void initCoopTimeProTimer();
+    
+    //联网处理游戏停止消息
+    void handleGameStop(Event *event);
+    //暂时的游戏结束回调 后期放到结算框里
+    void onCompOk(CCObject* obj);
+    void onCompCancel(CCObject* obj);
+    
 private:
     //this的CCSize
     cocos2d::CCSize m_size;
@@ -272,13 +288,15 @@ private:
     cocos2d::CCLayer *m_tip2Bg;
     cocos2d::CCLabelTTF *m_tip2;
     
-    //这里视m_userMsgLayer层相关的变量
+    /*单机相关变量 begin*/
+    //这里视m_userMsgLayer层相关的变量  
     cocos2d::CCLabelTTF *m_localUserSilver;
     cocos2d::CCLabelTTF *m_localUserLevel;
     cocos2d::CCLabelTTF *m_localUserExp;
     cocos2d::CCSprite *m_localUserExpProBg;
     cocos2d::CCSprite *m_localUserExpPro;
     cocos2d::CCProgressTimer* m_localUserExpProTimer;
+    /*单机相关变量 end*/
     
     //奖励相关变量
     cocos2d::CCSprite *m_bonusSpriteH;
@@ -297,6 +315,50 @@ private:
     //mainBorder
     MainBorderLayer *m_mainBorderLayer;
     
+    /* 竞技相关变量 begin*/
+    cocos2d::CCLabelTTF *m_ownUserGame;//自己游戏进度的数字显示
+    cocos2d::CCSprite *m_ownUserGameProBg;//自己游戏进度条
+    cocos2d::CCSprite *m_ownUserGamePro;
+    cocos2d::CCProgressTimer* m_ownUserGameProTimer;
+    
+    cocos2d::CCLabelTTF *m_otherUserGame;
+    cocos2d::CCSprite *m_otherUserGameProBg;
+    cocos2d::CCSprite *m_otherUserGamePro;
+    cocos2d::CCProgressTimer* m_otherUserGameProTimer;
+    
+    /*合作模式相关变量 begin too 和竞技共用*/
+    //个人信息
+    cocos2d::CCSprite *m_ownImg;
+    cocos2d::CCLabelTTF *m_ownName;
+    cocos2d::CCLabelTTF *m_ownLv;
+    cocos2d::CCLabelTTF *m_ownUserGold;
+    
+    cocos2d::CCLabelTTF *m_ownRewardGold;
+    cocos2d::CCLabelTTF *m_ownRewardExp;
+    
+    //对手信息
+    cocos2d::CCSprite *m_otherImg;
+    cocos2d::CCLabelTTF *m_otherName;
+    cocos2d::CCLabelTTF *m_otherLv;
+    cocos2d::CCLabelTTF *m_otherUserGold;
+    
+    cocos2d::CCLabelTTF *m_otherRewardGold;
+    cocos2d::CCLabelTTF *m_otherRewardExp;
+    /*合作模式相关变量 end too 和竞技共用*/
+    /* 竞技相关变量 end*/
+    
+    
+    /*合作模式相关变量 begin*/
+    cocos2d::CCLabelTTF *m_ownComNum;
+    cocos2d::CCLabelTTF *m_otherComNum;
+    cocos2d::CCLabelTTF *m_allComNum;
+    
+    cocos2d::CCLabelTTF *m_coopTime;//倒计时数字 后期换成CCLabelBMFont
+    cocos2d::CCSprite *m_timeProBg;
+    cocos2d::CCSprite *m_timePro;
+    cocos2d::CCSprite *m_timeProPoint;
+    cocos2d::CCProgressTimer* m_timeProTimer;
+    /*合作模式相关变量 end*/
 };
 
 #endif /* defined(__CrossWordClient__MainLayer__) */

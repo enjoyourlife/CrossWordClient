@@ -89,6 +89,44 @@ MainLayer::MainLayer()
     {
         m_answersV.push_back(CCControlButton::create());
     }
+    
+    
+    //竞技模式部分
+    m_ownUserGame = NULL;
+    m_ownUserGameProBg = NULL;
+    m_ownUserGamePro = NULL;
+    m_otherUserGame = NULL;
+    m_otherUserGameProBg = NULL;
+    m_otherUserGamePro = NULL;
+
+    
+    m_ownImg = NULL;
+    m_ownName = NULL;
+    m_ownLv = NULL;
+    m_ownUserGold = NULL;
+    
+    m_ownRewardGold = NULL;
+    m_ownRewardExp = NULL;
+    
+    //对手信息
+    m_otherImg = NULL;
+    m_otherName = NULL;
+    m_otherLv = NULL;
+    m_otherUserGold = NULL;
+    
+    m_otherRewardGold = NULL;
+    m_otherRewardExp = NULL;
+
+    
+    //合作模式部分
+    m_ownComNum = NULL;
+    m_otherComNum = NULL;
+    m_allComNum = NULL;
+    
+    m_coopTime = NULL;//倒计时数字 后期换成CCLabelBMFont
+    m_timeProBg = NULL;
+    m_timePro = NULL;
+    m_timeProPoint = NULL;
 }
 
 MainLayer::~ MainLayer()
@@ -126,6 +164,40 @@ MainLayer::~ MainLayer()
         CC_SAFE_RELEASE_NULL(controlButton);
     }
     
+    //竞技模式部分
+    CC_SAFE_RELEASE_NULL(m_ownUserGame);
+    CC_SAFE_RELEASE_NULL(m_ownUserGameProBg);
+    CC_SAFE_RELEASE_NULL(m_ownUserGamePro);
+    CC_SAFE_RELEASE_NULL(m_otherUserGame);
+    CC_SAFE_RELEASE_NULL(m_otherUserGameProBg);
+    CC_SAFE_RELEASE_NULL(m_otherUserGamePro);
+    
+    
+    CC_SAFE_RELEASE_NULL(m_ownImg);
+    CC_SAFE_RELEASE_NULL(m_ownName);
+    CC_SAFE_RELEASE_NULL(m_ownLv);
+    CC_SAFE_RELEASE_NULL(m_ownUserGold);
+    
+    CC_SAFE_RELEASE_NULL(m_ownRewardGold);
+    CC_SAFE_RELEASE_NULL(m_ownRewardExp);
+    
+    CC_SAFE_RELEASE_NULL(m_otherImg);
+    CC_SAFE_RELEASE_NULL(m_otherName);
+    CC_SAFE_RELEASE_NULL(m_otherLv);
+    CC_SAFE_RELEASE_NULL(m_otherUserGold);
+    
+    CC_SAFE_RELEASE_NULL(m_otherRewardGold);
+    CC_SAFE_RELEASE_NULL(m_otherRewardExp);
+    
+    //合作模式部分
+    CC_SAFE_RELEASE_NULL(m_ownComNum);
+    CC_SAFE_RELEASE_NULL(m_otherComNum);
+    CC_SAFE_RELEASE_NULL(m_allComNum);
+    
+    CC_SAFE_RELEASE_NULL(m_coopTime);//倒计时数字 后期换成CCLabelBMFont
+    CC_SAFE_RELEASE_NULL(m_timeProBg);
+    CC_SAFE_RELEASE_NULL(m_timePro);
+    CC_SAFE_RELEASE_NULL(m_timeProPoint);
 }
 
 CCScene* MainLayer::scene()
@@ -164,7 +236,20 @@ bool MainLayer::init()
     ccNodeLoaderLibrary->registerCCNodeLoader("CGClipLayer", CGClipLayerLoader::loader());
     
     CGCCBReader reader(ccNodeLoaderLibrary);
-    CCNode* node = reader.readCCBFile("main.ccbi", this);
+    CCNode* node = NULL;
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+         node = reader.readCCBFile("main.ccbi", this);
+    }
+    else if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive)
+    {
+         node = reader.readCCBFile("competitive_main.ccbi", this);
+    }
+    else if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        node = reader.readCCBFile("cooperation_main.ccbi", this);
+    }
+   
     addChild(node);
     
     m_ccbScale = reader.getCCBScale();
@@ -199,6 +284,13 @@ bool MainLayer::init()
     
     initLocalUserProTimer();
     updateLocalUserMsg();
+    
+    
+    initCompCompleteProTimer();
+    initCompCoopUserMsg();
+    
+    
+    initCoopTimeProTimer();
     
     return true;
 }
@@ -259,11 +351,14 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2Bg", CCLayer*, m_tip2Bg);
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_tip2", CCLabelTTF*, m_tip2);
     
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserLevel", CCLabelTTF*, m_localUserLevel);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExp", CCLabelTTF*, m_localUserExp);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpProBg", CCSprite*, m_localUserExpProBg);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpPro", CCSprite*, m_localUserExpPro);
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserSilver", CCLabelTTF*, m_localUserSilver);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserLevel", CCLabelTTF*, m_localUserLevel);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExp", CCLabelTTF*, m_localUserExp);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpProBg", CCSprite*, m_localUserExpProBg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_localUserExpPro", CCSprite*, m_localUserExpPro);
+    }
     
     
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_bonusSpriteH", CCSprite*, m_bonusSpriteH);
@@ -278,6 +373,51 @@ bool MainLayer::onAssignCCBMemberVariable(CCObject* pTarget, const char* pMember
         sprintf(name, "m_answer%d", i);
         CCB_MEMBERVARIABLEASSIGNER_GLUE(this, name, CCControlButton*, m_answersV.at(i));
     }
+    
+    //竞技模式部分
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive)
+    {
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownUserGame", CCLabelTTF*, m_ownUserGame);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownUserGameProBg", CCSprite*, m_ownUserGameProBg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownUserGamePro", CCSprite*, m_ownUserGamePro);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherUserGame", CCLabelTTF*, m_otherUserGame);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherUserGameProBg", CCSprite*, m_otherUserGameProBg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherUserGamePro", CCSprite*, m_otherUserGamePro);
+    }
+    
+    //共用部分
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive || DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownImg", CCSprite*, m_ownImg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownName", CCLabelTTF*, m_ownName);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownLv", CCLabelTTF*, m_ownLv);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownUserGold", CCLabelTTF*, m_ownUserGold);
+        
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownRewardGold", CCLabelTTF*, m_ownRewardGold);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownRewardExp", CCLabelTTF*, m_ownRewardExp);
+        
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherImg", CCSprite*, m_otherImg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherName", CCLabelTTF*, m_otherName);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherLv", CCLabelTTF*, m_otherLv);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherUserGold", CCLabelTTF*, m_otherUserGold);
+        
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherRewardGold", CCLabelTTF*, m_otherRewardGold);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherRewardExp", CCLabelTTF*, m_otherRewardExp);
+    }
+    
+    //合作模式部分
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_ownComNum", CCLabelTTF*, m_ownComNum);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_otherComNum", CCLabelTTF*, m_otherComNum);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_allComNum", CCLabelTTF*, m_allComNum);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_coopTime", CCLabelTTF*, m_coopTime);
+
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_timeProBg", CCSprite*, m_timeProBg);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_timePro", CCSprite*, m_timePro);
+        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "m_timeProPoint", CCSprite*, m_timeProPoint);
+    }
+
     
     return false;
 }
@@ -418,6 +558,15 @@ void MainLayer::onEventSucceeded(Event *event)
                 
             }
             
+            break;
+        }
+            
+        case EventTypeGameStopEx:
+        {
+            if (DataManager::sharedDataManager()->getGameType() != GameTypeSingle)
+            {
+                handleGameStop(event);
+            }
             break;
         }
             
@@ -1007,14 +1156,17 @@ bool MainLayer::checkGridIndexIsFix(int gridIndex)
 
 void MainLayer::initLocalUserProTimer()
 {
-    m_localUserExpPro->setVisible(false);
-	m_localUserExpProTimer = CCProgressTimer::create(m_localUserExpPro);
-	m_localUserExpProTimer->setType(kCCProgressTimerTypeBar);
-	m_localUserExpProTimer->setMidpoint(ccp(0, 0));
-	m_localUserExpProTimer->setBarChangeRate(ccp(1, 0));
-	m_localUserExpProTimer->setPosition(ccp(m_localUserExpProBg->getContentSize().width / 2, m_localUserExpProBg->getContentSize().height/2));
-	m_localUserExpProTimer->setPercentage(0.0f);
-	m_localUserExpProBg->addChild(m_localUserExpProTimer);
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeSingle)
+    {
+        m_localUserExpPro->setVisible(false);
+        m_localUserExpProTimer = CCProgressTimer::create(m_localUserExpPro);
+        m_localUserExpProTimer->setType(kCCProgressTimerTypeBar);
+        m_localUserExpProTimer->setMidpoint(ccp(0, 0));
+        m_localUserExpProTimer->setBarChangeRate(ccp(1, 0));
+        m_localUserExpProTimer->setPosition(ccp(m_localUserExpProBg->getContentSize().width / 2, m_localUserExpProBg->getContentSize().height/2));
+        m_localUserExpProTimer->setPercentage(0.0f);
+        m_localUserExpProBg->addChild(m_localUserExpProTimer);
+    }
 }
 
 
@@ -1148,7 +1300,6 @@ void MainLayer::onOk(CCObject* obj)
     GameType gameType = DataManager::sharedDataManager()->getGameType();
     int level = DataManager::sharedDataManager()->getLevel();
     
-    //先站起然后回到对应的界面
     if (gameType == GameTypeSingle)
     {
         int subLevelNum = 1;
@@ -1277,6 +1428,7 @@ void MainLayer::updateMainLayer()
     
     if (gameType == GameTypeCompetitive)//竞技
     {
+        //进度信息
         vector<int> chessVec = DataManager::sharedDataManager()->getChessVec();
 //        vector<int> ownChessVec = DataManager::sharedDataManager()->getOwnChessVec();
         
@@ -1292,25 +1444,60 @@ void MainLayer::updateMainLayer()
         }
 
         int size = chessVec.size();
-//        float per = chessFixNum / chessVec.size();
-//        float ownPer = DataManager::sharedDataManager()->getRightWordsIndexVec().size() / chessVec.size();
+        float otherCompPer = chessFixNum * 100.0f / chessVec.size();
+        m_otherUserGameProTimer->setPercentage(otherCompPer);
         
-        char perArr[9];
-        sprintf(perArr, "%d / %d", chessFixNum, size);
+        char otherCompChar[15];
+        sprintf(otherCompChar, "%d / %d", chessFixNum, size);
+        m_otherUserGame->setString(otherCompChar);
+        
         
         int ownChessFixNum = DataManager::sharedDataManager()->getRightWordsIndexVec().size();
-        char ownPerArr[9];
-        sprintf(ownPerArr, "%d / %d", ownChessFixNum, size);
+        float ownCompPer = ownChessFixNum * 100.0f / size;
+        m_ownUserGameProTimer->setPercentage(ownCompPer);
         
+        char ownCompChar[15];
+        sprintf(ownCompChar, "%d / %d", ownChessFixNum, size);
+        m_ownUserGame->setString(ownCompChar);
+        
+        
+        
+        //玩家自身信息
         OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
-        char ownInfo[30];
-        sprintf(ownInfo, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+        m_ownName->setString(ownOnLineUser->m_username.c_str());
         
+        char msgChar[15];
+        sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
+        m_ownLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_gold);//使用道具减少的m_gold需要传过来
+        m_ownUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardGold);
+        m_ownRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardExp);
+        m_ownRewardExp->setString(msgChar);
+        
+        
+        
+        
+        //other msg
         OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
-        char otherInfo[30];
-        sprintf(otherInfo, "info:[username:%s, gold:%d, exp:%d]", otherOnLineUser->m_username.c_str(), otherOnLineUser->m_gold, otherOnLineUser->m_exp);
+        m_otherName->setString(otherOnLineUser->m_username.c_str());
         
-        m_mainBorderLayer->showPer(perArr, otherInfo, ownPerArr, ownInfo);
+        sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
+        m_otherLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_gold);
+        m_otherUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardGold);
+        m_otherRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardExp);
+        m_otherRewardExp->setString(msgChar);
+
     }
     else if (gameType == GameTypeCooperation)
     {
@@ -1336,18 +1523,51 @@ void MainLayer::updateMainLayer()
         
         int size = chessVec.size();
         
-        char perArr[9];
-        sprintf(perArr, "%d / %d", chessFixNum, size);
+        char msgChar[15];
+        sprintf(msgChar, "%d / %d", chessFixNum, size);
+        m_allComNum->setString(msgChar);
         
+        
+        //玩家自身信息
         OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
-        char ownInfo[30];
-        sprintf(ownInfo, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+        m_ownName->setString(ownOnLineUser->m_username.c_str());
         
+        sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
+        m_ownLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_gold);//使用道具减少的m_gold需要传过来
+        m_ownUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardGold);
+        m_ownRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardExp);
+        m_ownRewardExp->setString(msgChar);
+        
+        int ownChessFixNum = DataManager::sharedDataManager()->getRightWordsIndexVec().size();
+        sprintf(msgChar, "%d", ownChessFixNum);
+        m_ownComNum->setString(msgChar);
+        
+        
+        
+        //other msg
         OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
-        char otherInfo[30];
-        sprintf(otherInfo, "info:[username:%s, gold:%d, exp:%d]", otherOnLineUser->m_username.c_str(), otherOnLineUser->m_gold, otherOnLineUser->m_exp);
+        m_otherName->setString(otherOnLineUser->m_username.c_str());
         
-        m_mainBorderLayer->showPer(perArr, otherInfo, "", ownInfo);
+        sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
+        m_otherLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_gold);
+        m_otherUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardGold);
+        m_otherRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardExp);
+        m_otherRewardExp->setString(msgChar);
+        
+        sprintf(msgChar, "%d", chessFixNum - ownChessFixNum);
+        m_otherComNum->setString(msgChar);
     }
 }
 
@@ -1430,6 +1650,191 @@ void MainLayer::showPartnerFixAnswer(int fixIndex)
     
 }
 
+
+void MainLayer::initCompCompleteProTimer()
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive)
+    {
+        int level = DataManager::sharedDataManager()->getLevel();
+        int allNum = 10;//这里不对 应该取真正的值
+        switch (level) {
+            case 0:
+                allNum = 10;
+                break;
+            case 1:
+                allNum = 15;
+                break;
+            case 2:
+                allNum = 20;
+                break;
+                
+            default:
+                break;
+        }
+        char completeChar[15];
+        sprintf(completeChar, "0/%d", allNum);
+        m_ownUserGame->getParent()->reorderChild(m_ownUserGame, 6);
+        m_ownUserGame->setString(completeChar);
+        m_otherUserGame->getParent()->reorderChild(m_otherUserGame, 6);
+        m_otherUserGame->setString(completeChar);
+        
+        m_ownUserGamePro->setVisible(false);
+        m_ownUserGameProTimer = CCProgressTimer::create(m_ownUserGamePro);
+        m_ownUserGameProTimer->setType(kCCProgressTimerTypeBar);
+        m_ownUserGameProTimer->setMidpoint(ccp(0, 0));
+        m_ownUserGameProTimer->setBarChangeRate(ccp(1, 0));
+        m_ownUserGameProTimer->setPosition(ccp(m_ownUserGameProBg->getContentSize().width / 2, m_ownUserGameProBg->getContentSize().height/2));
+        m_ownUserGameProTimer->setPercentage(0.0f);
+        m_ownUserGameProBg->addChild(m_ownUserGameProTimer);
+        
+        
+        m_otherUserGamePro->setVisible(false);
+        m_otherUserGameProTimer = CCProgressTimer::create(m_otherUserGamePro);
+        m_otherUserGameProTimer->setType(kCCProgressTimerTypeBar);
+        m_otherUserGameProTimer->setMidpoint(ccp(0, 0));
+        m_otherUserGameProTimer->setBarChangeRate(ccp(1, 0));
+        m_otherUserGameProTimer->setPosition(ccp(m_otherUserGameProBg->getContentSize().width / 2, m_otherUserGameProBg->getContentSize().height/2));
+        m_otherUserGameProTimer->setPercentage(0.0f);
+        m_otherUserGameProBg->addChild(m_otherUserGameProTimer);
+        
+    }
+}
+
+void MainLayer::initCompCoopUserMsg()
+{
+
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive || DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
+        m_ownName->setString(ownOnLineUser->m_username.c_str());
+        
+        char msgChar[15];
+        sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
+        m_ownLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_gold);
+        m_ownUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardGold);
+        m_ownRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", ownOnLineUser->m_rewardExp);
+        m_ownRewardExp->setString(msgChar);
+        
+        
+        //other msg
+        OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
+        m_otherName->setString(otherOnLineUser->m_username.c_str());
+        
+        sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
+        m_otherLv->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_gold);
+        m_otherUserGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardGold);
+        m_otherRewardGold->setString(msgChar);
+        
+        sprintf(msgChar, "%d", otherOnLineUser->m_rewardExp);
+        m_otherRewardExp->setString(msgChar);
+
+    }
+    
+}
+
+void MainLayer::initCoopTimeProTimer()
+{
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        m_timePro->setVisible(false);
+        m_timeProTimer = CCProgressTimer::create(m_timePro);
+        m_timeProTimer->setType(kCCProgressTimerTypeBar);
+        m_timeProTimer->setMidpoint(ccp(0, 0));
+        m_timeProTimer->setBarChangeRate(ccp(1, 0));
+        m_timeProTimer->setPosition(ccp(m_timeProBg->getContentSize().width * 0.5f, m_timeProBg->getContentSize().height  * 0.5f));
+        m_timeProTimer->setPercentage(100.0f);
+        m_timeProBg->addChild(m_timeProTimer);
+        
+        m_timeProPoint->getParent()->reorderChild(m_timeProPoint, 6);
+    }
+}
+
+void MainLayer::handleGameStop(Event *event)
+{
+    GameStopEventEx *gameStopEventEx = (GameStopEventEx*)event;
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    
+    int flag = gameStopEventEx->getFlag();
+    switch (flag)
+    {
+        case 0:
+        {
+            bool isWin = gameStopEventEx->getIsWin();
+            //提示不同的语言
+            //0 1 种情况  弹出结算框   提示谁赢谁输   点击确定进入下一次等待  取消回到对应的竞技合作难度选择界面
+            //最后要换成结算框  这里不需要getInfo 因为gamestop时 已经把奖励放进m_ownOnLineUser了
+            if (gameType == GameTypeCooperation && isWin)//合作胜利
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_coop_win", this, menu_selector(MainLayer::onBackOk), NULL);
+            }
+            else if (gameType == GameTypeCooperation && !isWin)
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_coop_lose", this, menu_selector(MainLayer::onBackOk), NULL);
+            }
+            else if (gameType == GameTypeCompetitive && isWin)//竞技自己胜利
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_comp_win", this, menu_selector(MainLayer::onCompOk), menu_selector(MainLayer::onCompCancel));
+            }
+            else if (gameType == GameTypeCompetitive && !isWin)
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_comp_lose", this, menu_selector(MainLayer::onCompOk), menu_selector(MainLayer::onCompCancel));
+            }
+            
+            break;
+        }
+            
+        case 1:
+        {
+            CGDialog::show(GameOKCancelButtonType, "dialog_coop_lose", this, menu_selector(MainLayer::onBackOk), NULL);
+            break;
+        }
+            
+        case 2:
+        {
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+void MainLayer::onCompOk(CCObject* obj)
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    int level = DataManager::sharedDataManager()->getLevel();
+    
+    //gamestop的时候没有kick 需要自己先situp 再发送坐下消息
+    SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+    EventManager::sharedEventManager()->addEvent(sue);
+    
+    SitDownEvent *sde = new SitDownEvent(gameType, level);
+    EventManager::sharedEventManager()->addEvent(sde);
+}
+
+void MainLayer::onCompCancel(CCObject* obj)
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    int level = DataManager::sharedDataManager()->getLevel();
+    
+    //gamestop的时候没有kick 需要自己先situp 再回到竞技页面  免得发送坐下消息有异常
+    SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+    EventManager::sharedEventManager()->addEvent(sue);
+    
+    Event *e = new Event(EventTypeEnterCompetitiveGame);
+    EventManager::sharedEventManager()->addEvent(e);
+}
+
 void MainLayer::onBackOk(CCObject* obj)
 {
     GameType gameType = DataManager::sharedDataManager()->getGameType();
@@ -1455,7 +1860,12 @@ void MainLayer::onBackOk(CCObject* obj)
     }
     else if (gameType == GameTypeCooperation)
     {
+        //sit up
+        SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+        EventManager::sharedEventManager()->addEvent(sue);
         
+        Event *e = new Event(EventTypeEnterCooperationGame);
+        EventManager::sharedEventManager()->addEvent(e);
     }
 }
 
