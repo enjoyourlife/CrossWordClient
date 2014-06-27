@@ -30,6 +30,7 @@ public:
     
     void resetPomeloGame();
     
+    
 private:
     //对应于服务器方法的回调
     static void onUserEnter(pc_client_t *client, const char *event, void *data);

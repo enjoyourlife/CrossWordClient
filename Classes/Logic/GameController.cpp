@@ -259,6 +259,12 @@ bool GameController::checkAnswerFix(int phraseIndex, int phrase2Index)
             fixAnswerEvent->setPhraseIndex(phraseIndex);
             
             isFix = true;
+            
+            //合作模式
+            if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+            {
+                DataManager::sharedDataManager()->setCoopOwnRightWordsIndexVec(phraseIndex);
+            }
         }
         indexVec.clear();
     }
@@ -301,6 +307,12 @@ bool GameController::checkAnswerFix(int phraseIndex, int phrase2Index)
             fixAnswerEvent->setPhrase2Index(phrase2Index);
             
             isFix = true;
+            
+            //合作模式
+            if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+            {
+                DataManager::sharedDataManager()->setCoopOwnRightWordsIndexVec(phrase2Index);
+            }
         }
         indexVec.clear();
     }

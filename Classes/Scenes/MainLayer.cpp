@@ -292,6 +292,8 @@ bool MainLayer::init()
     
     initCoopTimeProTimer();
     
+    
+    
     return true;
 }
 
@@ -309,10 +311,20 @@ void MainLayer::onEnter()
 {
     CCLayer::onEnter();
     EventManager::sharedEventManager()->addObserver(this);
+    
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(MainLayer::coopCountTime), this, 1.0f, false);
+    }
 }
 
 void MainLayer::onExit()
 {
+    if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+    {
+        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(MainLayer::coopCountTime), this);
+    }
+    
     EventManager::sharedEventManager()->removeObserver(this);
     CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
     CCLayer::onExit();
@@ -581,6 +593,30 @@ void MainLayer::onEventSucceeded(Event *event)
             toast->setText(text);
             toast->playAction();
             this->addChild(toast);
+            
+            break;
+        }
+        
+        case EventTypeDisconnectEx:
+        {
+            if (DataManager::sharedDataManager()->getGameType() != GameTypeSingle)
+            {
+                //先只弹出提示 后面完善的时候 再退回某个界面 然后自动重连!
+                CGDialog::show(GameOKButtonType, "dialog_lost_net", this, NULL, NULL);
+            }
+            break;
+        }
+            
+        case EventTypeUserExitEx:
+        {
+            if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+            {
+                const char* text = Localize::sharedLocalize()->getString("toast_userexit");
+                CGToast *toast = CGToast::create();
+                toast->setText(text);
+                toast->playAction();
+                this->addChild(toast);
+            }
             
             break;
         }
@@ -902,7 +938,7 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
             m_tip1Bg->setVisible(true);
             m_tip1->setString(tip.c_str());
             
-            showCountDownBonus(words, true);
+            showSpecialBonus(words, true);
         }
         else
         {
@@ -916,7 +952,7 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
             m_tip2Bg->setVisible(true);
             m_tip2->setString(tip.c_str());
          
-            showCountDownBonus(words, false);
+            showSpecialBonus(words, false);
         }
         else
         {
@@ -929,30 +965,35 @@ void MainLayer::showTips(bool isShow, int phraseIndex, int phrase2Index)
     }
 }
 
-void MainLayer::showCountDownBonus(Words *words, bool isH)
+void MainLayer::showSpecialBonus(Words *words, bool isH)
 {
     int bonusType = words->getBonusType();
     int bonusValue = words->getBonusValue();
     char bonus[10];
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
     
     CCSpriteFrame *frame = NULL;
     switch (bonusType)
     {
-        case 1:
+        case 1://金币或银币
         {
-            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
+            if (gameType == GameTypeSingle)
+            {
+                frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_silver.png");
+            }
+            else
+            {
+                frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_gold.png");
+            }
+            
             break;
         }
             
-        case 2:
+        case 2://经验
         {
-            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("sublevel_star.png");
+            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("main_exp.png");
             break;
         }
-            
-        default:
-            frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("silver_icon.png");
-            break;
     }
     
     if (isH)
@@ -1464,7 +1505,7 @@ void MainLayer::updateMainLayer()
         
         //玩家自身信息
         OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
-        m_ownName->setString(ownOnLineUser->m_username.c_str());
+        m_ownName->setString(ownOnLineUser->m_nick.c_str());
         
         char msgChar[15];
         sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
@@ -1484,7 +1525,7 @@ void MainLayer::updateMainLayer()
         
         //other msg
         OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
-        m_otherName->setString(otherOnLineUser->m_username.c_str());
+        m_otherName->setString(otherOnLineUser->m_nick.c_str());
         
         sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
         m_otherLv->setString(msgChar);
@@ -1515,6 +1556,7 @@ void MainLayer::updateMainLayer()
             {
                 chessFixNum++;
                 
+                //此时把对方玩家完成的成语 也放入m_rightWordsIndexVec里了 所以计算自身完成多少的时候应该用m_ownChessVec
                 this->showPartnerFixAnswer(fixIndex);
             }
             
@@ -1524,13 +1566,10 @@ void MainLayer::updateMainLayer()
         int size = chessVec.size();
         
         char msgChar[15];
-        sprintf(msgChar, "%d / %d", chessFixNum, size);
-        m_allComNum->setString(msgChar);
-        
         
         //玩家自身信息
         OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
-        m_ownName->setString(ownOnLineUser->m_username.c_str());
+        m_ownName->setString(ownOnLineUser->m_nick.c_str());
         
         sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
         m_ownLv->setString(msgChar);
@@ -1544,7 +1583,7 @@ void MainLayer::updateMainLayer()
         sprintf(msgChar, "%d", ownOnLineUser->m_rewardExp);
         m_ownRewardExp->setString(msgChar);
         
-        int ownChessFixNum = DataManager::sharedDataManager()->getRightWordsIndexVec().size();
+        int ownChessFixNum = DataManager::sharedDataManager()->getCoopOwnRightWordsIndexVec().size();
         sprintf(msgChar, "%d", ownChessFixNum);
         m_ownComNum->setString(msgChar);
         
@@ -1552,7 +1591,7 @@ void MainLayer::updateMainLayer()
         
         //other msg
         OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
-        m_otherName->setString(otherOnLineUser->m_username.c_str());
+        m_otherName->setString(otherOnLineUser->m_nick.c_str());
         
         sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
         m_otherLv->setString(msgChar);
@@ -1566,8 +1605,12 @@ void MainLayer::updateMainLayer()
         sprintf(msgChar, "%d", otherOnLineUser->m_rewardExp);
         m_otherRewardExp->setString(msgChar);
         
-        sprintf(msgChar, "%d", chessFixNum - ownChessFixNum);
+        sprintf(msgChar, "%d", chessFixNum);
         m_otherComNum->setString(msgChar);
+        
+        //总共完成的
+        sprintf(msgChar, "%d / %d", chessFixNum + ownChessFixNum, size);
+        m_allComNum->setString(msgChar);
     }
 }
 
@@ -1706,7 +1749,7 @@ void MainLayer::initCompCoopUserMsg()
     if (DataManager::sharedDataManager()->getGameType() == GameTypeCompetitive || DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
     {
         OnLineUser *ownOnLineUser = DataManager::sharedDataManager()->getOwnOnLineUser();
-        m_ownName->setString(ownOnLineUser->m_username.c_str());
+        m_ownName->setString(ownOnLineUser->m_nick.c_str());
         
         char msgChar[15];
         sprintf(msgChar, "LV.%d", ownOnLineUser->m_lv);
@@ -1724,7 +1767,7 @@ void MainLayer::initCompCoopUserMsg()
         
         //other msg
         OnLineUser *otherOnLineUser = DataManager::sharedDataManager()->getOtherOnLineUserVec().at(0);
-        m_otherName->setString(otherOnLineUser->m_username.c_str());
+        m_otherName->setString(otherOnLineUser->m_nick.c_str());
         
         sprintf(msgChar, "LV.%d", otherOnLineUser->m_lv);
         m_otherLv->setString(msgChar);
@@ -1759,6 +1802,22 @@ void MainLayer::initCoopTimeProTimer()
     }
 }
 
+void MainLayer::coopCountTime(float dt)
+{
+    float coopTime = DataManager::sharedDataManager()->getCoopTime();
+    int showCoopTime = coopTime - 1;//(int)dt; 1秒一次 近似直接减1 然后在onGameTime里纠正
+    DataManager::sharedDataManager()->setCoopTime(showCoopTime);
+    
+    m_coopTime->setString(Utilities::getTimeString(showCoopTime));
+    
+    float oriCoopTime = DataManager::sharedDataManager()->getOriCoopTime();
+    float per = 100 * DataManager::sharedDataManager()->getCoopTime() / oriCoopTime;
+    m_timeProTimer->setPercentage(per);
+    
+    m_timeProPoint->setPosition(ccp(m_timeProBg->getContentSize().width * per / 100, m_timeProBg->getContentSize().height  * 0.5f));
+
+}
+
 void MainLayer::handleGameStop(Event *event)
 {
     GameStopEventEx *gameStopEventEx = (GameStopEventEx*)event;
@@ -1775,11 +1834,7 @@ void MainLayer::handleGameStop(Event *event)
             //最后要换成结算框  这里不需要getInfo 因为gamestop时 已经把奖励放进m_ownOnLineUser了
             if (gameType == GameTypeCooperation && isWin)//合作胜利
             {
-                CGDialog::show(GameOKCancelButtonType, "dialog_coop_win", this, menu_selector(MainLayer::onBackOk), NULL);
-            }
-            else if (gameType == GameTypeCooperation && !isWin)
-            {
-                CGDialog::show(GameOKCancelButtonType, "dialog_coop_lose", this, menu_selector(MainLayer::onBackOk), NULL);
+                CGDialog::show(GameOKCancelButtonType, "dialog_coop_win", this, menu_selector(MainLayer::onCoopOk), menu_selector(MainLayer::onCoopCancel));
             }
             else if (gameType == GameTypeCompetitive && isWin)//竞技自己胜利
             {
@@ -1795,12 +1850,28 @@ void MainLayer::handleGameStop(Event *event)
             
         case 1:
         {
-            CGDialog::show(GameOKCancelButtonType, "dialog_coop_lose", this, menu_selector(MainLayer::onBackOk), NULL);
+            //合作模式倒计时时间到
+            if (gameType == GameTypeCooperation)
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_coop_lose", this, menu_selector(MainLayer::onCoopOk), menu_selector(MainLayer::onCoopCancel));
+                
+                
+                //加上onExit()移除了两次 不知道是否有问题
+                CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(MainLayer::coopCountTime), this);
+                m_coopTime->setString(Utilities::getTimeString(0));
+                m_timeProTimer->setPercentage(0);
+                m_timeProPoint->setPosition(ccp(0, m_timeProBg->getContentSize().height  * 0.5f));
+            }
             break;
         }
             
         case 2:
         {
+            //对方逃跑
+            if (gameType == GameTypeCompetitive)
+            {
+                CGDialog::show(GameOKCancelButtonType, "dialog_comp_escape_win", this, menu_selector(MainLayer::onCompOk), menu_selector(MainLayer::onCompCancel));
+            }
             break;
         }
             
@@ -1832,6 +1903,32 @@ void MainLayer::onCompCancel(CCObject* obj)
     EventManager::sharedEventManager()->addEvent(sue);
     
     Event *e = new Event(EventTypeEnterCompetitiveGame);
+    EventManager::sharedEventManager()->addEvent(e);
+}
+
+void MainLayer::onCoopOk(CCObject* obj)
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    int level = DataManager::sharedDataManager()->getLevel();
+    
+    //gamestop的时候没有kick 需要自己先situp 再发送坐下消息
+    SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+    EventManager::sharedEventManager()->addEvent(sue);
+    
+    SitDownEvent *sde = new SitDownEvent(gameType, level);
+    EventManager::sharedEventManager()->addEvent(sde);
+}
+
+void MainLayer::onCoopCancel(CCObject* obj)
+{
+    GameType gameType = DataManager::sharedDataManager()->getGameType();
+    int level = DataManager::sharedDataManager()->getLevel();
+    
+    //gamestop的时候没有kick 需要自己先situp 再回到竞技页面  免得发送坐下消息有异常
+    SitUpEvent *sue = new SitUpEvent(gameType, level);//1-竞技 2-合作
+    EventManager::sharedEventManager()->addEvent(sue);
+    
+    Event *e = new Event(EventTypeEnterCooperationGame);
     EventManager::sharedEventManager()->addEvent(e);
 }
 

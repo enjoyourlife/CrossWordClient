@@ -79,11 +79,13 @@ void CGToast::playAction(int actionType)
     switch (actionType)
     {
         case 0:
+        {
             CCDelayTime *delay = CCDelayTime::create(3.0f);
             CCCallFunc *actionDone = CCCallFunc::create(this, callfunc_selector(CGToast::actionDone));
             CCSequence* sequence = CCSequence::createWithTwoActions(delay, actionDone);
             m_toastBg->runAction(sequence);
             break;
+        }
 
     }
 }

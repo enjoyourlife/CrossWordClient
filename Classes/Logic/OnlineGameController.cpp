@@ -127,6 +127,10 @@ void OnlineGameController::startEvent(Event *event)
         case EventTypeGameStartEx:
         {
             DataManager::sharedDataManager()->clearRightWordsIndexVec();
+            if (DataManager::sharedDataManager()->getGameType() == GameTypeCooperation)
+            {
+                DataManager::sharedDataManager()->clearCoopOwnRightWordsIndexVec();
+            }
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
         }
@@ -198,6 +202,12 @@ void OnlineGameController::startEvent(Event *event)
             break;
         }
             
+        case EventTypeDisconnectEx:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
         case EventTypeGetInfo:
         {
             //在登录成功后 才开始取自己的信息
@@ -213,6 +223,18 @@ void OnlineGameController::startEvent(Event *event)
         }
             
         case EventTypeUpdateInfoEx:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeUserExit:
+        {
+            EventManager::sharedEventManager()->notifyEventSucceeded(event);
+            break;
+        }
+            
+        case EventTypeUserExitEx:
         {
             EventManager::sharedEventManager()->notifyEventSucceeded(event);
             break;
@@ -346,6 +368,37 @@ void OnlineGameController::onEventSucceeded(Event* event)
             EventManager::sharedEventManager()->addEvent(gameStopEventEx);
             break;
         }
+            
+        case EventTypeDisconnect:
+        {
+            DisconnectEvent *de = (DisconnectEvent*)event;
+            switch (de->getPomeloType())
+            {
+                case 1:
+                {
+                    //先不做处理
+                    break;
+                }
+                    
+                case 2:
+                {
+                    DisconnectEventEx *dee = new DisconnectEventEx(2);
+                    EventManager::sharedEventManager()->addEvent(dee);
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+            
+        case EventTypeUserExit:
+        {
+            Event *e = new Event(EventTypeUserExitEx);
+            EventManager::sharedEventManager()->addEvent(e);
+            break;
+        }
+            
     }
     
 }

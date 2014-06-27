@@ -147,8 +147,8 @@ private:
     void initTipsBg();
     //显示对应的解析
     void showTips(bool isShow, int phraseIndex = -1, int phrase2Index = -1);
-    //显示词语前面的倒计时奖励精灵 isH true-横 false-竖
-    void showCountDownBonus(Words *words, bool isH);
+    //显示词语前面的特殊奖励精灵 isH true-横 false-竖
+    void showSpecialBonus(Words *words, bool isH);
     
     //显示触摸动画
     void showTouchAction(Event *event);
@@ -211,12 +211,16 @@ private:
     
     //初始化合作模式时间进度条
     void initCoopTimeProTimer();
+    //合作模式倒计时
+    void coopCountTime(float dt);
     
     //联网处理游戏停止消息
     void handleGameStop(Event *event);
     //暂时的游戏结束回调 后期放到结算框里
     void onCompOk(CCObject* obj);
     void onCompCancel(CCObject* obj);
+    void onCoopOk(CCObject* obj);
+    void onCoopCancel(CCObject* obj);
     
 private:
     //this的CCSize

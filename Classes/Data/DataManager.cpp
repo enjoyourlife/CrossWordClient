@@ -48,6 +48,8 @@ void DataManager::init()
     m_userUuid = "";
     m_username = "";
     initOwnOnLineUser();
+    m_coopTime = 0.0f;
+    m_oriCoopTime = 0.0f;
    
 }
 
@@ -136,7 +138,18 @@ void DataManager::parseJson(json_t* gameDataJson)
         const char *tipsData = json_string_value(tipsJson);
         
         Words *words = new Words(wordId, Utilities::URLDecode(nameData), Utilities::URLDecode(tipsData));
+        
+        if (m_gameType != GameTypeSingle)//联网的时候 flag代表特殊奖励的类型 1-金币 2-经验  数值不知道
+        {
+            json_t *flagJson = json_object_get(wordJson, "flag");
+            int flag = json_integer_value(flagJson);
+            words->setBonusType(flag);
+        }
+        
         m_words.push_back(words);
+        
+        
+        
         //        json_decref(idJson);  //have wrongs
         //        json_decref(nameJson);
         //        json_decref(tipsJson);
@@ -235,7 +248,8 @@ void DataManager::randomInitLocalWordBonus()
         
 //        int bonusIndex = rand() % size;
         int bonusIndex = size / 2;//固定中间那一个
-        int bonusType = rand() % 2 + 1;
+//        int bonusType = rand() % 2 + 1;
+        int bonusType = 2;//只有银币
         
         json_t* levelsJson = json_object_get(m_localBonusJson, "levels");
         //单机m_level取值0 1 2
@@ -264,7 +278,7 @@ void DataManager::randomInitLocalWordBonus()
         }
         
         int bonusValue = 0;
-        if (bonusType == 1)//银币
+        if (bonusType == 1)//只有银币
         {
             json_t* silverJson = json_object_get(levelBonusJson, "countdownsilver");
             bonusValue = (int)(json_integer_value(silverJson) * mul);
@@ -481,6 +495,59 @@ void DataManager::clearRightWordsIndexVec()
     m_rightWordsIndexVec.clear();
 }
 
+
+
+void DataManager::setCoopOwnRightWordsIndexVec(int index)
+{
+    bool flag = true;
+    //防止重复放入
+    for (vector<int>::iterator it = m_coopOwnRightWordsIndexVec.begin(); it != m_coopOwnRightWordsIndexVec.end(); ++it)
+    {
+        int temp = *it;
+        if (temp == index)
+        {
+            flag = false;
+        }
+    }
+    if (flag)
+    {
+        m_coopOwnRightWordsIndexVec.push_back(index);
+    }
+    
+}
+
+vector<int>& DataManager::getCoopOwnRightWordsIndexVec()
+{
+    return m_coopOwnRightWordsIndexVec;
+}
+
+void DataManager::clearCoopOwnRightWordsIndexVec()
+{
+    m_coopOwnRightWordsIndexVec.clear();
+}
+
+
+void DataManager::setCoopTime(float coopTime)
+{
+    m_coopTime = coopTime;
+}
+
+float DataManager::getCoopTime()
+{
+    return m_coopTime;
+}
+
+void DataManager::setOriCoopTime(float oriCoopTime)
+{
+    m_oriCoopTime = oriCoopTime;
+}
+
+float DataManager::getOriCoopTime()
+{
+    return m_oriCoopTime;
+}
+
+
 bool DataManager::isWin()
 {
     bool flag = false;
@@ -541,24 +608,27 @@ int DataManager::parseOnLineUserInfo(json_t* userInfo)
         int uid = json_integer_value(uidJson);
         int gold = json_integer_value(json_object_get(userInfo, "gold"));
         int exp = json_integer_value(json_object_get(userInfo, "exp"));
+        const char *nick = json_string_value(json_object_get(userInfo, "nick"));
+        
         if (m_ownUid == uid)
         {
             m_ownOnLineUser->m_uid = uid;
             m_ownOnLineUser->m_gold = gold;
             m_ownOnLineUser->m_exp = exp;
             m_ownOnLineUser->m_username = m_username;
-            
+            m_ownOnLineUser->m_nick = nick;
             //是否升级 取称号等逻辑
         }
         else
         {
+            //需要优化 不要每次都new一个放进去  需要判断如果存在 就使用旧的  因为多次调用getinfo
             //目前只有一个对手 如果有多个对手 此方法调用多次 也就增加多个对手了
             OnLineUser *olu = new OnLineUser();
             
             olu->m_uid = uid;
             olu->m_gold = gold;
             olu->m_exp = exp;
-            
+            olu->m_nick = nick;
             //是否升级 取称号等逻辑
             
             //目前只有两个玩家  先清一下 后期多个玩家 可以预先置入10个玩家
@@ -600,6 +670,11 @@ void DataManager::parseGameProcJson(json_t* gameProcJson)
         
         //这里变成uid后 应该是数字
         json_t *uidJson = json_object_get(userJson, "uid");
+        if (uidJson == NULL)//如果该玩家退出 则uid为null 跳过该玩家 则该玩家是旧数值  不知道对updatemainlayer是否有影响?
+        {
+            continue;
+        }
+        
         int uidData = json_integer_value(uidJson);
         
         json_t *chessJson = json_object_get(userJson, "chess");

@@ -135,6 +135,17 @@ public:
     std::vector<int>& getChessVec();
     std::vector<int>& getOwnChessVec();
     
+    void setCoopOwnRightWordsIndexVec(int index);
+    std::vector<int>& getCoopOwnRightWordsIndexVec();
+    //联网每局游戏开始的时候需要调用
+    void clearCoopOwnRightWordsIndexVec();
+    
+    //设置合作模式时间
+    void setCoopTime(float coopTime);
+    float getCoopTime();
+    
+    void setOriCoopTime(float oriCoopTime);
+    float getOriCoopTime();
     
     
 public:
@@ -241,6 +252,14 @@ private:
      */
     std::vector<int> m_ownChessVec;
     
+    
+    //合作模式的总时间 逐渐减少
+    float m_coopTime;
+    //合作模式初始总时间
+    float m_oriCoopTime;
+    
+    //合作模式时 自己填的已经正确的成语索引 只存自己填的正确成语 不存合作玩家填的正确成语
+    std::vector<int> m_coopOwnRightWordsIndexVec;
     
 private:
     // -- 和策划数值有关的变量 会随着玩家的游戏而发生动态变化  比如本地玩家信息 联网玩家信息 成就等等

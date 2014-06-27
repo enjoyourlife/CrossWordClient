@@ -468,6 +468,29 @@ private:
     int m_pomeloType;
 };
 
+class DisconnectEventEx : public Event
+{
+public:
+    //m_pomeloType 1-PomeloLogin 2-PomeloGame
+    DisconnectEventEx(int pomeloType) : Event(EventTypeDisconnectEx)
+    {
+        m_pomeloType = pomeloType;
+    }
+    
+    virtual ~ DisconnectEventEx()
+    {
+        
+    }
+    
+    int getPomeloType() const
+    {
+        return m_pomeloType;
+    }
+    
+private:
+    int m_pomeloType;
+};
+
 
 class GetInfoEvent : public Event
 {

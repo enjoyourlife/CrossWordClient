@@ -23,6 +23,8 @@ public:
     int m_uid;
     //名字
     std::string m_username;
+    //昵称 需要显示在界面上
+    std::string m_nick;
     //性别 0-女 1-男
     int m_sex;
     //经验

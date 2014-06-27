@@ -204,7 +204,7 @@ void CompetitiveRoom::onEventSucceeded(Event *event)
             if (e->getUid() == ownOnLineUser->m_uid)
             {
                 char info[100];
-                sprintf(info, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_username.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
+                sprintf(info, "info:[username:%s, gold:%d, exp:%d]", ownOnLineUser->m_nick.c_str(), ownOnLineUser->m_gold, ownOnLineUser->m_exp);
                 m_ownInfo->setString(info);
             }
             break;

@@ -342,6 +342,9 @@ const char* EventManager::getEventName(int type) const
         case EventTypeDisconnect:
             return "EventTypeDisconnect";
             
+        case EventTypeDisconnectEx:
+            return "EventTypeDisconnectEx";
+            
         case EventTypeGetInfo:
             return "EventTypeGetInfo";
             
@@ -350,6 +353,12 @@ const char* EventManager::getEventName(int type) const
             
         case EventTypeUpdateInfoEx:
             return "EventTypeUpdateInfoEx";
+            
+        case EventTypeUserExit:
+            return "EventTypeUserExit";
+            
+        case EventTypeUserExitEx:
+            return "EventTypeUserExitEx";
             
         default:
             return "UnknownEvent";
